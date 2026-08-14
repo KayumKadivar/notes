@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL Complete Notes — Hinglish Notebook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FFFDF7;
+    --paper-edge:#F2EDDD;
+    --ink:#2B2620;
+    --sub-ink:#5A5348;
+    --outer-bg:#E9E4D6;
+    --coral:#D6524A;
+
+    /* module color themes cycle m0..m5 */
+    --m0:#0F6F6B;  --m0L:#E4F2F0;
+    --m1:#22395B;  --m1L:#E7ECF3;
+    --m2:#A6461E;  --m2L:#FBEBDD;
+    --m3:#5B3E96;  --m3L:#EEE8F8;
+    --m4:#A9740C;  --m4L:#FBF0DD;
+    --m5:#2F6F4E;  --m5L:#E7F3EC;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--outer-bg);
+    font-family:'Patrick Hand', sans-serif;
+    color:var(--ink);
+    /* padding:32px 12px 70px; */
+  }
+
+  /* ---------- icon sprite (real inline SVG icons, no emoji anywhere) ---------- */
+  .icon{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-0.15em;}
+  .icon.filled{fill:currentColor;stroke:none;}
+
+  /* ---------- page shell ---------- */
+  .page{
+    max-width:780px;
+    margin:0 auto 34px;
+    background:var(--paper);
+    border-radius:8px;
+    box-shadow:0 14px 15px rgba(0,0,0,.18);
+    position:relative;
+    padding:30px 34px 34px 34px;
+    border-left:10px solid var(--accent);
+  }
+  .page.m0{--accent:var(--m0); --accentL:var(--m0L);}
+  .page.m1{--accent:var(--m1); --accentL:var(--m1L);}
+  .page.m2{--accent:var(--m2); --accentL:var(--m2L);}
+  .page.m3{--accent:var(--m3); --accentL:var(--m3L);}
+  .page.m4{--accent:var(--m4); --accentL:var(--m4L);}
+  .page.m5{--accent:var(--m5); --accentL:var(--m5L);}
+
+  .page-num{
+    position:absolute; top:18px; right:24px;
+    font-family:'Kalam',cursive; font-size:18px; font-weight:700; color:var(--accent);
+    width:30px; height:30px; border-radius:50%; border:2px solid var(--accent);
+    background:#fff; display:flex; align-items:center; justify-content:center;
+  }
+  .topic-badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:'JetBrains Mono',monospace; font-size:11.5px; font-weight:700;
+    letter-spacing:.08em; color:#fff; background:var(--accent); padding:4px 12px 4px 10px;
+    border-radius:20px; margin-bottom:10px;
+  }
+  .main-title{
+    display:flex; align-items:center; gap:12px;
+    font-family:'Kalam',cursive; font-size:30px; font-weight:700; margin:0 0 4px; line-height:1.2; color:var(--ink);
+  }
+  .main-title .icon{width:1.05em;height:1.05em;color:var(--accent);}
+  .title-underline{width:170px; height:4px; background:var(--coral); border-radius:3px; margin-bottom:8px;}
+  .lede{font-size:16.5px; line-height:1.6; color:var(--sub-ink); margin:0 0 22px; max-width:640px;}
+
+  section.block{margin-bottom:26px;}
+  .sec-head{display:flex; align-items:center; gap:10px; margin-bottom:9px;}
+  .sec-circle{
+    flex:0 0 auto; width:38px; height:38px; border-radius:50%; background:var(--accent); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .sec-circle .icon{width:18px;height:18px;}
+  .sec-head h2{font-family:'Kalam',cursive; font-size:20px; margin:0; font-weight:700; color:var(--ink);}
+  section.block p{font-size:16.5px; line-height:1.65; margin:0 0 10px;}
+  section.block > p:last-child{margin-bottom:0;}
+
+  .check-list, .cross-list{list-style:none; margin:0 0 14px; padding:0;}
+  .check-list li, .cross-list li{font-size:16px; line-height:1.6; padding-left:28px; position:relative; margin-bottom:5px;}
+  .check-list li .icon{position:absolute; left:0; top:3px; color:var(--accent); width:16px; height:16px;}
+  .cross-list li .icon{position:absolute; left:0; top:3px; color:var(--coral); width:16px; height:16px;}
+
+  .table-wrap{overflow-x:auto; margin-bottom:14px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,.10);}
+  table{width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:12.5px; background:#fff;}
+  thead tr{background:var(--accent);}
+  thead th{color:#fff; text-align:left; padding:9px 12px; font-family:'Patrick Hand',sans-serif; font-weight:700; font-size:14px;}
+  tbody td{padding:8px 12px; border-bottom:1px solid #EFE9D8; line-height:1.5;}
+  tbody tr:nth-child(even){background:var(--accentL);}
+
+  /* code box — always light, never black */
+  .code-box{
+    background:#F7F8F3;
+    color:#233B34;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    line-height:1.85;
+    padding:13px 16px;
+    border:1.5px dashed var(--accent);
+    border-radius:10px;
+    margin-bottom:14px;
+    white-space:pre-wrap;
+    overflow-x:auto;
+  }
+  .code-box .cmt{color:#8A9490; font-style:italic;}
+  .code-box .kw{color:var(--coral); font-weight:700;}
+  .code-box .fn{color:#1D6E7A; font-weight:700;}
+  .code-box .str{color:#8A5A15;}
+
+  .callout{
+    background:var(--accentL); border-left:4px solid var(--accent);
+    padding:10px 14px; border-radius:6px; font-size:15px !important; font-style:italic;
+  }
+
+  .tip-box, .warn-box, .fact-box{
+    margin-top:16px; border-radius:12px; padding:13px 18px; display:flex; gap:11px; align-items:flex-start;
+  }
+  .tip-box{background:var(--m4L); border:2px dashed var(--m4);}
+  .fact-box{background:var(--m0L); border:2px dashed var(--m0);}
+  .warn-box{background:#FDECEC; border:2px dashed var(--coral);}
+  .tip-box .icon, .fact-box .icon, .warn-box .icon{flex:0 0 auto; width:20px;height:20px; margin-top:2px;}
+  .tip-box .icon{color:var(--m4);} .fact-box .icon{color:var(--m0);} .warn-box .icon{color:var(--coral);}
+  .tip-box p, .fact-box p, .warn-box p{margin:0; font-size:15px; line-height:1.6;}
+  .tip-box strong, .fact-box strong, .warn-box strong{font-family:'Kalam',cursive; font-size:15.5px;}
+
+  .divider{
+    text-align:center; font-family:'JetBrains Mono',monospace; font-size:11px;
+    letter-spacing:.2em; color:#9B927F; margin:6px 0 26px;
+  }
+
+  /* ---------- diagrams (flow boxes) ---------- */
+  .flow{display:flex; flex-direction:column; align-items:center; gap:2px; margin:14px 0 18px;}
+  .fbox{
+    width:100%; max-width:480px; border:2px solid var(--accent); border-radius:10px;
+    background:#fff; padding:9px 16px; text-align:center; font-size:14px;
+  }
+  .fbox .lbl{font-family:'Kalam',cursive; font-weight:700; font-size:15px; display:block;}
+  .fbox .sub{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--sub-ink);}
+  .frow{display:flex; gap:10px; width:100%; max-width:480px; justify-content:center;}
+  .frow .fbox{flex:1;}
+  .farrow{color:var(--accent);}
+  .farrow .icon{width:16px;height:16px;}
+
+  /* ---------- venn diagram (joins) ---------- */
+  .venn-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:6px 0 16px;}
+  @media (max-width:520px){.venn-grid{grid-template-columns:1fr;}}
+  .venn-card{border:1.5px solid #E6DFC9; border-radius:10px; padding:12px; background:#fff; text-align:center;}
+  .venn-card .cap{font-family:'Kalam',cursive; font-weight:700; font-size:14.5px; margin:6px 0 2px;}
+  .venn-card .desc{font-size:13px; color:var(--sub-ink); line-height:1.4;}
+
+  .two-col{display:grid; grid-template-columns:1fr; gap:10px;} /* single column everywhere */
+
+  .kicker{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; color:var(--sub-ink); text-transform:uppercase; margin:0 0 6px;}
+
+  /* ---------- cover page ---------- */
+  .cover{text-align:center; padding:54px 34px 44px; border-left:none; border-top:10px solid var(--coral);}
+  .cover .icon-hero{width:64px; height:64px; color:var(--coral); margin-bottom:10px;}
+  .cover h1{font-family:'Kalam',cursive; font-size:44px; margin:6px 0 2px; line-height:1.1;}
+  .cover .sub1{font-size:19px; color:var(--sub-ink); margin:0 0 22px;}
+  .cover .tag{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; background:#2B2620; color:#fff; padding:6px 16px; border-radius:20px; margin-bottom:26px;}
+  .cover-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; text-align:left; margin-top:10px;}
+  @media (max-width:600px){.cover-grid{grid-template-columns:1fr 1fr;}}
+  .cover-item{border:1.5px solid #E6DFC9; border-radius:10px; padding:10px 12px; font-size:13px; line-height:1.4;}
+  .cover-item b{display:block; font-family:'Kalam',cursive; font-size:14.5px; margin-bottom:2px;}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.45.9 1.15.9 1.9V16h5.4v-.3c0-.75.3-1.45.9-1.9A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="4 12 9 18 20 6"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.9 7.1.7-5.5 5.1 1.6 7-6.1-3.7-6.1 3.7 1.6-7L2 10.1l7.1-.7z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-7.3-7-12.5A7 7 0 0 1 19 8.5C19 13.7 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.6"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3.5 22 20H2L12 3.5z" stroke-linejoin="round"/><line x1="12" y1="10" x2="12" y2="14.5"/><circle class="filled" cx="12" cy="17.3" r="0.9" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 5.5c3-1.2 6-1.2 9 0v14c-3-1.2-6-1.2-9 0v-14z"/><path d="M22 5.5c-3-1.2-6-1.2-9 0v14c3-1.2 6-1.2 9 0v-14z"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.6 3.6 3 8 3s8-1.4 8-3v-13"/><path d="M4 12c0 1.6 3.6 3 8 3s8-1.4 8-3"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"/><path d="M11 6.5l1.3-1.3a4 4 0 0 1 5.7 5.7L16.7 12.2"/><path d="M13 17.5l-1.3 1.3a4 4 0 0 1-5.7-5.7L7.3 11.8"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><polygon points="21 4 3 4 10 12.5 10 19 14 21 14 12.5 21 4" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sort" viewBox="0 0 24 24"><line x1="7" y1="20" x2="7" y2="4"/><polyline points="3 8 7 4 11 8"/><line x1="17" y1="4" x2="17" y2="20"/><polyline points="21 16 17 20 13 16"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.2"/><path d="M10.5 12.5 20 3"/><path d="M16.5 6.5 19 9"/><path d="M13.5 9.5 15.5 11.5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2.5 2.5 7.5 12 12.5 21.5 7.5" stroke-linejoin="round"/><polyline points="2.5 12.5 12 17.5 21.5 12.5"/><polyline points="2.5 17.5 12 22.5 21.5 17.5"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="13 5 20 12 13 19"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="5 13 12 20 19 13"/></symbol>
+  <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1.5"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="10.5" y1="4" x2="10.5" y2="20"/></symbol>
+  <symbol id="i-func" viewBox="0 0 24 24"><path d="M9 21V10a4 4 0 0 1 4-4h1"/><line x1="6" y1="13" x2="12" y2="13"/><circle cx="18" cy="8" r="2.3"/><path d="M15.5 16.5l5 5m0-5l-5 5" stroke-width="1.6"/></symbol>
+  <symbol id="i-branch" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2.3"/><circle cx="6" cy="19" r="2.3"/><circle cx="18" cy="12" r="2.3"/><path d="M6 7.3v9.4"/><path d="M6 12c4 0 4 0 10 0"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.5 4 5.5v6c0 5.2 3.4 8.6 8 10 4.6-1.4 8-4.8 8-10v-6L12 2.5z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-hammer" viewBox="0 0 24 24"><path d="M17 8.5 21 4.5"/><path d="M14.5 6l3.5 3.5-9 9-3.5-3.5 9-9z" stroke-linejoin="round"/><path d="M3 21l4.5-4.5"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="1.5"/><rect x="9" y="2" width="6" height="3.2" rx="1"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="13" y2="18"/></symbol>
+</defs>
+</svg>
+
+<!-- COVER -->
+<div class="page cover">
+  <svg class="icon icon-hero"><use href="#i-database"/></svg>
+  <h1>SQL Complete Notes</h1>
+  <p class="sub1">Zero se Interview-Ready tak — Hinglish Notebook</p>
+  <span class="tag">STRUCTURED &middot; PRACTICAL &middot; INTERVIEW-READY</span>
+  <div class="cover-grid">
+    <div class="cover-item"><b>Theory</b>Hinglish mein — jaisa samjhaya jata hai waisa likha</div>
+    <div class="cover-item"><b>Code</b>Hamesha English mein, clean aur readable</div>
+    <div class="cover-item"><b>Diagrams</b>Real icons + hand-made diagrams, jaha zaroorat ho</div>
+    <div class="cover-item"><b>Format</b>Single column — easy padhne ke liye</div>
+    <div class="cover-item"><b>Coverage</b>Basics se Window Functions tak</div>
+    <div class="cover-item"><b>Bonus</b>Interview Cheat Sheet last page par</div>
+  </div>
+</div>
+
+
+<!-- TOPIC 01 : WHAT IS SQL -->
+<div class="page m0">
+  <div class="page-num">1</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 01</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-database"/></svg>SQL Kya Hai?</h1>
+  <div class="title-underline"></div>
+  <p class="lede">SQL (Structured Query Language) woh standard language hai jisse hum relational databases se baat karte hain — data store, retrieve, update aur manage karne ke liye.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>1.1 Databases Kyun Chahiye?</h2></div>
+    <p>Socho tumhare paas ek school ka register hai jisme students ke naam, roll number aur marks likhe hain — yeh ek manual database hai. Real apps mein yehi kaam ek proper database karta hai, bas fast aur reliable tarike se.</p>
+    <ul class="check-list">
+      <li><svg class="icon"><use href="#i-check"/></svg>Bada data organized tarike se store hota hai</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Data accurate, consistent aur secure rehta hai</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Fast retrieval aur analysis possible hota hai</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Multiple users ek saath real-time use kar sakte hain</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-database"/></svg></span><h2>1.2 DBMS vs RDBMS</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>DBMS</th><th>RDBMS</th></tr></thead>
+        <tbody>
+          <tr><td>Data files/simple structures mein store hota hai</td><td>Data tables mein store hota hai</td></tr>
+          <tr><td>Relationships limited hoti hain</td><td>Primary &amp; Foreign Keys se relations bante hain</td></tr>
+          <tr><td>Data integrity kam hoti hai</td><td>Constraints se better integrity milti hai</td></tr>
+          <tr><td>e.g., File System, XML</td><td>e.g., MySQL, PostgreSQL, SQL Server, Oracle</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-table"/></svg></span><h2>1.3 SQL Kaha Use Hota Hai</h2></div>
+    <ul class="check-list">
+      <li><svg class="icon"><use href="#i-check"/></svg>Web applications aur banking/finance systems</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>E-commerce, data analysis &amp; reporting</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>QA automation (test data) aur DevOps monitoring</li>
+    </ul>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Database</th><th>Kyu Popular Hai</th></tr></thead>
+        <tbody>
+          <tr><td>MySQL</td><td>Open-source, web applications mein widely used</td></tr>
+          <tr><td>PostgreSQL</td><td>Advanced open-source, reliability aur performance ke liye jana jaata hai</td></tr>
+          <tr><td>SQL Server</td><td>Microsoft ka enterprise-grade relational database</td></tr>
+          <tr><td>Oracle</td><td>Large-scale, mission-critical systems ke liye</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> SQL "S-Q-L" ya "Sequel" dono tarike se bola jaata hai — dono pronunciations sahi maane jaate hain.</p></div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> SQL ek declarative language hai — tum database ko batate ho WHAT chahiye, HOW karna hai woh database khud decide karta hai.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 02 : DATABASE BASICS -->
+<div class="page m1">
+  <div class="page-num">2</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 02</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-table"/></svg>Database Basics</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Ek database data ko is tarike se organize karta hai ki woh easily store, retrieve, update aur manage ho sake.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>2.1 Core Terms</h2></div>
+    <ul class="check-list">
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Database</strong> — related data ka collection</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Table</strong> — data jo rows aur columns mein organized ho</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Row</strong> — table ka ek single record</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Column</strong> — table ka ek field/attribute</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-table"/></svg></span><h2>2.2 Table Example</h2></div>
+    <p>Table: <strong>Employees</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>EmpID (PK)</th><th>Name</th><th>Department</th><th>Salary</th><th>JoinDate</th></tr></thead>
+        <tbody>
+          <tr><td>101</td><td>John</td><td>IT</td><td>60000</td><td>2023-01-15</td></tr>
+          <tr><td>102</td><td>Alice</td><td>HR</td><td>55000</td><td>2023-02-20</td></tr>
+          <tr><td>103</td><td>Bob</td><td>Finance</td><td>70000</td><td>2023-03-10</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:14px;color:var(--sub-ink);">EmpID <strong>Primary Key</strong> hai — har row ko uniquely identify karta hai; baaki columns actual data values store karte hain.</p>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-key"/></svg></span><h2>2.3 Keys — Primary &amp; Foreign</h2></div>
+    <ul class="check-list">
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Primary Key (PK)</strong> — har row ko uniquely identify karta hai, NULL allowed nahi</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Foreign Key (FK)</strong> — doosri table ke Primary Key ko refer karta hai, tables ke beech relationship maintain karta hai</li>
+    </ul>
+    <div class="flow">
+      <div class="fbox"><span class="lbl">Departments</span><span class="sub">DeptID (PK) &rarr; DeptName</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Employees</span><span class="sub">EmpID (PK), Name, DeptID (FK &rarr; Departments.DeptID)</span></div>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-database"/></svg></span><h2>2.4 Schema &amp; Common Data Types</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Data Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>INT</td><td>Whole numbers — e.g. 101, -5, 1000</td></tr>
+          <tr><td>VARCHAR(n)</td><td>Variable length string, max n characters</td></tr>
+          <tr><td>DATE</td><td>Date values — e.g. 2026-05-20</td></tr>
+          <tr><td>BOOLEAN</td><td>TRUE ya FALSE</td></tr>
+          <tr><td>DECIMAL(p,s)</td><td>Decimal numbers — p=precision, s=scale, e.g. DECIMAL(10,2)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Sahi data type choose karo — space bachega, performance better hogi aur data accuracy bhi maintain rahegi.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> Proper keys aur relationships wala well-designed database hi data integrity aur efficiency ensure karta hai.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 03 : SELECT STATEMENT -->
+<div class="page m2">
+  <div class="page-num">3</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 03</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-code"/></svg>SELECT Statement</h1>
+  <div class="title-underline"></div>
+  <p class="lede">SELECT ek ya zyada tables se data retrieve karne ke liye use hota hai — SQL ka sabse zyada use hone wala statement.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>3.1 Basic SELECT &amp; Multiple Columns</h2></div>
+    <p>Saari rows/columns chahiye to <span style="font-family:'JetBrains Mono',monospace;">*</span> use karo, warna sirf zaroori columns specify karo:</p>
+    <div class="code-box"><span class="kw">SELECT</span> * <span class="kw">FROM</span> Employees;
+
+<span class="cmt">-- specific columns — better practice</span>
+<span class="kw">SELECT</span> EmpID, Name, Salary <span class="kw">FROM</span> Employees;</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-filter"/></svg></span><h2>3.2 DISTINCT</h2></div>
+    <p>Sirf unique values chahiye ho to DISTINCT lagao:</p>
+    <div class="code-box"><span class="kw">SELECT</span> <span class="kw">DISTINCT</span> Department <span class="kw">FROM</span> Employees;</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-sort"/></svg></span><h2>3.3 LIMIT / TOP &amp; Aliases</h2></div>
+    <div class="code-box"><span class="cmt">-- MySQL, PostgreSQL, SQLite</span>
+<span class="kw">SELECT</span> Name, Salary <span class="kw">FROM</span> Employees <span class="kw">LIMIT</span> 5;
+
+<span class="cmt">-- SQL Server</span>
+<span class="kw">SELECT</span> <span class="kw">TOP</span> 5 Name, Salary <span class="kw">FROM</span> Employees;
+
+<span class="cmt">-- alias — temporary readable name</span>
+<span class="kw">SELECT</span> Name <span class="kw">AS</span> EmployeeName, Salary <span class="kw">AS</span> MonthlySalary <span class="kw">FROM</span> Employees;</div>
+    <p style="font-size:14px;color:var(--sub-ink);">Note: LIMIT/TOP ka syntax database ke hisaab se alag hota hai, functionality same rehti hai.</p>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-warn"/></svg></span><h2>3.4 SELECT * — Best Practice Nahi Hai</h2></div>
+    <ul class="cross-list">
+      <li><svg class="icon"><use href="#i-cross"/></svg>Production mein SELECT * avoid karo — unnecessary columns retrieve hote hain</li>
+      <li><svg class="icon"><use href="#i-cross"/></svg>Network traffic aur memory usage badh jaata hai</li>
+      <li><svg class="icon"><use href="#i-cross"/></svg>Naya column add hone par query break bhi ho sakti hai</li>
+    </ul>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Hamesha wahi columns select karo jo actually chahiye — better performance, better security, better maintainability.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> SELECT statement SQL interviews mein sabse zyada poochha jaane wala topic hai.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 04 : WHERE CLAUSE -->
+<div class="page m3">
+  <div class="page-num">4</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 04</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-filter"/></svg>Filtering Data — WHERE</h1>
+  <div class="title-underline"></div>
+  <p class="lede">WHERE clause rows ko filter karta hai ek ya zyada conditions ke basis par.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-branch"/></svg></span><h2>4.1 AND / OR / NOT</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Operator</th><th>Behaviour</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>AND</td><td>Dono conditions true honi chahiye</td><td>WHERE Salary &gt; 50000 AND Dept = 'IT'</td></tr>
+          <tr><td>OR</td><td>Koi ek bhi condition true ho to chalega</td><td>WHERE Dept = 'IT' OR Dept = 'HR'</td></tr>
+          <tr><td>NOT</td><td>Result ko reverse karta hai</td><td>WHERE NOT Dept = 'IT'</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-filter"/></svg></span><h2>4.2 BETWEEN, IN, LIKE, IS NULL</h2></div>
+    <div class="code-box"><span class="cmt">-- BETWEEN: range ke andar values (inclusive)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> Employees <span class="kw">WHERE</span> Salary <span class="kw">BETWEEN</span> 40000 <span class="kw">AND</span> 80000;
+
+<span class="cmt">-- IN: list mein se koi bhi value match ho</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> Employees <span class="kw">WHERE</span> Dept <span class="kw">IN</span> (<span class="str">'IT'</span>, <span class="str">'HR'</span>, <span class="str">'Finance'</span>);
+
+<span class="cmt">-- LIKE: pattern search — % = kitne bhi characters, _ = ek character</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> Employees <span class="kw">WHERE</span> Name <span class="kw">LIKE</span> <span class="str">'A%'</span>;
+
+<span class="cmt">-- NULL check: IS NULL / IS NOT NULL (= ya &lt;&gt; kabhi kaam nahi karega)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> Employees <span class="kw">WHERE</span> ManagerID <span class="kw">IS</span> <span class="kw">NULL</span>;</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-clipboard"/></svg></span><h2>4.3 Quick Reference</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Keyword</th><th>Kya Karta Hai</th></tr></thead>
+        <tbody>
+          <tr><td>BETWEEN</td><td>Range ke andar values select karta hai</td></tr>
+          <tr><td>IN</td><td>List mein value match karta hai</td></tr>
+          <tr><td>LIKE</td><td>Text pattern search karta hai</td></tr>
+          <tr><td>IS NULL / IS NOT NULL</td><td>Empty / non-empty values check karta hai</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Conditions ko smartly combine karo taki exact wahi data mile jo chahiye.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> WHERE clause GROUP BY aur ORDER BY se pehle apply hota hai.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 05 : SORTING & LIMITING -->
+<div class="page m4">
+  <div class="page-num">5</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 05</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-sort"/></svg>Sorting &amp; Limiting</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Yeh clauses result set ko sort karte hain aur return hone waali rows ki number control karte hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-sort"/></svg></span><h2>5.1 ORDER BY — ASC vs DESC</h2></div>
+    <div class="code-box"><span class="kw">SELECT</span> Name, Salary <span class="kw">FROM</span> Employees
+<span class="kw">ORDER BY</span> Salary; <span class="cmt">-- default ASC (smallest to largest)</span>
+
+<span class="kw">SELECT</span> Name, Salary <span class="kw">FROM</span> Employees
+<span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>; <span class="cmt">-- largest to smallest</span></div>
+    <p style="font-size:14px;color:var(--sub-ink);">ORDER BY hamesha query ke end mein use hota hai, aur agar isko skip kiya to rows ka order guaranteed nahi hota.</p>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-clipboard"/></svg></span><h2>5.2 LIMIT, OFFSET, TOP &amp; FETCH FIRST</h2></div>
+    <div class="code-box"><span class="cmt">-- MySQL / PostgreSQL / SQLite</span>
+<span class="kw">SELECT</span> Name, Salary <span class="kw">FROM</span> Employees
+<span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span> <span class="kw">LIMIT</span> 5 <span class="kw">OFFSET</span> 10; <span class="cmt">-- 10 skip, phir 5 rows</span>
+
+<span class="cmt">-- SQL Server</span>
+<span class="kw">SELECT</span> <span class="kw">TOP</span> 5 Name, Salary <span class="kw">FROM</span> Employees <span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>;
+
+<span class="cmt">-- ANSI standard (DB2, Oracle, PostgreSQL v13+, SQL Server with OFFSET)</span>
+<span class="kw">SELECT</span> Name, Salary <span class="kw">FROM</span> Employees
+<span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span> <span class="kw">FETCH FIRST</span> 5 <span class="kw">ROWS ONLY</span>;</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Keyword</th><th>Kaam</th></tr></thead>
+        <tbody>
+          <tr><td>LIMIT</td><td>Return hone waali rows ki count restrict karta hai</td></tr>
+          <tr><td>OFFSET</td><td>Pehle N rows skip karta hai</td></tr>
+          <tr><td>TOP</td><td>SELECT ke turant baad rows count specify karta hai (SQL Server)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Consistent results ke liye LIMIT/TOP/FETCH ke saath hamesha ORDER BY use karo.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> ORDER BY ke bina rows ka order database engine par depend karta hai — guaranteed nahi hota.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 06 : AGGREGATE FUNCTIONS -->
+<div class="page m5">
+  <div class="page-num">6</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 06</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-func"/></svg>Aggregate Functions</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Aggregate functions values ke ek set par calculation karte hain aur ek single result return karte hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-func"/></svg></span><h2>6.1 Overview</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Kya Karta Hai</th></tr></thead>
+        <tbody>
+          <tr><td>COUNT()</td><td>Rows ki number count karta hai</td></tr>
+          <tr><td>SUM()</td><td>Numeric values ka total sum return karta hai</td></tr>
+          <tr><td>AVG()</td><td>Numeric values ka average return karta hai</td></tr>
+          <tr><td>MIN()</td><td>Sabse chhoti value return karta hai</td></tr>
+          <tr><td>MAX()</td><td>Sabse badi value return karta hai</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>6.2 Practical Examples</h2></div>
+    <div class="code-box"><span class="kw">SELECT COUNT</span>(*) <span class="kw">FROM</span> Employees;         <span class="cmt">-- 5</span>
+<span class="kw">SELECT SUM</span>(Salary) <span class="kw">FROM</span> Employees;    <span class="cmt">-- 295000</span>
+<span class="kw">SELECT AVG</span>(Salary) <span class="kw">FROM</span> Employees;    <span class="cmt">-- 59000.00</span>
+<span class="kw">SELECT MIN</span>(Salary) <span class="kw">FROM</span> Employees;    <span class="cmt">-- 45000</span>
+<span class="kw">SELECT MAX</span>(Salary) <span class="kw">FROM</span> Employees;    <span class="cmt">-- 70000</span></div>
+    <p style="font-size:14px;color:var(--sub-ink);">COUNT(*) NULL values sameet saari rows count karta hai; COUNT(column) sirf non-NULL values count karta hai. SUM/AVG/MIN/MAX NULL values ko ignore karte hain.</p>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>6.3 GROUP BY Ke Saath</h2></div>
+    <div class="code-box"><span class="kw">SELECT</span> Department, <span class="kw">AVG</span>(Salary) <span class="kw">AS</span> AvgSalary
+<span class="kw">FROM</span> Employees
+<span class="kw">GROUP BY</span> Department;</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Department</th><th>AvgSalary</th></tr></thead>
+        <tbody>
+          <tr><td>IT</td><td>52500.00</td></tr>
+          <tr><td>HR</td><td>55000.00</td></tr>
+          <tr><td>Finance</td><td>67500.00</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Aggregate functions GROUP BY, HAVING aur JOINs ke saath combine karke real-world analytics banti hai.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> Reporting aur analytics queries mein aggregate functions bohot common poochhe jaate hain.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 07 : GROUP BY & HAVING -->
+<div class="page m0">
+  <div class="page-num">7</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 07</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-layers"/></svg>GROUP BY &amp; HAVING</h1>
+  <div class="title-underline"></div>
+  <p class="lede">GROUP BY same values waali rows ko summary rows mein group karta hai. HAVING un groups (aggregated results) ko filter karta hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>7.1 GROUP BY vs HAVING</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>WHERE</th><th>HAVING</th></tr></thead>
+        <tbody>
+          <tr><td>Grouping se pehle rows filter karta hai</td><td>Grouping ke baad groups filter karta hai</td></tr>
+          <tr><td>Individual rows par kaam karta hai</td><td>Aggregate values par kaam karta hai</td></tr>
+          <tr><td>Aggregate functions use nahi kar sakte</td><td>Aggregate functions ke saath use hota hai</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-warn"/></svg></span><h2>7.2 Grouping Rules</h2></div>
+    <ul class="check-list">
+      <li><svg class="icon"><use href="#i-check"/></svg>SELECT ka har non-aggregate column GROUP BY mein hona chahiye</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>WHERE mein aggregate functions use nahi kar sakte</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Column aliases HAVING mein use nahi ho sakte — full expression likhna padta hai</li>
+    </ul>
+    <div class="code-box"><span class="cmt">-- Valid</span>
+<span class="kw">SELECT</span> DeptID, <span class="kw">COUNT</span>(*) <span class="kw">AS</span> EmpCount
+<span class="kw">FROM</span> Employees <span class="kw">GROUP BY</span> DeptID <span class="kw">HAVING COUNT</span>(*) &gt; 3;
+
+<span class="cmt">-- Invalid — Name na GROUP BY mein hai, na aggregate ke andar</span>
+<span class="kw">SELECT</span> DeptID, Name, <span class="kw">COUNT</span>(*) <span class="kw">FROM</span> Employees <span class="kw">GROUP BY</span> DeptID;</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-clipboard"/></svg></span><h2>7.3 Interview Example</h2></div>
+    <div class="code-box"><span class="kw">SELECT</span> DeptID, <span class="kw">SUM</span>(Salary) <span class="kw">AS</span> TotalSalary
+<span class="kw">FROM</span> Employees
+<span class="kw">GROUP BY</span> DeptID
+<span class="kw">HAVING SUM</span>(Salary) &gt; 60000
+<span class="kw">ORDER BY</span> TotalSalary <span class="kw">DESC</span>;</div>
+    <p style="font-size:14px;color:var(--sub-ink);">Yeh query un departments ko dikhati hai jinki total salary 60000 se zyada hai — sorted highest first.</p>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Rows early reduce karne ke liye WHERE pehle apply karo, HAVING sirf aggregate conditions ke liye use karo.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 08 : SQL JOINS -->
+<div class="page m1">
+  <div class="page-num">8</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 08</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-link"/></svg>SQL Joins</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Joins do ya zyada tables ki rows ko unke beech ke related column ke basis par combine karte hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-table"/></svg></span><h2>8.1 Sample Tables</h2></div>
+    <p>Table A (Employees) aur Table B (Departments) ko <span style="font-family:'JetBrains Mono',monospace;">A.DeptID = B.DeptID</span> se join karte hain.</p>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-link"/></svg></span><h2>8.2 Types of Joins</h2></div>
+    <div class="venn-grid">
+      <div class="venn-card">
+        <svg viewBox="0 0 60 36" width="90" height="54"><defs><clipPath id="clipB8i"><circle cx="37" cy="18" r="13"/></clipPath></defs>
+          <circle cx="23" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>
+          <circle cx="37" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>
+          <circle cx="23" cy="18" r="13" style="fill:var(--accent);opacity:.6" clip-path="url(#clipB8i)"/></svg>
+        <div class="cap">INNER JOIN</div><div class="desc">Sirf matching rows dono tables se</div>
+      </div>
+      <div class="venn-card">
+        <svg viewBox="0 0 60 36" width="90" height="54">
+          <circle cx="23" cy="18" r="13" style="fill:var(--accent);opacity:.55"/>
+          <circle cx="37" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>
+          <circle cx="23" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/></svg>
+        <div class="cap">LEFT JOIN</div><div class="desc">Table A ki saari rows + B ka matched data</div>
+      </div>
+      <div class="venn-card">
+        <svg viewBox="0 0 60 36" width="90" height="54">
+          <circle cx="37" cy="18" r="13" style="fill:var(--accent);opacity:.55"/>
+          <circle cx="23" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>
+          <circle cx="37" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/></svg>
+        <div class="cap">RIGHT JOIN</div><div class="desc">Table B ki saari rows + A ka matched data</div>
+      </div>
+      <div class="venn-card">
+        <svg viewBox="0 0 60 36" width="90" height="54">
+          <circle cx="23" cy="18" r="13" style="fill:var(--accent);opacity:.5"/>
+          <circle cx="37" cy="18" r="13" style="fill:var(--accent);opacity:.5"/>
+          <circle cx="23" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>
+          <circle cx="37" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/></svg>
+        <div class="cap">FULL OUTER JOIN</div><div class="desc">Dono tables ki saari rows, jaha match nahi wahan NULL</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Join Type</th><th>Syntax</th></tr></thead>
+        <tbody>
+          <tr><td>INNER JOIN</td><td>SELECT * FROM A INNER JOIN B ON A.DeptID = B.DeptID;</td></tr>
+          <tr><td>LEFT JOIN</td><td>SELECT * FROM A LEFT JOIN B ON A.DeptID = B.DeptID;</td></tr>
+          <tr><td>RIGHT JOIN</td><td>SELECT * FROM A RIGHT JOIN B ON A.DeptID = B.DeptID;</td></tr>
+          <tr><td>FULL OUTER JOIN</td><td>SELECT * FROM A FULL OUTER JOIN B ON A.DeptID = B.DeptID;</td></tr>
+          <tr><td>CROSS JOIN</td><td>SELECT * FROM A CROSS JOIN B; — har row ka pairing (Cartesian product)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Join condition hamesha ON se specify karo, aur readability ke liye table aliases use karo.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> Joins SQL ke sabse important aur sabse zyada poochhe jaane wale concepts mein se hain.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 09 : SELF JOIN & UNION -->
+<div class="page m2">
+  <div class="page-num">9</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 09</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-layers"/></svg>Self Join &amp; UNION</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Self Join ek table ko khud ke saath join karta hai. Set operators do ya zyada SELECT statements ke results combine karte hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-link"/></svg></span><h2>9.1 Self Join</h2></div>
+    <p>Hierarchical data (jaise Manager-Employee) compare karne ke liye useful hai. Alias (E, M) mandatory hai.</p>
+    <div class="code-box"><span class="kw">SELECT</span> E.Name <span class="kw">AS</span> Employee, M.Name <span class="kw">AS</span> Manager
+<span class="kw">FROM</span> Employees E
+<span class="kw">LEFT JOIN</span> Employees M <span class="kw">ON</span> E.ManagerID = M.EmpID;</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>9.2 Set Operators</h2></div>
+    <div class="venn-grid">
+      <div class="venn-card">
+        <svg viewBox="0 0 60 36" width="90" height="54">
+          <circle cx="23" cy="18" r="13" style="fill:var(--accent);opacity:.5"/>
+          <circle cx="37" cy="18" r="13" style="fill:var(--accent);opacity:.5"/>
+          <circle cx="23" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>
+          <circle cx="37" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/></svg>
+        <div class="cap">UNION</div><div class="desc">Unique rows dono queries se (duplicates removed)</div>
+      </div>
+      <div class="venn-card">
+        <svg viewBox="0 0 60 36" width="90" height="54">
+          <circle cx="23" cy="18" r="13" style="fill:var(--accent);opacity:.5"/>
+          <circle cx="37" cy="18" r="13" style="fill:var(--accent);opacity:.5"/>
+          <circle cx="23" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>
+          <circle cx="37" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/></svg>
+        <div class="cap">UNION ALL</div><div class="desc">Saari rows dono se (duplicates included)</div>
+      </div>
+      <div class="venn-card">
+        <svg viewBox="0 0 60 36" width="90" height="54"><defs><clipPath id="clipB9x"><circle cx="37" cy="18" r="13"/></clipPath></defs>
+          <circle cx="23" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>
+          <circle cx="37" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>
+          <circle cx="23" cy="18" r="13" style="fill:var(--accent);opacity:.6" clip-path="url(#clipB9x)"/></svg>
+        <div class="cap">INTERSECT</div><div class="desc">Sirf common rows dono queries mein</div>
+      </div>
+      <div class="venn-card">
+        <svg viewBox="0 0 60 36" width="90" height="54">
+          <circle cx="23" cy="18" r="13" style="fill:var(--accent);opacity:.6"/>
+          <circle cx="37" cy="18" r="13" style="fill:#fff"/>
+          <circle cx="23" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>
+          <circle cx="37" cy="18" r="13" style="fill:none;stroke:var(--accent);stroke-width:1.5"/></svg>
+        <div class="cap">EXCEPT / MINUS</div><div class="desc">A ki rows jo B mein nahi hain</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Operator</th><th>Duplicates?</th><th>Order Same Column Count?</th></tr></thead>
+        <tbody>
+          <tr><td>UNION</td><td>Remove karta hai</td><td>Haan, zaroori hai</td></tr>
+          <tr><td>UNION ALL</td><td>Rakhta hai</td><td>Haan, zaroori hai</td></tr>
+          <tr><td>INTERSECT</td><td>Remove karta hai</td><td>Haan, zaroori hai</td></tr>
+          <tr><td>EXCEPT / MINUS</td><td>Remove karta hai</td><td>Haan, zaroori hai (Oracle mein MINUS)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Jab duplicates allowed hon aur performance better chahiye ho, UNION ke bajaye UNION ALL use karo.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> Set operators interviews mein result-set operations ki samajh test karne ke liye poochhe jaate hain.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 10 : SUBQUERIES -->
+<div class="page m3">
+  <div class="page-num">10</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 10</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-code"/></svg>Subqueries</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Subquery (inner query) ek query ke andar doosri query hoti hai — inner query pehle run hoti hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>10.1 Single-Row vs Multi-Row</h2></div>
+    <div class="code-box"><span class="cmt">-- Single-row: exactly ek value return karti hai</span>
+<span class="kw">SELECT</span> Name, Salary <span class="kw">FROM</span> Employees
+<span class="kw">WHERE</span> Salary &gt; (<span class="kw">SELECT AVG</span>(Salary) <span class="kw">FROM</span> Employees);
+
+<span class="cmt">-- Multi-row: IN / NOT IN / ANY / ALL ke saath</span>
+<span class="kw">SELECT</span> Name <span class="kw">FROM</span> Employees
+<span class="kw">WHERE</span> DeptID <span class="kw">IN</span> (<span class="kw">SELECT</span> DeptID <span class="kw">FROM</span> Departments <span class="kw">WHERE</span> Location = <span class="str">'Ahmedabad'</span>);</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-branch"/></svg></span><h2>10.2 Correlated Subquery &amp; EXISTS</h2></div>
+    <p>Correlated subquery outer query ke columns ko refer karti hai aur outer query ki har row ke liye ek baar chalti hai.</p>
+    <div class="code-box"><span class="kw">SELECT</span> E1.Name, E1.Salary
+<span class="kw">FROM</span> Employees E1
+<span class="kw">WHERE</span> E1.Salary &gt; (
+  <span class="kw">SELECT AVG</span>(E2.Salary) <span class="kw">FROM</span> Employees E2
+  <span class="kw">WHERE</span> E2.DeptID = E1.DeptID
+);
+
+<span class="cmt">-- EXISTS — NULLs ke saath IN se zyada reliable</span>
+<span class="kw">SELECT</span> Name <span class="kw">FROM</span> Employees E
+<span class="kw">WHERE EXISTS</span> (<span class="kw">SELECT</span> 1 <span class="kw">FROM</span> Departments D <span class="kw">WHERE</span> D.DeptID = E.DeptID);</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-clipboard"/></svg></span><h2>10.3 IN vs EXISTS</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>IN</th><th>EXISTS</th></tr></thead>
+        <tbody>
+          <tr><td>Kaam kaise karta hai</td><td>Value ko ek list se compare karta hai</td><td>Rows ka existence check karta hai</td></tr>
+          <tr><td>NULL handling</td><td>Unexpected result de sakta hai</td><td>NULLs se affect nahi hota</td></tr>
+          <tr><td>Best for</td><td>Chhote result sets</td><td>Bade result sets</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Subqueries ko pehle alag se test karo, phir outer query ke andar use karo. Correlated subqueries slow ho sakti hain — jahan possible ho JOINs use karo.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> Subqueries SQL interviews ka favourite topic hain — alag-alag datasets par practice zaroor karo.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 11 : SQL FUNCTIONS -->
+<div class="page m4">
+  <div class="page-num">11</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 11</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-func"/></svg>SQL Functions</h1>
+  <div class="title-underline"></div>
+  <p class="lede">SQL Functions pre-defined operations hain jo calculations karte hain aur ek single value return karte hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>11.1 String Functions</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Kaam</th><th>Example &rarr; Output</th></tr></thead>
+        <tbody>
+          <tr><td>UPPER(str)</td><td>String ko uppercase mein convert karta hai</td><td>UPPER('sql insights') &rarr; SQL INSIGHTS</td></tr>
+          <tr><td>LOWER(str)</td><td>String ko lowercase mein convert karta hai</td><td>LOWER('SQL') &rarr; sql</td></tr>
+          <tr><td>LENGTH(str)</td><td>Characters ki count return karta hai</td><td>LENGTH('SQL Insights') &rarr; 12</td></tr>
+          <tr><td>SUBSTRING(str, start, len)</td><td>String ka part extract karta hai</td><td>SUBSTRING('SQL Insights', 5, 8) &rarr; Insights</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-func"/></svg></span><h2>11.2 Numeric &amp; Date Functions</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Kaam</th></tr></thead>
+        <tbody>
+          <tr><td>ROUND(value, precision)</td><td>Number ko specified decimal places tak round karta hai</td></tr>
+          <tr><td>CEIL(value)</td><td>Value se bada ya barabar sabse chhota integer return karta hai</td></tr>
+          <tr><td>NOW()</td><td>Current date aur time return karta hai</td></tr>
+          <tr><td>CURRENT_DATE</td><td>Aaj ki date (YYYY-MM-DD) return karta hai</td></tr>
+          <tr><td>DATE_ADD(date, INTERVAL value unit)</td><td>Date mein ek time interval add karta hai</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="code-box"><span class="kw">SELECT ROUND</span>(123.4567, 2) <span class="kw">AS</span> Rounded;   <span class="cmt">-- 123.46</span>
+<span class="kw">SELECT DATE_ADD</span>(<span class="str">'2026-05-13'</span>, <span class="kw">INTERVAL</span> 7 <span class="kw">DAY</span>) <span class="kw">AS</span> NextWeek;</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Functions ko SELECT, WHERE, ORDER BY, HAVING sab jagah use kar sakte ho, aur most functions nest bhi ho sakte hain.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> DBMS ke hisaab se date functions ka syntax alag hota hai — hamesha check karo.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 12 : CASE STATEMENT -->
+<div class="page m5">
+  <div class="page-num">12</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 12</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-branch"/></svg>CASE Statement</h1>
+  <div class="title-underline"></div>
+  <p class="lede">CASE statement conditional logic perform karta hai aur conditions ke basis par value return karta hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-branch"/></svg></span><h2>12.1 Simple &amp; Searched CASE</h2></div>
+    <div class="code-box"><span class="cmt">-- Searched CASE — boolean conditions evaluate karta hai</span>
+<span class="kw">SELECT</span> Name, Salary,
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> Salary &gt;= 70000 <span class="kw">THEN</span> <span class="str">'High'</span>
+    <span class="kw">WHEN</span> Salary <span class="kw">BETWEEN</span> 50000 <span class="kw">AND</span> 69999 <span class="kw">THEN</span> <span class="str">'Medium'</span>
+    <span class="kw">ELSE</span> <span class="str">'Low'</span>
+  <span class="kw">END AS</span> SalaryLevel
+<span class="kw">FROM</span> Employees;</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-shield"/></svg></span><h2>12.2 NULL Handling — IFNULL / COALESCE</h2></div>
+    <div class="code-box"><span class="cmt">-- IFNULL (MySQL)</span>
+<span class="kw">SELECT</span> Name, <span class="kw">IFNULL</span>(Email, <span class="str">'No Email'</span>) <span class="kw">AS</span> Email <span class="kw">FROM</span> Employees;
+
+<span class="cmt">-- COALESCE (ANSI SQL — multiple columns check karta hai)</span>
+<span class="kw">SELECT</span> Name, <span class="kw">COALESCE</span>(Email, Phone, <span class="str">'No Contact'</span>) <span class="kw">AS</span> Contact <span class="kw">FROM</span> Employees;</div>
+    <div class="warn-box"><svg class="icon"><use href="#i-warn"/></svg><p><strong>Yaad Rakho:</strong> <span style="font-family:'JetBrains Mono',monospace;">= NULL</span> ya <span style="font-family:'JetBrains Mono',monospace;">&lt;&gt; NULL</span> kabhi kaam nahi karega — hamesha <span style="font-family:'JetBrains Mono',monospace;">IS NULL</span> / <span style="font-family:'JetBrains Mono',monospace;">IS NOT NULL</span> use karo.</p></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Multiple columns mein NULL check karna ho to COALESCE use karo, aur = / &lt;&gt; NULL ke bajaye IS NULL / IS NOT NULL prefer karo.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> CASE aur COALESCE interviews mein conditional logic aur NULL handling test karne ke liye frequently poochhe jaate hain.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 13 : DDL COMMANDS -->
+<div class="page m0">
+  <div class="page-num">13</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 13</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-hammer"/></svg>DDL Commands</h1>
+  <div class="title-underline"></div>
+  <p class="lede">DDL (Data Definition Language) commands database objects ko define, modify aur manage karte hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-hammer"/></svg></span><h2>13.1 CREATE &amp; ALTER</h2></div>
+    <div class="code-box"><span class="kw">CREATE TABLE</span> Employees (
+  EmpID <span class="kw">INT PRIMARY KEY</span>,
+  Name <span class="kw">VARCHAR</span>(50) <span class="kw">NOT NULL</span>,
+  Salary <span class="kw">DECIMAL</span>(10,2)
+);
+
+<span class="kw">ALTER TABLE</span> Employees <span class="kw">ADD</span> Email <span class="kw">VARCHAR</span>(100);
+<span class="kw">ALTER TABLE</span> Employees <span class="kw">DROP COLUMN</span> Email;
+<span class="kw">ALTER TABLE</span> Employees <span class="kw">RENAME COLUMN</span> Name <span class="kw">TO</span> FullName;</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-cross"/></svg></span><h2>13.2 DROP, TRUNCATE &amp; RENAME</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Command</th><th>Kya Karta Hai</th></tr></thead>
+        <tbody>
+          <tr><td>DROP TABLE Employees;</td><td>Table ko structure sameet permanently remove karta hai</td></tr>
+          <tr><td>TRUNCATE TABLE Employees;</td><td>Saari rows remove karta hai, table structure intact rehta hai</td></tr>
+          <tr><td>ALTER TABLE Employees RENAME TO Staff;</td><td>Table ka naam badalta hai</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="warn-box"><svg class="icon"><use href="#i-warn"/></svg><p><strong>Careful:</strong> TRUNCATE DELETE se fast hota hai lekin kuch DBMS mein rollback nahi ho sakta — DROP ya TRUNCATE se pehle hamesha backup lo.</p></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Saari rows remove karni ho to DELETE ke bajaye TRUNCATE prefer karo — faster hota hai.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> Zyada tar database systems mein DDL commands implicit COMMIT cause karte hain.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 14 : DML & TCL COMMANDS -->
+<div class="page m1">
+  <div class="page-num">14</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 14</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-clipboard"/></svg>DML &amp; TCL Commands</h1>
+  <div class="title-underline"></div>
+  <p class="lede">DML (Data Manipulation Language) data manipulate karta hai. TCL (Transaction Control Language) transactions manage karta hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-clipboard"/></svg></span><h2>14.1 INSERT, UPDATE, DELETE</h2></div>
+    <div class="code-box"><span class="kw">INSERT INTO</span> Employees (EmpID, Name, Salary, DeptID)
+<span class="kw">VALUES</span> (101, <span class="str">'Alice'</span>, 60000, 1);
+
+<span class="kw">UPDATE</span> Employees <span class="kw">SET</span> Salary = 65000 <span class="kw">WHERE</span> EmpID = 101;
+
+<span class="kw">DELETE FROM</span> Employees <span class="kw">WHERE</span> EmpID = 101;</div>
+    <p style="font-size:14px;color:var(--sub-ink);">WHERE clause ke bina UPDATE/DELETE saari rows ko affect karte hain — hamesha WHERE lagana mat bhulo.</p>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-shield"/></svg></span><h2>14.2 COMMIT, ROLLBACK, SAVEPOINT</h2></div>
+    <div class="code-box"><span class="kw">COMMIT</span>;    <span class="cmt">-- current transaction ke saare changes permanently save karta hai</span>
+<span class="kw">ROLLBACK</span>;  <span class="cmt">-- last COMMIT ke baad ke changes revert karta hai</span>
+
+<span class="kw">SAVEPOINT</span> sp1;
+<span class="kw">UPDATE</span> Employees <span class="kw">SET</span> Salary = 70000 <span class="kw">WHERE</span> EmpID = 101;
+<span class="kw">ROLLBACK TO</span> sp1;   <span class="cmt">-- sirf sp1 tak revert</span></div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Pehle chhote datasets par test karo, COMMIT tabhi karo jab pura sure ho. SAVEPOINT complex transactions ko step-by-step safe banata hai.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> DML data ko affect karta hai, TCL sirf transactions control karta hai — data ko nahi.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 15 : CONSTRAINTS & INDEXES -->
+<div class="page m2">
+  <div class="page-num">15</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 15</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-key"/></svg>Constraints &amp; Indexes</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Constraints data par rules enforce karke accuracy aur integrity maintain karte hain. Indexes retrieval operations ki performance improve karte hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-key"/></svg></span><h2>15.1 Constraints</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Constraint</th><th>Purpose</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>PRIMARY KEY</td><td>Har row ko uniquely identify karta hai, NULL nahi allowed</td><td>EmpID INT PRIMARY KEY</td></tr>
+          <tr><td>FOREIGN KEY</td><td>Do tables ke beech referential integrity maintain karta hai</td><td>DeptID INT REFERENCES Departments(DeptID)</td></tr>
+          <tr><td>UNIQUE</td><td>Column ki saari values unique hoti hain, ek NULL allowed</td><td>Email VARCHAR(100) UNIQUE</td></tr>
+          <tr><td>CHECK</td><td>Values ek specific condition satisfy karti hain</td><td>Salary DECIMAL(10,2) CHECK (Salary &gt;= 0)</td></tr>
+          <tr><td>DEFAULT</td><td>Value na di ho to default set karta hai</td><td>Status VARCHAR(20) DEFAULT 'Active'</td></tr>
+          <tr><td>NOT NULL</td><td>Column mein NULL values allowed nahi hoti</td><td>Name VARCHAR(100) NOT NULL</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-table"/></svg></span><h2>15.2 Index &amp; Auto Increment</h2></div>
+    <div class="code-box"><span class="kw">CREATE INDEX</span> idx_emp_name <span class="kw">ON</span> Employees(Name);
+
+<span class="cmt">-- MySQL</span>
+EmpID <span class="kw">INT AUTO_INCREMENT PRIMARY KEY</span>
+
+<span class="cmt">-- SQL Server</span>
+EmpID <span class="kw">INT IDENTITY</span>(1,1) <span class="kw">PRIMARY KEY</span></div>
+    <ul class="check-list">
+      <li><svg class="icon"><use href="#i-check"/></svg>PRIMARY KEY = UNIQUE + NOT NULL</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Joins ke liye foreign keys par index lagao — better performance</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Bohot zyada indexes INSERT/UPDATE/DELETE ko slow kar sakte hain</li>
+    </ul>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> WHERE, JOIN aur ORDER BY mein use hone waale columns par indexes lagao — application-side validation bhi DEFAULT/CHECK se reduce hoti hai.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> Real-world database design mein constraints aur indexes dono crucial hote hain.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 16 : VIEWS & STORED OBJECTS -->
+<div class="page m3">
+  <div class="page-num">16</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 16</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-eye"/></svg>Views &amp; Stored Objects</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Stored objects database objects hote hain jo logic store karte hain — security, reusability aur performance improve karne ke liye.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-eye"/></svg></span><h2>16.1 Views</h2></div>
+    <p>View ek SELECT query par based virtual table hai — data physically store nahi hota.</p>
+    <div class="code-box"><span class="kw">CREATE VIEW</span> v_emp_dept <span class="kw">AS</span>
+<span class="kw">SELECT</span> e.EmpID, e.Name, d.DeptName
+<span class="kw">FROM</span> Employees e
+<span class="kw">JOIN</span> Departments d <span class="kw">ON</span> e.DeptID = d.DeptID
+<span class="kw">WHERE</span> e.Status = <span class="str">'Active'</span>;</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-func"/></svg></span><h2>16.2 Stored Procedures &amp; Functions</h2></div>
+    <div class="code-box"><span class="cmt">-- Stored Procedure — SQL statements ka reusable block</span>
+<span class="kw">CREATE PROCEDURE</span> GetEmployeesByDept (<span class="kw">IN</span> p_dept_id <span class="kw">INT</span>)
+<span class="kw">BEGIN</span>
+  <span class="kw">SELECT</span> EmpID, Name, Salary <span class="kw">FROM</span> Employees <span class="kw">WHERE</span> DeptID = p_dept_id;
+<span class="kw">END</span>;
+<span class="cmt">-- CALL GetEmployeesByDept(10);</span>
+
+<span class="cmt">-- Function — hamesha ek value return karta hai</span>
+<span class="kw">CREATE FUNCTION</span> GetTotalSalary(p_emp_id <span class="kw">INT</span>) <span class="kw">RETURNS DECIMAL</span>(10,2)
+<span class="kw">BEGIN</span>
+  <span class="kw">RETURN</span> (<span class="kw">SELECT</span> Salary <span class="kw">FROM</span> Employees <span class="kw">WHERE</span> EmpID = p_emp_id);
+<span class="kw">END</span>;</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-branch"/></svg></span><h2>16.3 Triggers &amp; Sequences</h2></div>
+    <p>Trigger automatically execute hota hai jab table par ek specified event (INSERT/UPDATE/DELETE) hoti hai. Sequences unique numeric values generate karti hain.</p>
+    <div class="code-box"><span class="kw">CREATE TRIGGER</span> trg_emp_audit
+<span class="kw">AFTER INSERT ON</span> Employees
+<span class="kw">FOR EACH ROW</span>
+<span class="kw">BEGIN</span>
+  <span class="kw">INSERT INTO</span> EmpAudit (EmpID, ActionDate, Action)
+  <span class="kw">VALUES</span> (<span class="kw">NEW</span>.EmpID, <span class="kw">CURRENT_TIMESTAMP</span>, <span class="str">'INSERT'</span>);
+<span class="kw">END</span>;</div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Security aur simplicity ke liye Views, business logic ke liye Stored Procedures, aur unique IDs ke liye Sequences/AUTO_INCREMENT use karo.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> Triggers, Procedures aur View vs Table differences employers ke favourite interview topics hain.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 17 : WINDOW FUNCTIONS -->
+<div class="page m4">
+  <div class="page-num">17</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 17</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-layers"/></svg>Window Functions</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Window functions rows ke ek related set par calculation karte hain, GROUP BY ki tarah unhe collapse kiye bina.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>17.1 OVER(), PARTITION BY, ORDER BY</h2></div>
+    <div class="code-box"><span class="cmt">function() OVER (</span>
+<span class="cmt">  [PARTITION BY column_list]</span>
+<span class="cmt">  [ORDER BY column_list]</span>
+<span class="cmt">)</span></div>
+    <p>PARTITION BY rows ko independent groups mein split karta hai (GROUP BY jaisa, par rows collapse nahi hoti). ORDER BY har partition ke andar rows ka order define karta hai.</p>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-sort"/></svg></span><h2>17.2 ROW_NUMBER, RANK, DENSE_RANK</h2></div>
+    <div class="code-box"><span class="kw">SELECT</span> EmpID, Name, Salary,
+  <span class="kw">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> DeptID <span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>) <span class="kw">AS</span> rn,
+  <span class="kw">RANK</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> DeptID <span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>) <span class="kw">AS</span> rnk,
+  <span class="kw">DENSE_RANK</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> DeptID <span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>) <span class="kw">AS</span> drnk
+<span class="kw">FROM</span> Employees;</div>
+    <p style="font-size:14px;color:var(--sub-ink);">RANK() ties ke baad ek gap chhod deta hai (1,2,2,4); DENSE_RANK() gap nahi chhodta (1,2,2,3).</p>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-arrow-right"/></svg></span><h2>17.3 LEAD() &amp; LAG()</h2></div>
+    <div class="code-box"><span class="kw">SELECT</span> EmpID, Salary,
+  <span class="kw">LEAD</span>(Salary, 1) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> DeptID <span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>) <span class="kw">AS</span> NextSal,
+  <span class="kw">LAG</span>(Salary, 1) <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> DeptID <span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>) <span class="kw">AS</span> PrevSal
+<span class="kw">FROM</span> Employees;</div>
+    <p style="font-size:14px;color:var(--sub-ink);">LEAD() next row ki value laata hai, LAG() previous row ki — trend analysis aur comparisons ke liye bohot useful.</p>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Deterministic results ke liye window functions ke saath hamesha ORDER BY use karo.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> Window functions rankings, running totals aur "gaps &amp; islands" jaise problems ke liye frequently poochhe jaate hain.</p></div>
+  </section>
+</div>
+
+
+<!-- TOPIC 18 : SQL INTERVIEW CHEAT SHEET -->
+<div class="page m5">
+  <div class="page-num">18</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 18</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-star"/></svg>SQL Interview Cheat Sheet</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Sab kuch ek jagah — last-minute revision ke liye.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-sort"/></svg></span><h2>18.1 SQL Execution Order</h2></div>
+    <div class="flow">
+      <div class="fbox"><span class="lbl">1. FROM (and JOIN)</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">2. WHERE</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">3. GROUP BY</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">4. HAVING</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">5. SELECT</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">6. DISTINCT</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">7. ORDER BY</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">8. LIMIT / TOP</span></div>
+    </div>
+    <p style="font-size:14px;color:var(--sub-ink);">Note: SELECT mein diye gaye aliases ORDER BY mein use ho sakte hain, WHERE mein nahi.</p>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-link"/></svg></span><h2>18.2 Quick Comparisons</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Topic</th><th>Difference</th></tr></thead>
+        <tbody>
+          <tr><td>WHERE vs HAVING</td><td>WHERE grouping se pehle rows filter karta hai; HAVING grouping ke baad groups filter karta hai</td></tr>
+          <tr><td>UNION vs UNION ALL</td><td>UNION duplicates remove karta hai (slower); UNION ALL duplicates rakhta hai (faster)</td></tr>
+          <tr><td>DELETE vs TRUNCATE vs DROP</td><td>DELETE row-by-row aur rollback ho sakta hai; TRUNCATE fast hai aur identity reset karta hai; DROP table hi hata deta hai</td></tr>
+          <tr><td>DDL vs DML vs TCL</td><td>DDL objects define karta hai; DML data manipulate karta hai; TCL transactions control karta hai</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-clipboard"/></svg></span><h2>18.3 Common Interview Questions</h2></div>
+    <ul class="check-list">
+      <li><svg class="icon"><use href="#i-check"/></svg>WHERE aur HAVING mein kya difference hai?</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Different types ke JOINs examples ke saath samjhao</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Primary Key aur Foreign Key kya hote hain?</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>SQL mein NULL kaise behave karta hai?</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>Subqueries kaam kaise karti hain?</li>
+      <li><svg class="icon"><use href="#i-check"/></svg>SQL clauses ka execution order kya hai?</li>
+    </ul>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Consistent naming follow karo, SELECT * avoid karo, proper JOINs use karo, aur query ko chhote dataset par test karke phir scale karo.</p></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Remember:</strong> Achhi SQL skills = Better queries, Better performance, Better career!</p></div>
+  </section>
+</div>
+
+</body>
+</html>

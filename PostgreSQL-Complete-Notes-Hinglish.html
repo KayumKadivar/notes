@@ -1,0 +1,2640 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PostgreSQL: Zero to Hero &#8212; Complete Hinglish Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&amp;family=Patrick+Hand&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FFFDF7;
+      --paper-edge: #F2EDDD;
+      --ink: #2B2620;
+      --sub-ink: #5A5348;
+      --outer-bg: #E9E4D6;
+      --coral: #D6524A;
+      --m0: #0F6F6B;
+      --m0L: #E4F2F0;
+      --m1: #22395B;
+      --m1L: #E7ECF3;
+      --m2: #A6461E;
+      --m2L: #FBEBDD;
+      --m3: #5B3E96;
+      --m3L: #EEE8F8;
+      --m4: #A9740C;
+      --m4L: #FBF0DD;
+      --m5: #2F6F4E;
+      --m5L: #E7F3EC;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--outer-bg);
+      font-family: 'math';
+      color: var(--ink);
+      padding: 32px 12px 70px;
+      font-size: 16px;
+    }
+
+    .icon {
+      width: 1em;
+      height: 1em;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: -0.15em;
+    }
+
+    .page {
+      max-width: 780px;
+      margin: 0 auto 34px;
+      background: var(--paper);
+      border-radius: 8px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, .18);
+      position: relative;
+      padding: 30px 34px 34px 34px;
+      border-left: 10px solid var(--accent);
+    }
+
+    .page.m0 {
+      --accent: var(--m0);
+      --accentL: var(--m0L);
+    }
+
+    .page.m1 {
+      --accent: var(--m1);
+      --accentL: var(--m1L);
+    }
+
+    .page.m2 {
+      --accent: var(--m2);
+      --accentL: var(--m2L);
+    }
+
+    .page.m3 {
+      --accent: var(--m3);
+      --accentL: var(--m3L);
+    }
+
+    .page.m4 {
+      --accent: var(--m4);
+      --accentL: var(--m4L);
+    }
+
+    .page.m5 {
+      --accent: var(--m5);
+      --accentL: var(--m5L);
+    }
+
+    .page-num {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      font-family: 'Kalam', cursive;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .topic-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      color: #fff;
+      background: var(--accent);
+      padding: 4px 12px 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .main-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Kalam', cursive;
+      font-size: 30px;
+      font-weight: 700;
+      margin: 0 0 4px;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .main-title .icon {
+      width: 1.05em;
+      height: 1.05em;
+      color: var(--accent);
+    }
+
+    .title-underline {
+      width: 170px;
+      height: 4px;
+      background: var(--coral);
+      border-radius: 3px;
+      margin-bottom: 8px;
+    }
+
+    .lede {
+      font-size: 16.5px;
+      line-height: 1.6;
+      color: var(--sub-ink);
+      margin: 0 0 22px;
+      max-width: 640px;
+      font-weight: 500;
+    }
+
+    section.block {
+      margin-bottom: 26px;
+    }
+
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 9px;
+    }
+
+    .sec-circle {
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sec-circle .icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .sec-head h2 {
+      font-family: 'Kalam', cursive;
+      font-size: 20px;
+      margin: 0;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    section.block p {
+      font-size: 16.5px;
+      line-height: 1.65;
+      margin: 0 0 10px;
+      font-weight: 500;
+    }
+
+    section.block>p:last-child {
+      margin-bottom: 0;
+    }
+
+    .check-list,
+    .cross-list {
+      list-style: none;
+      margin: 0 0 14px;
+      padding: 0;
+    }
+
+    .check-list li,
+    .cross-list li {
+      font-size: 16px;
+      line-height: 1.6;
+      padding-left: 28px;
+      position: relative;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .check-list li .icon {
+      position: absolute;
+      left: 0;
+      top: 3px;
+      color: var(--accent);
+      width: 16px;
+      height: 16px;
+    }
+
+    .cross-list li .icon {
+      position: absolute;
+      left: 0;
+      top: 3px;
+      color: var(--coral);
+      width: 16px;
+      height: 16px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 14px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .10);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    thead tr {
+      background: var(--accent);
+    }
+
+    thead th {
+      color: #fff;
+      text-align: left;
+      padding: 9px 12px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    tbody td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #EFE9D8;
+      line-height: 1.5;
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--accentL);
+    }
+
+    .code-box {
+      background: #F7F8F3;
+      color: #233B34;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.85;
+      padding: 13px 16px;
+      border: 1.5px dashed var(--accent);
+      border-radius: 10px;
+      margin-bottom: 14px;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      font-weight: 500;
+    }
+
+    .code-box .cmt {
+      color: #2c3531;
+      font-style: italic;
+    }
+
+    .code-box .kw {
+      color: var(--coral);
+      font-weight: 700;
+    }
+
+    .code-box .fn {
+      color: #1D6E7A;
+      font-weight: 700;
+    }
+
+    .code-box .str {
+      color: #8A5A15;
+    }
+
+    .code-box .num {
+      color: #5B3E96;
+    }
+
+    .callout {
+      background: var(--accentL);
+      border-left: 4px solid var(--accent);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-style: italic;
+      font-weight: 500;
+      margin: 8px 0;
+    }
+
+    .tip-box,
+    .warn-box,
+    .fact-box {
+      margin-top: 16px;
+      border-radius: 12px;
+      padding: 13px 18px;
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+    }
+
+    .tip-box {
+      background: var(--m4L);
+      border: 2px dashed var(--m4);
+    }
+
+    .fact-box {
+      background: var(--m0L);
+      border: 2px dashed var(--m0);
+    }
+
+    .warn-box {
+      background: #FDECEC;
+      border: 2px dashed var(--coral);
+    }
+
+    .tip-box .icon,
+    .fact-box .icon,
+    .warn-box .icon {
+      flex: 0 0 auto;
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+    }
+
+    .tip-box .icon {
+      color: var(--m4);
+    }
+
+    .fact-box .icon {
+      color: var(--m0);
+    }
+
+    .warn-box .icon {
+      color: var(--coral);
+    }
+
+    .tip-box p,
+    .fact-box p,
+    .warn-box p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .tip-box strong,
+    .fact-box strong,
+    .warn-box strong {
+      font-family: 'Kalam', cursive;
+      font-size: 15.5px;
+    }
+
+    .divider {
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .2em;
+      color: #9B927F;
+      margin: 6px 0 26px;
+    }
+
+    .flow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      margin: 14px 0 18px;
+    }
+
+    .fbox {
+      width: 100%;
+      max-width: 520px;
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      background: #fff;
+      padding: 9px 16px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .fbox .lbl {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 15px;
+      display: block;
+    }
+
+    .fbox .sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--sub-ink);
+      font-weight: 600;
+    }
+
+    .frow {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      max-width: 520px;
+      justify-content: center;
+    }
+
+    .frow .fbox {
+      flex: 1;
+    }
+
+    .farrow {
+      color: var(--accent);
+    }
+
+    .arch-box {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      background: #F7F8F3;
+      border: 1.5px dashed var(--accent);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 14px;
+      white-space: pre;
+      overflow-x: auto;
+      color: #233B34;
+      font-weight: 500;
+    }
+
+    .output-box {
+      background: #EEF5EE;
+      border: 1.5px solid var(--m5);
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      white-space: pre-wrap;
+      color: #233B34;
+      font-weight: 500;
+    }
+
+    .cover {
+      text-align: center;
+      padding: 30px;
+      border-left: none;
+      border-top: 10px solid var(--coral);
+    }
+
+    .cover h1 {
+      font-family: 'Kalam', cursive;
+      font-size: 42px;
+      margin: 6px 0 2px;
+      line-height: 1.1;
+    }
+
+    .cover .sub1 {
+      font-size: 19px;
+      color: var(--sub-ink);
+      margin: 0 0 12px;
+      font-weight: 500;
+    }
+
+    .cover .tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: .12em;
+      background: #2B2620;
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 26px;
+    }
+
+    .cover-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    @media(max-width:600px) {
+      .cover-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .cover-item {
+      border: 1.5px solid #E6DFC9;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13.5px;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .cover-item b {
+      display: block;
+      font-family: 'Kalam', cursive;
+      font-size: 14.5px;
+      margin-bottom: 2px;
+    }
+
+    .toc-page {
+      text-align: left;
+      padding: 40px 34px 44px;
+      border-left: none;
+      border-top: 10px solid var(--m0);
+    }
+
+    .toc-title {
+      font-family: 'Kalam', cursive;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 0 6px;
+      color: var(--ink);
+    }
+
+    .toc-sub {
+      font-size: 15px;
+      color: var(--sub-ink);
+      margin: 0 0 24px;
+      font-weight: 500;
+    }
+
+    .toc-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toc-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #fff;
+      border: 1.5px solid #E6DFC9;
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: box-shadow .15s, border-color .15s;
+    }
+
+    .toc-item:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .14);
+    }
+
+    .toc-num {
+      font-family: 'Kalam', cursive;
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toc-info .mod-name {
+      font-family: 'Kalam', cursive;
+      font-size: 17px;
+      font-weight: 700;
+      display: block;
+    }
+
+    .toc-info .mod-desc {
+      font-size: 13px;
+      color: var(--sub-ink);
+      font-weight: 500;
+    }
+
+    .kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .1em;
+      color: var(--sub-ink);
+      text-transform: uppercase;
+      margin: 0 0 6px;
+      font-weight: 700;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      background: #F0EDE5;
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: var(--m2);
+      font-weight: 600;
+    }
+
+    .roadmap-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .roadmap-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex: 0 0 12px;
+      margin-top: 5px;
+    }
+
+    .roadmap-dot.done {
+      background: var(--m5);
+    }
+
+    .roadmap-dot.soon {
+      background: #C8C0B0;
+    }
+
+    .roadmap-text {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .roadmap-text.done {
+      color: var(--m5);
+    }
+
+    .roadmap-text.soon {
+      color: var(--sub-ink);
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin: 0 2px;
+    }
+
+    .badge-green {
+      background: #E7F3EC;
+      color: var(--m5);
+    }
+
+    .badge-orange {
+      background: var(--m4L);
+      color: var(--m4);
+    }
+
+    .badge-red {
+      background: #FDECEC;
+      color: var(--coral);
+    }
+
+    /* ---- Download / Print Button ---- */
+    .dl-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--coral);
+      color: #fff;
+      font-family: 'Kalam', cursive;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 13px 22px 13px 18px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(214, 82, 74, .45);
+      transition: transform .15s, box-shadow .15s;
+      text-decoration: none;
+    }
+
+    .dl-fab:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(214, 82, 74, .55);
+    }
+
+    .dl-fab:active {
+      transform: translateY(0);
+    }
+
+    .dl-fab svg {
+      width: 20px;
+      height: 20px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: 0 0 20px;
+    }
+
+    .dl-toast {
+      position: fixed;
+      bottom: 90px;
+      right: 28px;
+      z-index: 9998;
+      background: #2B2620;
+      color: #fff;
+      font-family: 'Patrick Hand', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .25);
+    }
+
+    .dl-toast.show {
+      opacity: 1;
+    }
+
+    /* ---- Print / PDF styles ---- */
+    @media print {
+
+      /* A4 page setup — browsers honor mm units */
+      @page {
+        size: A4 portrait;
+        margin: 10mm 8mm;
+      }
+
+      /* Full page reset */
+      html, body {
+        background: #fff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+      }
+
+      /* Hide UI elements */
+      .dl-fab, .dl-toast {
+        display: none !important;
+      }
+
+      /* Each .page card = one PDF page */
+      .page {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 20px 28px 28px 28px !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border-left: 10px solid var(--accent) !important;
+        break-after: page;
+        page-break-after: always;
+        background: var(--paper) !important;
+        position: relative !important;
+        display: block !important;
+        overflow: hidden !important;
+      }
+
+      /* Last page — no trailing blank page */
+      .page:last-of-type {
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+      /* Cover and TOC */
+      .cover {
+        border-left: none !important;
+        border-top: 10px solid var(--coral) !important;
+        text-align: center;
+        padding: 30px 28px !important;
+        break-after: page;
+        page-break-after: always;
+      }
+      .toc-page {
+        border-left: none !important;
+        border-top: 10px solid var(--m0) !important;
+        padding: 28px 28px 30px !important;
+        break-after: page;
+        page-break-after: always;
+      }
+
+      /* Keep content blocks from splitting mid-element */
+      .code-box, .arch-box, .output-box,
+      .tip-box, .warn-box, .fact-box,
+      .table-wrap, .flow, .frow, .roadmap-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* Force all colors/backgrounds to print */
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-bulb" viewBox="0 0 24 24">
+        <path d="M9 18h6M10 21h4" />
+        <path d="M12 3a6 6 0 0 0-3.6 10.8c.6.45.9 1.15.9 1.9V16h5.4v-.3c0-.75.3-1.45.9-1.9A6 6 0 0 0 12 3z" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <polyline points="4 12 9 18 20 6" />
+      </symbol>
+      <symbol id="i-cross" viewBox="0 0 24 24">
+        <line x1="5" y1="5" x2="19" y2="19" />
+        <line x1="19" y1="5" x2="5" y2="19" />
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24">
+        <path d="M12 2.5l2.9 6.9 7.1.7-5.5 5.1 1.6 7-6.1-3.7-6.1 3.7 1.6-7L2 10.1l7.1-.7z" stroke-linejoin="round" />
+      </symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24">
+        <path d="M12 21s-7-7.3-7-12.5A7 7 0 0 1 19 8.5C19 13.7 12 21 12 21z" />
+        <circle cx="12" cy="8.5" r="2.6" />
+      </symbol>
+      <symbol id="i-warn" viewBox="0 0 24 24">
+        <path d="M12 3.5 22 20H2L12 3.5z" stroke-linejoin="round" />
+        <line x1="12" y1="10" x2="12" y2="14.5" />
+        <circle cx="12" cy="17.3" r="0.9" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="i-book" viewBox="0 0 24 24">
+        <path d="M2 5.5c3-1.2 6-1.2 9 0v14c-3-1.2-6-1.2-9 0v-14z" />
+        <path d="M22 5.5c-3-1.2-6-1.2-9 0v14c3-1.2 6-1.2 9 0v-14z" />
+      </symbol>
+      <symbol id="i-database" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="5.5" rx="8" ry="3" />
+        <path d="M4 5.5v13c0 1.6 3.6 3 8 3s8-1.4 8-3v-13" />
+        <path d="M4 12c0 1.6 3.6 3 8 3s8-1.4 8-3" />
+      </symbol>
+      <symbol id="i-code" viewBox="0 0 24 24">
+        <polyline points="8 6 2 12 8 18" />
+        <polyline points="16 6 22 12 16 18" />
+      </symbol>
+      <symbol id="i-server" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="5" rx="1.5" />
+        <rect x="3" y="10" width="18" height="5" rx="1.5" />
+        <rect x="3" y="17" width="18" height="4" rx="1.5" />
+        <circle cx="7" cy="5.5" r="1" fill="currentColor" stroke="none" />
+        <circle cx="7" cy="12.5" r="1" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="i-terminal" viewBox="0 0 24 24">
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <polyline points="6 9 10 12 6 15" />
+        <line x1="13" y1="15" x2="18" y2="15" />
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3" />
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24">
+        <polygon points="12 2.5 2.5 7.5 12 12.5 21.5 7.5" stroke-linejoin="round" />
+        <polyline points="2.5 12.5 12 17.5 21.5 12.5" />
+        <polyline points="2.5 17.5 12 22.5 21.5 17.5" />
+      </symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24">
+        <line x1="12" y1="4" x2="12" y2="20" />
+        <polyline points="5 13 12 20 19 13" />
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24">
+        <line x1="4" y1="12" x2="20" y2="12" />
+        <polyline points="13 5 20 12 13 19" />
+      </symbol>
+      <symbol id="i-table" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="16" rx="1.5" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+        <line x1="3" y1="15" x2="21" y2="15" />
+        <line x1="10.5" y1="4" x2="10.5" y2="20" />
+      </symbol>
+      <symbol id="i-key" viewBox="0 0 24 24">
+        <circle cx="7.5" cy="15.5" r="4.2" />
+        <path d="M10.5 12.5 20 3" />
+        <path d="M16.5 6.5 19 9" />
+        <path d="M13.5 9.5 15.5 11.5" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+      </symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24">
+        <polyline points="3 6 5 6 21 6" />
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+        <path d="M10 11v6M14 11v6" />
+        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+      </symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24">
+        <path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z" />
+        <circle cx="12" cy="12" r="3" />
+      </symbol>
+      <symbol id="i-cpu" viewBox="0 0 24 24">
+        <rect x="4" y="4" width="16" height="16" rx="2" />
+        <rect x="9" y="9" width="6" height="6" />
+        <line x1="9" y1="1" x2="9" y2="4" />
+        <line x1="15" y1="1" x2="15" y2="4" />
+        <line x1="9" y1="20" x2="9" y2="23" />
+        <line x1="15" y1="20" x2="15" y2="23" />
+        <line x1="20" y1="9" x2="23" y2="9" />
+        <line x1="20" y1="14" x2="23" y2="14" />
+        <line x1="1" y1="9" x2="4" y2="9" />
+        <line x1="1" y1="14" x2="4" y2="14" />
+      </symbol>
+      <symbol id="i-map" viewBox="0 0 24 24">
+        <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" stroke-linejoin="round" />
+        <line x1="8" y1="2" x2="8" y2="18" />
+        <line x1="16" y1="6" x2="16" y2="22" />
+      </symbol>
+      <symbol id="i-clipboard" viewBox="0 0 24 24">
+        <rect x="5" y="4" width="14" height="17" rx="1.5" />
+        <rect x="9" y="2" width="6" height="3.2" rx="1" />
+        <line x1="8" y1="10" x2="16" y2="10" />
+        <line x1="8" y1="14" x2="16" y2="14" />
+        <line x1="8" y1="18" x2="13" y2="18" />
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="M12 2.5 4 5.5v6c0 5.2 3.4 8.6 8 10 4.6-1.4 8-4.8 8-10v-6L12 2.5z" stroke-linejoin="round" />
+      </symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke-linejoin="round" />
+      </symbol>
+      <symbol id="i-check-circle" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="7 12 10 15 17 8" />
+      </symbol>
+      <symbol id="i-list" viewBox="0 0 24 24">
+        <line x1="8" y1="6" x2="21" y2="6" />
+        <line x1="8" y1="12" x2="21" y2="12" />
+        <line x1="8" y1="18" x2="21" y2="18" />
+        <line x1="3" y1="6" x2="3.01" y2="6" />
+        <line x1="3" y1="12" x2="3.01" y2="12" />
+        <line x1="3" y1="18" x2="3.01" y2="18" />
+      </symbol>
+      <symbol id="i-award" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="6" />
+        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- COVER -->
+  <div class="page cover">
+    <svg
+      style="width:72px;height:72px;color:var(--coral);stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px;"
+      viewBox="0 0 24 24">
+      <ellipse cx="12" cy="5.5" rx="8" ry="3" />
+      <path d="M4 5.5v13c0 1.6 3.6 3 8 3s8-1.4 8-3v-13" />
+      <path d="M4 12c0 1.6 3.6 3 8 3s8-1.4 8-3" />
+    </svg>
+    <h1>&#128024; PostgreSQL: Zero to Hero</h1>
+    <p class="sub1">Complete Guide &#8212; Scratch se Advanced tak</p>
+    <span class="tag">STRUCTURED &middot; PRACTICAL &middot; INTERVIEW-READY</span>
+
+  </div>
+
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="page toc-page">
+    <p class="kicker" style="color:var(--coral);">&#128218; Course Index</p>
+    <div class="toc-title">&#128203; Module List &#8212; Click to Jump</div>
+    <p class="toc-sub">Har module par click karo seedha us section par jaane ke liye</p>
+    <div class="toc-grid">
+      <a href="#mod1" class="toc-item">
+        <span class="toc-num" style="background:var(--m0);">1</span>
+        <span class="toc-info">
+          <span class="mod-name">Introduction to Databases</span>
+          <span class="mod-desc">Database kya hai, Types of Databases, DBMS vs RDBMS, Real-world Zomato example</span>
+        </span>
+      </a>
+      <a href="#mod2" class="toc-item">
+        <span class="toc-num" style="background:var(--m1);">2</span>
+        <span class="toc-info">
+          <span class="mod-name">What is PostgreSQL?</span>
+          <span class="mod-desc">Features, kyun special hai, real-world companies, MySQL vs MongoDB comparison</span>
+        </span>
+      </a>
+      <a href="#mod3" class="toc-item">
+        <span class="toc-num" style="background:var(--m2);">3</span>
+        <span class="toc-info">
+          <span class="mod-name">Installation &amp; Setup</span>
+          <span class="mod-desc">Windows, macOS, Linux install, First time setup, pgAdmin GUI, Common mistakes</span>
+        </span>
+      </a>
+      <a href="#mod4" class="toc-item">
+        <span class="toc-num" style="background:var(--m3);">4</span>
+        <span class="toc-info">
+          <span class="mod-name">PostgreSQL Architecture</span>
+          <span class="mod-desc">Architecture diagram, Postmaster, Parser, Planner, WAL, Restaurant analogy</span>
+        </span>
+      </a>
+      <a href="#mod5" class="toc-item">
+        <span class="toc-num" style="background:var(--m4);">5</span>
+        <span class="toc-info">
+          <span class="mod-name">psql Commands</span>
+          <span class="mod-desc">psql kya hai, Connection &amp; Meta commands, Practical session, Common mistakes</span>
+        </span>
+      </a>
+      <a href="#mod6" class="toc-item">
+        <span class="toc-num" style="background:var(--m5);">6</span>
+        <span class="toc-info">
+          <span class="mod-name">Data Types</span>
+          <span class="mod-desc">Numeric, Text, DateTime, Boolean, JSONB, Arrays, E-commerce table design</span>
+        </span>
+      </a>
+      <a href="#mod7" class="toc-item">
+        <span class="toc-num" style="background:var(--m0);">7</span>
+        <span class="toc-info">
+          <span class="mod-name">CRUD Operations</span>
+          <span class="mod-desc">INSERT, SELECT (WHERE/ORDER BY/LIMIT/LIKE/IN/BETWEEN), UPDATE, DELETE, Interview
+            Q&amp;A</span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+
+  <!-- MODULE 1 -->
+  <div id="mod1" class="page m0">
+    <div class="page-num">1</div>
+    <span class="topic-badge"><svg class="icon">
+        <use href="#i-book" />
+      </svg> MODULE 01</span>
+    <h1 class="main-title"><svg class="icon">
+        <use href="#i-database" />
+      </svg>Introduction to Databases</h1>
+    <div class="title-underline"></div>
+    <p class="lede">Bilkul sahi jagah aaye ho! Yeh ek structured, practical, aur interview-ready PostgreSQL course hai
+      &#8212; seedha scratch se advanced tak. Har concept real-world perspective se cover hoga, taki sirf theory nahi,
+      actual projects bhi build kar sako. Chalo shuru karte hain! &#128640;</p>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-bulb" />
+          </svg></span>
+        <h2>1.1 Concept Explanation &#8212; Database Kya Hai?</h2>
+      </div>
+      <p>Socho tumhare paas ek <strong>school ka register</strong> hai jisme students ke naam, roll numbers, aur marks
+        likhe hain. Yeh register ek manual database hai.</p>
+      <p>Database ek <strong>organized collection of data</strong> hai jo:</p>
+      <ul class="check-list">
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Efficiently store kiya ja sake</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Easily retrieve kiya ja sake</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Securely manage kiya ja sake</li>
+      </ul>
+      <p class="kicker">Types of Databases</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Example</th>
+              <th>Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Relational (SQL)</strong></td>
+              <td>PostgreSQL, MySQL</td>
+              <td>Structured data, tables</td>
+            </tr>
+            <tr>
+              <td><strong>Document (NoSQL)</strong></td>
+              <td>MongoDB</td>
+              <td>Flexible JSON data</td>
+            </tr>
+            <tr>
+              <td><strong>Key-Value</strong></td>
+              <td>Redis</td>
+              <td>Caching, sessions</td>
+            </tr>
+            <tr>
+              <td><strong>Graph</strong></td>
+              <td>Neo4j</td>
+              <td>Social networks</td>
+            </tr>
+            <tr>
+              <td><strong>Time-Series</strong></td>
+              <td>InfluxDB</td>
+              <td>IoT, metrics</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-zap" />
+          </svg></span>
+        <h2>1.2 Real-World Example &#8212; Zomato ka Socho!</h2>
+      </div>
+      <div class="flow">
+        <div class="fbox"><span class="lbl">&#128100; Users Table</span><span class="sub">naam, email, address store
+            hota hai</span></div>
+        <div class="farrow"><svg class="icon">
+            <use href="#i-arrow-down" />
+          </svg></div>
+        <div class="fbox"><span class="lbl">&#127978; Restaurants Table</span><span class="sub">restaurant info, menu,
+            ratings</span></div>
+        <div class="farrow"><svg class="icon">
+            <use href="#i-arrow-down" />
+          </svg></div>
+        <div class="fbox"><span class="lbl">&#128230; Orders Table</span><span class="sub">kaunse user ne kaunse
+            restaurant se order kiya &#8212; yeh RELATIONSHIP hai!</span></div>
+      </div>
+      <p>Yahi kaam ek <strong>Relational Database</strong> karta hai &#8212; data ko tables mein store karta hai aur
+        unhe relationships se connect karta hai.</p>
+    </section>
+
+    <section class="block" style="margin-bottom:0;">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-server" />
+          </svg></span>
+        <h2>1.3 DBMS vs RDBMS</h2>
+      </div>
+      <p><strong>DBMS</strong> &#8594; Database Management System (e.g., file system)<br>
+        <strong>RDBMS</strong> &#8594; Relational DBMS (data tables mein hota hai, relations hote hain)
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>DBMS</th>
+              <th>RDBMS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Data files mein store hota hai</td>
+              <td>Data tables mein store hota hai</td>
+            </tr>
+            <tr>
+              <td>Relations nahi hote</td>
+              <td>Tables ke beech relations hote hain</td>
+            </tr>
+            <tr>
+              <td>e.g., XML files</td>
+              <td>e.g., PostgreSQL, MySQL</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip-box"><svg class="icon">
+          <use href="#i-pin" />
+        </svg>
+        <p><strong>Pro Tip:</strong> RDBMS prefer karo jab bhi data structured ho aur tables ke beech relationships ho
+          &#8212; yeh data integrity aur performance dono ensure karta hai.</p>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- MODULE 2 -->
+  <div id="mod2" class="page m1">
+    <div class="page-num">2</div>
+    <span class="topic-badge"><svg class="icon">
+        <use href="#i-book" />
+      </svg> MODULE 02</span>
+    <h1 class="main-title"><svg class="icon">
+        <use href="#i-server" />
+      </svg>What is PostgreSQL?</h1>
+    <div class="title-underline"></div>
+    <p class="lede">PostgreSQL (pronounced: <em>post-gres-Q-L</em>) ek open-source, object-relational database system
+      hai. Isko "Postgres" bhi kehte hain.</p>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-bulb" />
+          </svg></span>
+        <h2>2.1 Concept Explanation &#8212; PostgreSQL Kyun Special Hai?</h2>
+      </div>
+      <ul class="check-list">
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg><strong>Free &amp; Open Source</strong> &#8212; koi license cost nahi</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg><strong>ACID Compliant</strong> &#8212; data safe rehta hai</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg><strong>JSON support</strong> &#8212; NoSQL features bhi hain (JSONB)</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg><strong>Advanced features</strong> &#8212; Window Functions, CTEs, aur bahut kuch</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg><strong>Highly extensible</strong> &#8212; custom data types bana sakte ho</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg><strong>Industry ka most trusted database</strong> &#8212; 35+ saal se use ho raha hai</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-zap" />
+          </svg></span>
+        <h2>2.2 Real-World Usage &#8212; Yeh Companies Use Karti Hain</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Instagram</strong></td>
+              <td>User data, posts, relationships</td>
+            </tr>
+            <tr>
+              <td><strong>Spotify</strong></td>
+              <td>Music metadata, playlists</td>
+            </tr>
+            <tr>
+              <td><strong>Uber</strong></td>
+              <td>Trip data, driver management</td>
+            </tr>
+            <tr>
+              <td><strong>Apple</strong></td>
+              <td>iCloud data storage</td>
+            </tr>
+            <tr>
+              <td><strong>Reddit</strong></td>
+              <td>Posts, comments, votes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block" style="margin-bottom:0;">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-layers" />
+          </svg></span>
+        <h2>2.3 PostgreSQL vs MySQL vs MongoDB</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>PostgreSQL</th>
+              <th>MySQL</th>
+              <th>MongoDB</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Type</strong></td>
+              <td>RDBMS</td>
+              <td>RDBMS</td>
+              <td>NoSQL</td>
+            </tr>
+            <tr>
+              <td><strong>JSON Support</strong></td>
+              <td><span class="badge badge-green">&#10003; Native JSONB</span></td>
+              <td><span class="badge badge-orange">&#9888; Limited</span></td>
+              <td><span class="badge badge-green">&#10003; Native</span></td>
+            </tr>
+            <tr>
+              <td><strong>ACID</strong></td>
+              <td><span class="badge badge-green">&#10003; Full</span></td>
+              <td><span class="badge badge-green">&#10003; Full</span></td>
+              <td><span class="badge badge-orange">&#9888; Partial</span></td>
+            </tr>
+            <tr>
+              <td><strong>Performance</strong></td>
+              <td>&#128293; Complex queries</td>
+              <td>&#9889; Simple reads</td>
+              <td>&#9889; Flexible</td>
+            </tr>
+            <tr>
+              <td><strong>Best For</strong></td>
+              <td>Complex apps</td>
+              <td>Web apps</td>
+              <td>Unstructured data</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip-box"><svg class="icon">
+          <use href="#i-pin" />
+        </svg>
+        <p><strong>Pro Tip:</strong> Modern full-stack projects (Node.js, Next.js) mein <strong>PostgreSQL +
+            Prisma</strong> combination sabse popular hai. Yeh combination production-ready apps ke liye best choice
+          hai.</p>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- MODULE 3 -->
+  <div id="mod3" class="page m2">
+    <div class="page-num">3</div>
+    <span class="topic-badge"><svg class="icon">
+        <use href="#i-book" />
+      </svg> MODULE 03</span>
+    <h1 class="main-title"><svg class="icon">
+        <use href="#i-settings" />
+      </svg>Installation &amp; Setup</h1>
+    <div class="title-underline"></div>
+    <p class="lede">PostgreSQL install karna simple hai &#8212; Windows, macOS, aur Linux teeno par. Niche step-by-step
+      guide hai, OS ke hisaab se.</p>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-settings" />
+          </svg></span>
+        <h2>3.1 Installation Steps</h2>
+      </div>
+      <p class="kicker">&#129695; Windows</p>
+      <div class="code-box"><span class="cmt"># Step 1: Download karo
+          # https://www.postgresql.org/download/windows/
+          # Installer run karo aur yeh install hoga:
+          # - PostgreSQL Server
+          # - pgAdmin 4 (GUI tool)
+          # - psql (command line tool)
+
+          # Step 2: Installation ke time:
+          # Port: 5432 (default - change mat karo)
+          # Password: apna password set karo (yaad rakhna!)
+          # Locale: Default</span></div>
+
+      <p class="kicker">&#127822; macOS</p>
+      <div class="code-box"><span class="cmt"># Homebrew se install karo</span>
+        brew install postgresql@16
+
+        <span class="cmt"># Service start karo</span>
+        brew services start postgresql@16
+
+        <span class="cmt"># psql mein connect karo</span>
+        psql postgres
+      </div>
+
+      <p class="kicker">&#128039; Linux (Ubuntu/Debian)</p>
+      <div class="code-box"><span class="cmt"># Step 1: Repository update karo aur install karo</span>
+        sudo apt update
+        sudo apt install postgresql postgresql-contrib
+
+        <span class="cmt"># Step 2: Service start karo</span>
+        sudo systemctl start postgresql
+        sudo systemctl enable postgresql
+
+        <span class="cmt"># Step 3: postgres user mein switch karo</span>
+        sudo -i -u postgres
+
+        <span class="cmt"># Step 4: psql open karo</span>
+        psql
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-terminal" />
+          </svg></span>
+        <h2>3.2 First Time Setup</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- postgres user ka password set karo</span>
+        <span class="kw">ALTER USER</span> postgres <span class="kw">PASSWORD</span> <span
+          class="str">'mypassword123'</span>;
+
+        <span class="cmt">-- Apna pehla database banao</span>
+        <span class="kw">CREATE DATABASE</span> myFirstDB;
+
+        <span class="cmt">-- Database list dekho</span>
+        \l
+
+        <span class="cmt">-- Database mein connect ho</span>
+        \c myFirstDB
+
+        <span class="cmt">-- Quit karo</span>
+        \q
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-eye" />
+          </svg></span>
+        <h2>3.3 pgAdmin Setup (GUI Tool)</h2>
+      </div>
+      <div class="flow">
+        <div class="fbox"><span class="lbl">Step 1</span><span class="sub">pgAdmin 4 open karo (Windows mein Start Menu
+            se)</span></div>
+        <div class="farrow"><svg class="icon">
+            <use href="#i-arrow-down" />
+          </svg></div>
+        <div class="fbox"><span class="lbl">Step 2</span><span class="sub">Master Password set karo</span></div>
+        <div class="farrow"><svg class="icon">
+            <use href="#i-arrow-down" />
+          </svg></div>
+        <div class="fbox"><span class="lbl">Step 3</span><span class="sub">Servers &#8594; PostgreSQL &#8594; Connect
+            &#8594; Password enter karo</span></div>
+        <div class="farrow"><svg class="icon">
+            <use href="#i-arrow-down" />
+          </svg></div>
+        <div class="fbox"><span class="lbl">Step 4 &#10003;</span><span class="sub">Ab tum GUI se database manage kar
+            sakte ho!</span></div>
+      </div>
+      <div class="tip-box"><svg class="icon">
+          <use href="#i-pin" />
+        </svg>
+        <p><strong>Beginners ke liye:</strong> pgAdmin use karo visually samajhne ke liye. Baad mein psql aur code se
+          karo &#8212; production mein hamesha command-line tools use hoti hain.</p>
+      </div>
+    </section>
+
+    <section class="block" style="margin-bottom:0;">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-warn" />
+          </svg></span>
+        <h2>3.4 Common Mistakes</h2>
+      </div>
+      <ul class="cross-list">
+        <li><svg class="icon">
+            <use href="#i-cross" />
+          </svg><strong>Port 5432 already in use</strong> &#8594; Dusri service band karo ya port change karo</li>
+        <li><svg class="icon">
+            <use href="#i-cross" />
+          </svg><strong>Password bhool gaye</strong> &#8594; pg_hba.conf se reset kar sakte ho</li>
+        <li><svg class="icon">
+            <use href="#i-cross" />
+          </svg><strong>Service start nahi hui</strong> &#8594; <code>sudo systemctl status postgresql</code> se check
+          karo</li>
+      </ul>
+    </section>
+  </div>
+
+
+  <!-- MODULE 4 -->
+  <div id="mod4" class="page m3">
+    <div class="page-num">4</div>
+    <span class="topic-badge"><svg class="icon">
+        <use href="#i-book" />
+      </svg> MODULE 04</span>
+    <h1 class="main-title"><svg class="icon">
+        <use href="#i-cpu" />
+      </svg>PostgreSQL Architecture</h1>
+    <div class="title-underline"></div>
+    <p class="lede">PostgreSQL ke andar kya hota hai &#8212; ek SQL query kaise process hoti hai aur data kaise disk par
+      save hota hai.</p>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-cpu" />
+          </svg></span>
+        <h2>4.1 Architecture Overview</h2>
+      </div>
+      <div class="arch-box">
+        &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+        &#9474; CLIENT (psql / App Code) &#9474;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9580;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+        | SQL Query
+        &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9583;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+        &#9474; POSTMASTER PROCESS &#9474;
+        &#9474; (Connection Manager - Traffic Cop) &#9474;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9580;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+        |
+        &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9583;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+        &#9474; BACKEND PROCESS &#9474;
+        &#9474;
+        &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+        &#9474;
+        &#9474; &#9474; Parser -> Analyzer -> Planner &#9474; &#9474;
+        &#9474; &#9474; -> Executor &#9474; &#9474;
+        &#9474;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+        &#9474;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9580;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+        |
+        &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9583;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+        &#9474; SHARED MEMORY &#9474;
+        &#9474;
+        &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+        &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+        &#9474;
+        &#9474; &#9474; Shared Buffer&#9474; &#9474; WAL Buffer &#9474; &#9474;
+        &#9474; &#9474; (Cache) &#9474; &#9474; (Write-Ahead &#9474; &#9474;
+        &#9474;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+        &#9474; Logging) &#9474; &#9474;
+        &#9474;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+        &#9474;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9580;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+        |
+        &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9583;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+        &#9474; DISK STORAGE &#9474;
+        &#9474; &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+        &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;
+        &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488; &#9474;
+        &#9474; &#9474; Data &#9474; &#9474; WAL &#9474; &#9474; Logs &#9474; &#9474;
+        &#9474; &#9474; Files &#9474; &#9474; Files &#9474; &#9474; &#9474; &#9474;
+        &#9474; &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496; &#9474;
+        &#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;
+      </div>
+
+      <p class="kicker">Key Components</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Kya Karta Hai</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Postmaster</strong></td>
+              <td>Nayi connections accept karta hai &#8212; traffic cop ki tarah</td>
+            </tr>
+            <tr>
+              <td><strong>Parser</strong></td>
+              <td>SQL query ko parse karta hai (syntax check)</td>
+            </tr>
+            <tr>
+              <td><strong>Analyzer</strong></td>
+              <td>Semantic check karta hai (table exist karti hai?)</td>
+            </tr>
+            <tr>
+              <td><strong>Planner/Optimizer</strong></td>
+              <td>Best execution plan choose karta hai</td>
+            </tr>
+            <tr>
+              <td><strong>Executor</strong></td>
+              <td>Actually query run karta hai</td>
+            </tr>
+            <tr>
+              <td><strong>Shared Buffer</strong></td>
+              <td>Data ko RAM mein cache karta hai (fast access)</td>
+            </tr>
+            <tr>
+              <td><strong>WAL</strong></td>
+              <td>Crash recovery ke liye changes log karta hai</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block" style="margin-bottom:0;">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-zap" />
+          </svg></span>
+        <h2>4.2 Real-World Analogy &#8212; Restaurant</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>PostgreSQL Component</th>
+              <th>Restaurant Analogy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Postmaster</strong></td>
+              <td>Receptionist (customers ko table assign karta hai)</td>
+            </tr>
+            <tr>
+              <td><strong>Parser</strong></td>
+              <td>Waiter (order samajhta hai)</td>
+            </tr>
+            <tr>
+              <td><strong>Planner</strong></td>
+              <td>Chef ka plan (kaise banana hai decide karta hai)</td>
+            </tr>
+            <tr>
+              <td><strong>Executor</strong></td>
+              <td>Chef (actually khana banata hai)</td>
+            </tr>
+            <tr>
+              <td><strong>Shared Buffer</strong></td>
+              <td>Kitchen counter (ready items yahan rakhte hain)</td>
+            </tr>
+            <tr>
+              <td><strong>WAL</strong></td>
+              <td>Order book (agar kuch gadbad ho to recover kar sako)</td>
+            </tr>
+            <tr>
+              <td><strong>Disk Storage</strong></td>
+              <td>Cold storage (permanent storage)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="fact-box"><svg class="icon">
+          <use href="#i-star" />
+        </svg>
+        <p><strong>Interview Fact:</strong> WAL (Write-Ahead Logging) ki wajah se PostgreSQL crash ke baad bhi data safe
+          rehta hai. Pehle log likha jaata hai, phir data files update hote hain.</p>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- MODULE 5 -->
+  <div id="mod5" class="page m4">
+    <div class="page-num">5</div>
+    <span class="topic-badge"><svg class="icon">
+        <use href="#i-book" />
+      </svg> MODULE 05</span>
+    <h1 class="main-title"><svg class="icon">
+        <use href="#i-terminal" />
+      </svg>psql Commands</h1>
+    <div class="title-underline"></div>
+    <p class="lede">psql PostgreSQL ka command-line interface hai. Yeh ek terminal tool hai jisse tum directly database
+      se baat kar sakte ho &#8212; bina kisi GUI ke.</p>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-terminal" />
+          </svg></span>
+        <h2>5.2 Essential psql Commands</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- CONNECTION COMMANDS</span>
+        <span class="cmt">-- PostgreSQL se connect karo</span>
+        psql -U postgres -h localhost -p 5432
+
+        <span class="cmt">-- Specific database se connect karo</span>
+        psql -U postgres -d mydb
+
+        <span class="cmt">-- META COMMANDS (\ se start hote hain)</span>
+        \l <span class="cmt">-- Saare databases list karo</span>
+        \c dbname <span class="cmt">-- Database change/connect karo</span>
+        \dt <span class="cmt">-- Current database ki saari tables</span>
+        \d tablename <span class="cmt">-- Table ka structure dekho</span>
+        \du <span class="cmt">-- Saare users/roles list karo</span>
+        \dn <span class="cmt">-- Saare schemas list karo</span>
+        \df <span class="cmt">-- Saare functions list karo</span>
+        \timing <span class="cmt">-- Query execution time on/off</span>
+        \e <span class="cmt">-- External editor open karo</span>
+        \i file.sql <span class="cmt">-- SQL file execute karo</span>
+        \o file.txt <span class="cmt">-- Output file mein save karo</span>
+        \q <span class="cmt">-- psql se quit karo</span>
+        \? <span class="cmt">-- Help for meta commands</span>
+        \h SELECT <span class="cmt">-- SQL command ka help</span>
+
+        <span class="cmt">-- USEFUL SHORTCUTS</span>
+        \x <span class="cmt">-- Expanded display (wide tables ke liye)</span>
+        \a <span class="cmt">-- Output format toggle</span>
+        \pset border 2 <span class="cmt">-- Table borders set karo</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-code" />
+          </svg></span>
+        <h2>5.3 Practical Session &#8212; Step by Step</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- Step 1: psql open karo</span>
+        psql -U postgres
+
+        <span class="cmt">-- Step 2: Database banao</span>
+        <span class="kw">CREATE DATABASE</span> ecommerce_db;
+
+        <span class="cmt">-- Step 3: Connect karo</span>
+        \c ecommerce_db
+
+        <span class="cmt">-- Step 4: Confirm karo ki connected ho</span>
+        <span class="kw">SELECT</span> <span class="fn">current_database</span>();
+        <span class="cmt">-- Output: ecommerce_db</span>
+
+        <span class="cmt">-- Step 5: PostgreSQL version check karo</span>
+        <span class="kw">SELECT</span> <span class="fn">version</span>();
+
+        <span class="cmt">-- Step 6: Current time check karo</span>
+        <span class="kw">SELECT</span> <span class="fn">NOW</span>();
+
+        <span class="cmt">-- Step 7: Simple calculation</span>
+        <span class="kw">SELECT</span> <span class="num">10</span> + <span class="num">20</span> <span
+          class="kw">AS</span> result;
+        <span class="cmt">-- Output: 30</span>
+      </div>
+    </section>
+
+    <section class="block" style="margin-bottom:0;">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-warn" />
+          </svg></span>
+        <h2>5.4 Common Mistakes</h2>
+      </div>
+      <ul class="cross-list">
+        <li><svg class="icon">
+            <use href="#i-cross" />
+          </svg><strong>Semicolon (;) bhool gaye</strong> &#8594; Query execute nahi hogi, prompt mein
+          <code>-&gt;</code> dikhega</li>
+        <li><svg class="icon">
+            <use href="#i-cross" />
+          </svg><strong>\q ke baad Enter nahi kiya</strong> &#8594; Quit nahi hoga</li>
+        <li><svg class="icon">
+            <use href="#i-cross" />
+          </svg><strong>Case sensitivity</strong> &#8594; Table names lowercase mein rakho by default</li>
+        <li><svg class="icon">
+            <use href="#i-cross" />
+          </svg><strong>Wrong database mein ho</strong> &#8594; <code>\c</code> se pehle <code>\l</code> se check karo
+        </li>
+      </ul>
+      <div class="warn-box"><svg class="icon">
+          <use href="#i-warn" />
+        </svg>
+        <p><strong>Yaad Rakho:</strong> psql mein semicolon (;) compulsory hai query end karne ke liye. Bina semicolon
+          ke Enter dabane par psql multi-line input wait karta hai &#8212; aur beginners confuse ho jaate hain!</p>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- MODULE 6 -->
+  <div id="mod6" class="page m5">
+    <div class="page-num">6</div>
+    <span class="topic-badge"><svg class="icon">
+        <use href="#i-book" />
+      </svg> MODULE 06</span>
+    <h1 class="main-title"><svg class="icon">
+        <use href="#i-layers" />
+      </svg>Data Types</h1>
+    <div class="title-underline"></div>
+    <p class="lede">Data types define karte hain ki column mein kaunsa type ka data store hoga. Sahi type choose karna
+      storage, validation aur performance ke liye zaroori hai.</p>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-bulb" />
+          </svg></span>
+        <h2>6.1 Kyun Important Hai?</h2>
+      </div>
+      <ul class="check-list">
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Storage optimize hoti hai &#8212; sahi type se kam space lagta hai</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Data validation automatic hoti hai &#8212; galat data nahi ghus sakta</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Performance better hoti hai &#8212; queries fast run karti hain</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-layers" />
+          </svg></span>
+        <h2>6.2 Numeric Types</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- INTEGER types</span>
+        <span class="kw">SMALLINT</span> <span class="cmt">-- -32,768 to 32,767 (2 bytes)</span>
+        <span class="kw">INTEGER</span> / <span class="kw">INT</span> <span class="cmt">-- -2.1B to 2.1B (4 bytes) &lt;-
+          Most common</span>
+        <span class="kw">BIGINT</span> <span class="cmt">-- Very large numbers (8 bytes)</span>
+
+        <span class="cmt">-- SERIAL (Auto-increment)</span>
+        <span class="kw">SERIAL</span> <span class="cmt">-- Auto-incrementing INT (4 bytes) &lt;- Primary keys ke
+          liye</span>
+        <span class="kw">BIGSERIAL</span> <span class="cmt">-- Auto-incrementing BIGINT (8 bytes)</span>
+
+        <span class="cmt">-- DECIMAL types</span>
+        <span class="kw">DECIMAL</span>(p,s) <span class="cmt">-- Exact decimal (p=precision, s=scale)</span>
+        <span class="kw">NUMERIC</span>(p,s) <span class="cmt">-- Same as DECIMAL</span>
+        <span class="kw">REAL</span> <span class="cmt">-- 6 decimal digits (4 bytes)</span>
+        <span class="kw">DOUBLE PRECISION</span> <span class="cmt">-- 15 decimal digits (8 bytes)</span>
+
+        <span class="cmt">-- Examples:</span>
+        price <span class="kw">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>) <span
+          class="cmt">-- 99999999.99 tak store kar sakta hai</span>
+        rating <span class="kw">REAL</span> <span class="cmt">-- 4.5, 3.7 etc.</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-edit" />
+          </svg></span>
+        <h2>6.3 Text Types</h2>
+      </div>
+      <div class="code-box"><span class="kw">CHAR</span>(n) <span class="cmt">-- Fixed length string (n
+          characters)</span>
+        <span class="kw">VARCHAR</span>(n) <span class="cmt">-- Variable length, max n characters</span>
+        <span class="kw">TEXT</span> <span class="cmt">-- Unlimited length string &lt;- Most flexible</span>
+
+        <span class="cmt">-- Examples:</span>
+        phone <span class="kw">CHAR</span>(<span class="num">10</span>) <span class="cmt">-- Exactly 10
+          characters</span>
+        name <span class="kw">VARCHAR</span>(<span class="num">100</span>) <span class="cmt">-- Max 100
+          characters</span>
+        description <span class="kw">TEXT</span> <span class="cmt">-- Koi bhi length</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-clipboard" />
+          </svg></span>
+        <h2>6.4 Date/Time, Boolean &amp; Special Types</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- DATE/TIME TYPES</span>
+        <span class="kw">DATE</span> <span class="cmt">-- Only date: '2024-01-15'</span>
+        <span class="kw">TIME</span> <span class="cmt">-- Only time: '14:30:00'</span>
+        <span class="kw">TIMESTAMP</span> <span class="cmt">-- Date + Time: '2024-01-15 14:30:00'</span>
+        <span class="kw">TIMESTAMPTZ</span> <span class="cmt">-- Timestamp with timezone &lt;- Production mein use
+          karo</span>
+        <span class="kw">INTERVAL</span> <span class="cmt">-- Time interval: '2 hours', '3 days'</span>
+
+        <span class="cmt">-- BOOLEAN</span>
+        <span class="kw">BOOLEAN</span> <span class="cmt">-- TRUE / FALSE / NULL</span>
+        is_active <span class="kw">BOOLEAN</span> <span class="kw">DEFAULT</span> <span class="kw">TRUE</span>
+
+        <span class="cmt">-- SPECIAL TYPES</span>
+        <span class="kw">UUID</span> <span class="cmt">-- Universally Unique ID</span>
+        <span class="kw">JSON</span> <span class="cmt">-- JSON data (text ke roop mein store)</span>
+        <span class="kw">JSONB</span> <span class="cmt">-- Binary JSON (faster, indexable) &lt;- Prefer karo</span>
+        <span class="kw">ARRAY</span> <span class="cmt">-- Array of any type</span>
+
+        <span class="cmt">-- Examples:</span>
+        user_id <span class="kw">UUID</span> <span class="kw">DEFAULT</span> <span class="fn">gen_random_uuid</span>()
+        metadata <span class="kw">JSONB</span>
+        tags <span class="kw">TEXT</span>[] <span class="cmt">-- Array: ['electronics', 'mobile']</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-table" />
+          </svg></span>
+        <h2>6.5 Real-World Example &#8212; E-commerce Table Design</h2>
+      </div>
+      <div class="code-box"><span class="kw">CREATE TABLE</span> products (
+        <span class="cmt">-- Identity</span>
+        product_id <span class="kw">SERIAL PRIMARY KEY</span>,
+        sku <span class="kw">VARCHAR</span>(<span class="num">50</span>) <span class="kw">UNIQUE</span>,
+
+        <span class="cmt">-- Basic Info</span>
+        name <span class="kw">VARCHAR</span>(<span class="num">255</span>) <span class="kw">NOT NULL</span>,
+        description <span class="kw">TEXT</span>,
+
+        <span class="cmt">-- Pricing</span>
+        price <span class="kw">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>) <span
+          class="kw">NOT NULL</span>, <span class="cmt">-- e.g., 1999.99</span>
+        discount_pct <span class="kw">REAL</span> <span class="kw">DEFAULT</span> <span class="num">0</span>, <span
+          class="cmt">-- e.g., 10.5 (%)</span>
+
+        <span class="cmt">-- Inventory</span>
+        stock_qty <span class="kw">INTEGER</span> <span class="kw">DEFAULT</span> <span class="num">0</span>,
+
+        <span class="cmt">-- Flags</span>
+        is_active <span class="kw">BOOLEAN</span> <span class="kw">DEFAULT</span> <span class="kw">TRUE</span>,
+        is_featured <span class="kw">BOOLEAN</span> <span class="kw">DEFAULT</span> <span class="kw">FALSE</span>,
+
+        <span class="cmt">-- Metadata</span>
+        tags <span class="kw">TEXT</span>[], <span class="cmt">-- ['electronics', 'mobile']</span>
+        attributes <span class="kw">JSONB</span>, <span class="cmt">-- {"color": "red", "size": "XL"}</span>
+
+        <span class="cmt">-- Timestamps</span>
+        created_at <span class="kw">TIMESTAMPTZ</span> <span class="kw">DEFAULT NOW</span>(),
+        updated_at <span class="kw">TIMESTAMPTZ</span> <span class="kw">DEFAULT NOW</span>()
+        );
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-warn" />
+          </svg></span>
+        <h2>6.6 Common Mistakes</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- WRONG: Price ke liye FLOAT use karna</span>
+        price <span class="kw">FLOAT</span> <span class="cmt">-- Floating point errors! 19.99 -> 19.989999999</span>
+
+        <span class="cmt">-- CORRECT: DECIMAL use karo</span>
+        price <span class="kw">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>) <span
+          class="cmt">-- Exact value: 19.99</span>
+
+        <span class="cmt">-- WRONG: Sab kuch VARCHAR mein store karna</span>
+        age <span class="kw">VARCHAR</span>(<span class="num">10</span>) <span class="cmt">-- '25abc' bhi store ho
+          jayega!</span>
+
+        <span class="cmt">-- CORRECT: Appropriate type use karo</span>
+        age <span class="kw">INTEGER</span> <span class="cmt">-- Only numbers allowed</span>
+
+        <span class="cmt">-- WRONG: TIMESTAMP without timezone</span>
+        created_at <span class="kw">TIMESTAMP</span> <span class="cmt">-- Timezone issues in production!</span>
+
+        <span class="cmt">-- CORRECT:</span>
+        created_at <span class="kw">TIMESTAMPTZ</span> <span class="kw">DEFAULT NOW</span>()
+      </div>
+    </section>
+
+    <section class="block" style="margin-bottom:0;">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-shield" />
+          </svg></span>
+        <h2>6.7 Best Practices</h2>
+      </div>
+      <ul class="check-list">
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Primary keys ke liye <strong>SERIAL</strong> ya <strong>UUID</strong> use karo</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Money ke liye hamesha <strong>DECIMAL</strong> use karo, kabhi FLOAT nahi</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Timestamps ke liye <strong>TIMESTAMPTZ</strong> use karo (timezone-aware)</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Long text ke liye <strong>TEXT</strong> use karo, VARCHAR sirf jab limit chahiye</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Flags ke liye <strong>BOOLEAN</strong> use karo (0/1 nahi)</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Flexible data ke liye <strong>JSONB</strong> use karo (JSON se faster)</li>
+      </ul>
+    </section>
+  </div>
+
+
+  <!-- MODULE 7 -->
+  <div id="mod7" class="page m0">
+    <div class="page-num">7</div>
+    <span class="topic-badge"><svg class="icon">
+        <use href="#i-book" />
+      </svg> MODULE 07</span>
+    <h1 class="main-title"><svg class="icon">
+        <use href="#i-table" />
+      </svg>CRUD Operations</h1>
+    <div class="title-underline"></div>
+    <p class="lede">CRUD = Create, Read, Update, Delete &#8212; yeh 4 basic operations hain jo har database application
+      mein use hote hain.</p>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-bulb" />
+          </svg></span>
+        <h2>7.1 CRUD Kya Hai?</h2>
+      </div>
+      <div class="flow">
+        <div class="frow">
+          <div class="fbox"><span class="lbl">CREATE</span><span class="sub">INSERT &#8212; data add karo</span></div>
+          <div class="fbox"><span class="lbl">READ</span><span class="sub">SELECT &#8212; data padhho</span></div>
+        </div>
+        <div class="frow">
+          <div class="fbox"><span class="lbl">UPDATE</span><span class="sub">UPDATE &#8212; data modify karo</span>
+          </div>
+          <div class="fbox"><span class="lbl">DELETE</span><span class="sub">DELETE &#8212; data hatao</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-settings" />
+          </svg></span>
+        <h2>7.2 Practice Database Setup</h2>
+      </div>
+      <div class="code-box"><span class="kw">CREATE DATABASE</span> company_db;
+        \c company_db
+
+        <span class="kw">CREATE TABLE</span> employees (
+        emp_id <span class="kw">SERIAL PRIMARY KEY</span>,
+        first_name <span class="kw">VARCHAR</span>(<span class="num">50</span>) <span class="kw">NOT NULL</span>,
+        last_name <span class="kw">VARCHAR</span>(<span class="num">50</span>) <span class="kw">NOT NULL</span>,
+        email <span class="kw">VARCHAR</span>(<span class="num">100</span>) <span class="kw">UNIQUE NOT NULL</span>,
+        department <span class="kw">VARCHAR</span>(<span class="num">50</span>),
+        salary <span class="kw">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>),
+        hire_date <span class="kw">DATE</span> <span class="kw">DEFAULT CURRENT_DATE</span>,
+        is_active <span class="kw">BOOLEAN</span> <span class="kw">DEFAULT</span> <span class="kw">TRUE</span>
+        );
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-plus" />
+          </svg></span>
+        <h2>7.3 CREATE &#8212; INSERT</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- SINGLE ROW INSERT</span>
+        <span class="kw">INSERT INTO</span> employees (first_name, last_name, email, department, salary)
+        <span class="kw">VALUES</span> (<span class="str">'Rahul'</span>, <span class="str">'Sharma'</span>, <span
+          class="str">'rahul@company.com'</span>, <span class="str">'Engineering'</span>, <span
+          class="num">75000.00</span>);
+
+        <span class="cmt">-- MULTIPLE ROWS INSERT (Efficient!)</span>
+        <span class="kw">INSERT INTO</span> employees (first_name, last_name, email, department, salary)
+        <span class="kw">VALUES</span>
+        (<span class="str">'Priya'</span>, <span class="str">'Patel'</span>, <span
+          class="str">'priya@company.com'</span>, <span class="str">'Marketing'</span>, <span
+          class="num">65000.00</span>),
+        (<span class="str">'Amit'</span>, <span class="str">'Kumar'</span>, <span class="str">'amit@company.com'</span>,
+        <span class="str">'Engineering'</span>, <span class="num">80000.00</span>),
+        (<span class="str">'Neha'</span>, <span class="str">'Singh'</span>, <span class="str">'neha@company.com'</span>,
+        <span class="str">'HR'</span>, <span class="num">55000.00</span>),
+        (<span class="str">'Ravi'</span>, <span class="str">'Gupta'</span>, <span class="str">'ravi@company.com'</span>,
+        <span class="str">'Engineering'</span>, <span class="num">90000.00</span>),
+        (<span class="str">'Sita'</span>, <span class="str">'Verma'</span>, <span class="str">'sita@company.com'</span>,
+        <span class="str">'Marketing'</span>, <span class="num">60000.00</span>),
+        (<span class="str">'Arjun'</span>, <span class="str">'Mehta'</span>, <span
+          class="str">'arjun@company.com'</span>, <span class="str">'Finance'</span>, <span
+          class="num">70000.00</span>),
+        (<span class="str">'Kavya'</span>, <span class="str">'Reddy'</span>, <span
+          class="str">'kavya@company.com'</span>, <span class="str">'Engineering'</span>, <span
+          class="num">85000.00</span>),
+        (<span class="str">'Rohit'</span>, <span class="str">'Joshi'</span>, <span
+          class="str">'rohit@company.com'</span>, <span class="str">'HR'</span>, <span class="num">52000.00</span>);
+
+        <span class="cmt">-- INSERT WITH RETURNING (inserted data wapas lo)</span>
+        <span class="kw">INSERT INTO</span> employees (first_name, last_name, email, department, salary)
+        <span class="kw">VALUES</span> (<span class="str">'Deepa'</span>, <span class="str">'Nair'</span>, <span
+          class="str">'deepa@company.com'</span>, <span class="str">'Finance'</span>, <span class="num">68000.00</span>)
+        <span class="kw">RETURNING</span> emp_id, first_name, email;
+        <span class="cmt">-- Output: emp_id=10, first_name='Deepa', email='deepa@company.com'</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-eye" />
+          </svg></span>
+        <h2>7.4 READ &#8212; SELECT</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- BASIC SELECT</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees;
+        <span class="kw">SELECT</span> first_name, last_name, salary <span class="kw">FROM</span> employees;
+
+        <span class="cmt">-- Column alias</span>
+        <span class="kw">SELECT</span>
+        first_name <span class="kw">AS</span> <span class="str">"First Name"</span>,
+        last_name <span class="kw">AS</span> <span class="str">"Last Name"</span>,
+        salary <span class="kw">AS</span> <span class="str">"Monthly Salary"</span>
+        <span class="kw">FROM</span> employees;
+
+        <span class="cmt">-- WHERE CLAUSE (filtering)</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">WHERE</span> department
+        = <span class="str">'Engineering'</span>;
+        <span class="kw">SELECT</span> first_name, salary <span class="kw">FROM</span> employees <span
+          class="kw">WHERE</span> salary &gt; <span class="num">70000</span>;
+
+        <span class="cmt">-- AND condition</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees
+        <span class="kw">WHERE</span> department = <span class="str">'Engineering'</span> <span class="kw">AND</span>
+        salary &gt; <span class="num">75000</span>;
+
+        <span class="cmt">-- OR condition</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees
+        <span class="kw">WHERE</span> department = <span class="str">'HR'</span> <span class="kw">OR</span> department =
+        <span class="str">'Finance'</span>;
+
+        <span class="cmt">-- ORDER BY</span>
+        <span class="kw">SELECT</span> first_name, salary <span class="kw">FROM</span> employees
+        <span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>;
+
+        <span class="cmt">-- Multiple column sort</span>
+        <span class="kw">SELECT</span> first_name, department, salary <span class="kw">FROM</span> employees
+        <span class="kw">ORDER BY</span> department <span class="kw">ASC</span>, salary <span class="kw">DESC</span>;
+
+        <span class="cmt">-- LIMIT &amp; OFFSET (pagination)</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">LIMIT</span> <span
+          class="num">3</span>;
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">ORDER BY</span> emp_id
+        <span class="kw">LIMIT</span> <span class="num">3</span> <span class="kw">OFFSET</span> <span
+          class="num">3</span>;
+
+        <span class="cmt">-- DISTINCT</span>
+        <span class="kw">SELECT DISTINCT</span> department <span class="kw">FROM</span> employees;
+
+        <span class="cmt">-- LIKE (pattern matching)</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">WHERE</span> first_name
+        <span class="kw">LIKE</span> <span class="str">'R%'</span>;
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">WHERE</span> email
+        <span class="kw">LIKE</span> <span class="str">'%company%'</span>;
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">WHERE</span> first_name
+        <span class="kw">LIKE</span> <span class="str">'____'</span>;
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">WHERE</span> first_name
+        <span class="kw">ILIKE</span> <span class="str">'rahul'</span>; <span class="cmt">-- case-insensitive</span>
+
+        <span class="cmt">-- IN / NOT IN</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">WHERE</span> department
+        <span class="kw">IN</span> (<span class="str">'Engineering'</span>, <span class="str">'Finance'</span>);
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">WHERE</span> department
+        <span class="kw">NOT IN</span> (<span class="str">'HR'</span>);
+
+        <span class="cmt">-- BETWEEN</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees
+        <span class="kw">WHERE</span> salary <span class="kw">BETWEEN</span> <span class="num">60000</span> <span
+          class="kw">AND</span> <span class="num">80000</span>;
+
+        <span class="cmt">-- IS NULL / IS NOT NULL</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">WHERE</span> department
+        <span class="kw">IS NULL</span>;
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">WHERE</span> department
+        <span class="kw">IS NOT NULL</span>;
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-edit" />
+          </svg></span>
+        <h2>7.5 UPDATE</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- Rahul ki salary badhao</span>
+        <span class="kw">UPDATE</span> employees
+        <span class="kw">SET</span> salary = <span class="num">80000.00</span>
+        <span class="kw">WHERE</span> email = <span class="str">'rahul@company.com'</span>;
+
+        <span class="cmt">-- Multiple columns update</span>
+        <span class="kw">UPDATE</span> employees
+        <span class="kw">SET</span>
+        salary = <span class="num">95000.00</span>,
+        department = <span class="str">'Senior Engineering'</span>
+        <span class="kw">WHERE</span> emp_id = <span class="num">4</span>;
+
+        <span class="cmt">-- Calculated update: Engineering ko 10% raise</span>
+        <span class="kw">UPDATE</span> employees
+        <span class="kw">SET</span> salary = salary * <span class="num">1.10</span>
+        <span class="kw">WHERE</span> department = <span class="str">'Engineering'</span>;
+
+        <span class="cmt">-- UPDATE WITH RETURNING</span>
+        <span class="kw">UPDATE</span> employees
+        <span class="kw">SET</span> salary = salary * <span class="num">1.05</span>
+        <span class="kw">WHERE</span> department = <span class="str">'HR'</span>
+        <span class="kw">RETURNING</span> emp_id, first_name, salary <span class="kw">AS</span> new_salary;
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-trash" />
+          </svg></span>
+        <h2>7.6 DELETE</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- Specific row delete</span>
+        <span class="kw">DELETE FROM</span> employees <span class="kw">WHERE</span> emp_id = <span class="num">8</span>;
+
+        <span class="cmt">-- Inactive employees delete</span>
+        <span class="kw">DELETE FROM</span> employees <span class="kw">WHERE</span> is_active = <span
+          class="kw">FALSE</span>;
+
+        <span class="cmt">-- DELETE WITH RETURNING</span>
+        <span class="kw">DELETE FROM</span> employees
+        <span class="kw">WHERE</span> department = <span class="str">'HR'</span> <span class="kw">AND</span> salary &lt;
+        <span class="num">53000</span>
+        <span class="kw">RETURNING</span> *;
+
+        <span class="cmt">-- SAARI ROWS DELETE (CAREFUL!)</span>
+        <span class="kw">DELETE FROM</span> employees; <span class="cmt">-- Saari rows delete, table rahegi</span>
+        <span class="kw">TRUNCATE TABLE</span> employees; <span class="cmt">-- Faster, saari rows delete, auto-increment
+          reset</span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-eye" />
+          </svg></span>
+        <h2>7.7 Expected Output</h2>
+      </div>
+      <div class="output-box"> emp_id | first_name | department | salary
+        --------+------------+-------------+----------
+        5 | Ravi | Engineering | 99000.00 &lt;- 10% raise ke baad
+        7 | Kavya | Engineering | 93500.00 &lt;- 10% raise ke baad
+        3 | Amit | Engineering | 88000.00 &lt;- 10% raise ke baad
+        1 | Rahul | Engineering | 80000.00 &lt;- Updated manually
+        6 | Arjun | Finance | 70000.00
+        10 | Deepa | Finance | 68000.00
+        2 | Priya | Marketing | 65000.00
+        6 | Sita | Marketing | 60000.00
+        4 | Neha | HR | 57750.00 &lt;- 5% raise ke baad</div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-warn" />
+          </svg></span>
+        <h2>7.8 Common Mistakes</h2>
+      </div>
+      <div class="code-box"><span class="cmt">-- DANGEROUS: WHERE clause bhool gaye UPDATE mein</span>
+        <span class="kw">UPDATE</span> employees <span class="kw">SET</span> salary = <span class="num">0</span>; <span
+          class="cmt">-- Saare employees ki salary 0 ho gayi!</span>
+
+        <span class="cmt">-- SAFE: Hamesha WHERE use karo</span>
+        <span class="kw">UPDATE</span> employees <span class="kw">SET</span> salary = <span class="num">0</span> <span
+          class="kw">WHERE</span> emp_id = <span class="num">999</span>;
+
+        <span class="cmt">-- DANGEROUS: WHERE clause bhool gaye DELETE mein</span>
+        <span class="kw">DELETE FROM</span> employees; <span class="cmt">-- Saara data chala gaya!</span>
+
+        <span class="cmt">-- SAFE:</span>
+        <span class="kw">DELETE FROM</span> employees <span class="kw">WHERE</span> emp_id = <span
+          class="num">999</span>;
+
+        <span class="cmt">-- PRO TIP: Pehle SELECT karo, phir UPDATE/DELETE</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> employees <span class="kw">WHERE</span> department
+        = <span class="str">'HR'</span>;
+        <span class="cmt">-- Sahi lag raha hai? Phir delete karo:</span>
+        <span class="kw">DELETE FROM</span> employees <span class="kw">WHERE</span> department = <span
+          class="str">'HR'</span>;
+      </div>
+      <div class="warn-box"><svg class="icon">
+          <use href="#i-warn" />
+        </svg>
+        <p><strong>DELETE vs TRUNCATE:</strong> DELETE row-by-row karta hai aur WHERE clause support karta hai. TRUNCATE
+          saari rows ek saath delete karta hai, bahut fast hota hai, aur auto-increment reset karta hai!</p>
+      </div>
+    </section>
+
+    <section class="block" style="margin-bottom:0;">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-shield" />
+          </svg></span>
+        <h2>7.9 Best Practices</h2>
+      </div>
+      <ul class="check-list">
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>UPDATE/DELETE se pehle hamesha <strong>SELECT karo</strong></li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg><strong>RETURNING clause</strong> use karo confirmation ke liye</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg><strong>Transactions</strong> use karo important operations mein</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Table clear karne ke liye <strong>TRUNCATE</strong> use karo &#8212; DELETE se faster</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg><strong>Soft delete prefer karo</strong> &#8212; <code>is_active = FALSE</code> &#8212; data recover ho
+          sake</li>
+      </ul>
+    </section>
+  </div>
+
+
+  <!-- PRACTICE QUESTIONS -->
+  <div class="page m2">
+    <div class="page-num">8</div>
+    <span class="topic-badge"><svg class="icon">
+        <use href="#i-clipboard" />
+      </svg> PRACTICE</span>
+    <h1 class="main-title"><svg class="icon">
+        <use href="#i-list" />
+      </svg>Practice Questions</h1>
+    <div class="title-underline"></div>
+    <p class="lede">CRUD operations ko solid banane ke liye yeh questions solve karo &#8212; easy se hard tak.</p>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-check-circle" />
+          </svg></span>
+        <h2>Easy Level</h2>
+      </div>
+      <ul class="check-list">
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Saare employees ka naam aur department select karo</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Sirf 'Finance' department ke employees dikhao</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Salary ke hisaab se ascending order mein sort karo</li>
+      </ul>
+      <div class="sec-head" style="margin-top:16px;"><span class="sec-circle"><svg class="icon">
+            <use href="#i-zap" />
+          </svg></span>
+        <h2>Medium Level</h2>
+      </div>
+      <ul class="check-list">
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>60000 se 80000 ke beech salary wale employees dikhao</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Email mein 'company.com' wale employees find karo</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Top 3 highest paid employees dikhao</li>
+      </ul>
+      <div class="sec-head" style="margin-top:16px;"><span class="sec-circle"><svg class="icon">
+            <use href="#i-award" />
+          </svg></span>
+        <h2>Hard Level</h2>
+      </div>
+      <ul class="check-list">
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Marketing department ke saare employees ki salary 15% badhao</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Pehle 5 employees ko page 1, agle 5 ko page 2 mein dikhao</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Unique departments ki list nikalo with employee count</li>
+      </ul>
+    </section>
+
+    <section class="block" style="margin-bottom:0;">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-star" />
+          </svg></span>
+        <h2>Interview Questions</h2>
+      </div>
+      <div class="callout"><strong>Q1: DELETE aur TRUNCATE mein kya difference hai?</strong></div>
+      <div class="table-wrap" style="margin-top:8px;">
+        <table>
+          <thead>
+            <tr>
+              <th>DELETE</th>
+              <th>TRUNCATE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Row by row delete karta hai</td>
+              <td>Saari rows ek saath delete</td>
+            </tr>
+            <tr>
+              <td>WHERE clause support karta hai</td>
+              <td>WHERE clause nahi hota</td>
+            </tr>
+            <tr>
+              <td>ROLLBACK possible hai</td>
+              <td>PostgreSQL mein ROLLBACK possible</td>
+            </tr>
+            <tr>
+              <td>Triggers fire hote hain</td>
+              <td>Triggers fire nahi hote</td>
+            </tr>
+            <tr>
+              <td>Slower for large data</td>
+              <td>Much faster</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:14px;"><strong>Q2: SELECT * use karna kab avoid karna chahiye?</strong>
+      </div>
+      <ul class="cross-list" style="margin-top:8px;">
+        <li><svg class="icon">
+            <use href="#i-cross" />
+          </svg>Unnecessary data transfer hoti hai &#8212; network slow</li>
+        <li><svg class="icon">
+            <use href="#i-cross" />
+          </svg>Schema change hone par code break ho sakta hai</li>
+        <li><svg class="icon">
+            <use href="#i-cross" />
+          </svg>Index coverage nahi milti &#8212; query slow</li>
+      </ul>
+      <div class="callout" style="margin-top:14px;"><strong>Q3: RETURNING clause kab use karte hain?</strong></div>
+      <p style="margin-top:8px;">Jab INSERT/UPDATE/DELETE ke baad turant affected rows ka data chahiye ho &#8212; extra
+        SELECT query ki zaroorat nahi padti. APIs mein naya ID return karne ke liye useful.</p>
+      <div class="tip-box"><svg class="icon">
+          <use href="#i-pin" />
+        </svg>
+        <p><strong>Pro Tip:</strong> RETURNING clause PostgreSQL-specific feature hai &#8212; MySQL mein
+          LAST_INSERT_ID() aur SQL Server mein OUTPUT clause use karte hain.</p>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ASSIGNMENT -->
+  <div class="page m3">
+    <div class="page-num">9</div>
+    <span class="topic-badge"><svg class="icon">
+        <use href="#i-award" />
+      </svg> ASSIGNMENT</span>
+    <h1 class="main-title"><svg class="icon">
+        <use href="#i-award" />
+      </svg>Module 7 Assignment</h1>
+    <div class="title-underline"></div>
+    <p class="lede">Library Management System banao &#8212; ek complete mini-project jisme tumhe sab concepts apply
+      karne hain.</p>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-list" />
+          </svg></span>
+        <h2>Task &#8212; Library Management System</h2>
+      </div>
+      <p><strong>Step 1:</strong> <code>library_db</code> naam ka database banao</p>
+      <p><strong>Step 2:</strong> <code>books</code> table banao:</p>
+      <div class="code-box"><span class="kw">CREATE TABLE</span> books (
+        book_id <span class="kw">SERIAL PRIMARY KEY</span>,
+        title <span class="kw">VARCHAR</span>(<span class="num">255</span>) <span class="kw">NOT NULL</span>,
+        author <span class="kw">VARCHAR</span>(<span class="num">150</span>) <span class="kw">NOT NULL</span>,
+        genre <span class="kw">VARCHAR</span>(<span class="num">50</span>), <span class="cmt">--
+          Fiction/Non-Fiction/Science/History</span>
+        price <span class="kw">DECIMAL</span>(<span class="num">8</span>,<span class="num">2</span>),
+        published_year <span class="kw">INTEGER</span>,
+        is_available <span class="kw">BOOLEAN</span> <span class="kw">DEFAULT</span> <span class="kw">TRUE</span>,
+        created_at <span class="kw">TIMESTAMPTZ</span> <span class="kw">DEFAULT NOW</span>()
+        );</div>
+      <p><strong>Step 3:</strong> 10 books insert karo (different genres mein)</p>
+      <p><strong>Step 4:</strong> Yeh queries likho:</p>
+      <ul class="check-list">
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Saari available books dikhao (<code>is_available = TRUE</code>)</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>2020 ke baad published books dikhao</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Price ke hisaab se sort karo</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>'Fiction' genre ki books dikhao</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Ek book ki price update karo</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Ek book ko unavailable mark karo (soft delete)</li>
+        <li><svg class="icon">
+            <use href="#i-check" />
+          </svg>Sirf author aur title wali unique list nikalo</li>
+      </ul>
+      <p><strong>Bonus:</strong> Pagination implement karo (5 books per page)</p>
+      <div class="code-box"><span class="cmt">-- Page 1 (pehle 5 books)</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> books <span class="kw">ORDER BY</span> book_id
+        <span class="kw">LIMIT</span> <span class="num">5</span> <span class="kw">OFFSET</span> <span
+          class="num">0</span>;
+
+        <span class="cmt">-- Page 2 (agle 5 books)</span>
+        <span class="kw">SELECT</span> * <span class="kw">FROM</span> books <span class="kw">ORDER BY</span> book_id
+        <span class="kw">LIMIT</span> <span class="num">5</span> <span class="kw">OFFSET</span> <span
+          class="num">5</span>;
+      </div>
+      <div class="fact-box"><svg class="icon">
+          <use href="#i-star" />
+        </svg>
+        <p><strong>&#127881; Shabaash!</strong> Assignment complete karo &#8212; Library Management System banao. Jab ho
+          jaye ya koi doubt ho, batao. Phir hum Module 8: Constraints start karenge &#8212; database ko bulletproof
+          banana sikhenge! &#128170;</p>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ROADMAP -->
+  <div class="page m5">
+    <div class="page-num">10</div>
+    <span class="topic-badge"><svg class="icon">
+        <use href="#i-map" />
+      </svg> ROADMAP</span>
+    <h1 class="main-title"><svg class="icon">
+        <use href="#i-map" />
+      </svg>Course Roadmap &#8212; Aage Kya Aayega</h1>
+    <div class="title-underline"></div>
+    <p class="lede">Tumne 7 modules complete kar liye! Ab aage kya sikhna hai &#8212; yeh hai complete course plan.</p>
+
+    <section class="block">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-check-circle" />
+          </svg></span>
+        <h2>Completed &#10003;</h2>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot done"></div><span class="roadmap-text done">&#10003; Module 1: Introduction to
+          Databases</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot done"></div><span class="roadmap-text done">&#10003; Module 2: What is
+          PostgreSQL?</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot done"></div><span class="roadmap-text done">&#10003; Module 3: Installation &amp;
+          Setup</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot done"></div><span class="roadmap-text done">&#10003; Module 4: PostgreSQL
+          Architecture</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot done"></div><span class="roadmap-text done">&#10003; Module 5: psql Commands</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot done"></div><span class="roadmap-text done">&#10003; Module 6: Data Types</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot done"></div><span class="roadmap-text done">&#10003; Module 7: CRUD Operations</span>
+      </div>
+    </section>
+
+    <section class="block" style="margin-bottom:0;">
+      <div class="sec-head"><span class="sec-circle"><svg class="icon">
+            <use href="#i-arrow-right" />
+          </svg></span>
+        <h2>Coming Next &#128256;</h2>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot soon"></div><span class="roadmap-text soon">&#128256; Module 8: Constraints (NOT NULL,
+          UNIQUE, CHECK, DEFAULT)</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot soon"></div><span class="roadmap-text soon">&#128256; Module 9: Keys (Primary, Foreign,
+          Composite)</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot soon"></div><span class="roadmap-text soon">&#128256; Module 10: Table Relationships
+          (One-to-One, One-to-Many, Many-to-Many)</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot soon"></div><span class="roadmap-text soon">&#128256; Module 11: Joins (INNER, LEFT,
+          RIGHT, FULL, CROSS, SELF)</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot soon"></div><span class="roadmap-text soon">&#128256; Module 12: Functions &amp; String
+          Operations</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot soon"></div><span class="roadmap-text soon">&#128256; Module 13: Aggregations (COUNT,
+          SUM, AVG, GROUP BY, HAVING)</span>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-dot soon"></div><span class="roadmap-text soon">&#128256; ... aur bahut kuch!</span>
+      </div>
+      <div style="height:16px;"></div>
+      <div class="fact-box"><svg class="icon">
+          <use href="#i-star" />
+        </svg>
+        <p><strong>&#127881; Shabaash!</strong> Tumne PostgreSQL ke pehle 7 modules complete kar liye! Ab tum ek working
+          database bana sakte ho, data insert kar sakte ho, aur queries likh sakte ho. Assignment complete karo &#8212;
+          Library Management System banao. Jab ho jaye ya koi doubt ho, batao. &#128170;</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- DOWNLOAD PDF FAB BUTTON -->
+  <button class="dl-fab" id="dlBtn" onclick="triggerPrint()" title="PDF mein download karo">
+    <svg viewBox="0 0 24 24">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+    Download PDF
+  </button>
+  <div class="dl-toast" id="dlToast">&#128438; Print dialog khul raha hai... "Save as PDF" select karo!</div>
+
+  <script>
+    function triggerPrint() {
+      var toast = document.getElementById('dlToast');
+      toast.classList.add('show');
+      setTimeout(function () {
+        toast.classList.remove('show');
+      }, 3000);
+      setTimeout(function () {
+        window.print();
+      }, 400);
+    }
+    // Keyboard shortcut: Ctrl+Shift+P
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'P') {
+        e.preventDefault();
+        triggerPrint();
+      }
+    });
+  </script>
+
+</body>
+
+</html>
