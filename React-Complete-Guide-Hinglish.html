@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>React JS Complete Guide: Zero to Mastery — Hinglish Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper:#FFFDF7; --paper-edge:#F2EDDD; --ink:#2B2620; --sub-ink:#5A5348;
+      --outer-bg:#E9E4D6; --coral:#D6524A;
+      --m0:#0F6F6B; --m0L:#E4F2F0;
+      --m1:#22395B; --m1L:#E7ECF3;
+      --m2:#A6461E; --m2L:#FBEBDD;
+      --m3:#5B3E96; --m3L:#EEE8F8;
+      --m4:#A9740C; --m4L:#FBF0DD;
+      --m5:#2F6F4E; --m5L:#E7F3EC;
+      --react:#087EA4; --reactL:#E6F5F9;
+    }
+    *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+    body{background:var(--outer-bg);font-family:'Patrick Hand',sans-serif;color:var(--ink);padding:16px;}
+    .icon{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-0.15em;}
+    .icon.filled{fill:currentColor;stroke:none;}
+
+    .page{max-width:780px;margin:0 auto 34px;background:var(--paper);border-radius:8px;box-shadow:0 14px 15px rgba(0,0,0,.18);position:relative;padding:30px 34px 34px 34px;border-left:10px solid var(--accent);}
+    .page.m0{--accent:var(--m0);--accentL:var(--m0L);}
+    .page.m1{--accent:var(--m1);--accentL:var(--m1L);}
+    .page.m2{--accent:var(--m2);--accentL:var(--m2L);}
+    .page.m3{--accent:var(--m3);--accentL:var(--m3L);}
+    .page.m4{--accent:var(--m4);--accentL:var(--m4L);}
+    .page.m5{--accent:var(--m5);--accentL:var(--m5L);}
+    .page.react{--accent:var(--react);--accentL:var(--reactL);}
+
+    .page-num{position:absolute;top:18px;right:24px;font-family:'Kalam',cursive;font-size:18px;font-weight:700;color:var(--accent);width:30px;height:30px;border-radius:50%;border:2px solid var(--accent);background:#fff;display:flex;align-items:center;justify-content:center;}
+    .topic-badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--accent);padding:4px 12px 4px 10px;border-radius:20px;margin-bottom:10px;}
+    .main-title{display:flex;align-items:center;gap:12px;font-family:'Kalam',cursive;font-size:30px;font-weight:700;margin:0 0 4px;line-height:1.2;color:var(--ink);}
+    .main-title .icon{width:1.05em;height:1.05em;color:var(--accent);}
+    .title-underline{width:170px;height:4px;background:var(--coral);border-radius:3px;margin-bottom:8px;}
+    .lede{font-size:16.5px;line-height:1.6;color:var(--sub-ink);margin:0 0 22px;max-width:640px;}
+
+    section.block{margin-bottom:26px;}
+    .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+    .sec-circle{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;}
+    .sec-circle .icon{width:18px;height:18px;}
+    .sec-head h2{font-family:'Kalam',cursive;font-size:20px;margin:0;font-weight:700;color:var(--ink);}
+    section.block p{font-size:16.5px;line-height:1.65;margin:0 0 10px;}
+    section.block>p:last-child{margin-bottom:0;}
+
+    .check-list,.cross-list{list-style:none;margin:0 0 14px;padding:0;}
+    .check-list li,.cross-list li{font-size:16px;line-height:1.6;padding-left:28px;position:relative;margin-bottom:5px;}
+    .check-list li .icon{position:absolute;left:0;top:3px;color:var(--accent);width:16px;height:16px;}
+    .cross-list li .icon{position:absolute;left:0;top:3px;color:var(--coral);width:16px;height:16px;}
+
+    .table-wrap{overflow-x:auto;margin-bottom:14px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.10);}
+    table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:12.5px;background:#fff;}
+    thead tr{background:var(--accent);}
+    thead th{color:#fff;text-align:left;padding:9px 12px;font-family:'Patrick Hand',sans-serif;font-weight:700;font-size:14px;}
+    tbody td{padding:8px 12px;border-bottom:1px solid #EFE9D8;line-height:1.5;}
+    tbody tr:nth-child(even){background:var(--accentL);}
+
+    .code-box{background:#F7F8F3;color:#233B34;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.85;padding:13px 16px;border:1.5px dashed var(--accent);border-radius:10px;margin-bottom:14px;white-space:pre-wrap;overflow-x:auto;}
+    .code-box .cmt{color:#8A9490;font-style:italic;}
+    .code-box .kw{color:var(--coral);font-weight:700;}
+    .code-box .fn{color:#1D6E7A;font-weight:700;}
+    .code-box .str{color:#8A5A15;}
+    .code-box .num{color:#5B3E96;}
+
+    .callout{background:var(--accentL);border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;font-size:15px!important;font-style:italic;}
+    .tip-box,.warn-box,.fact-box{margin-top:16px;border-radius:12px;padding:13px 18px;display:flex;gap:11px;align-items:flex-start;}
+    .tip-box{background:var(--m4L);border:2px dashed var(--m4);}
+    .fact-box{background:var(--m0L);border:2px dashed var(--m0);}
+    .warn-box{background:#FDECEC;border:2px dashed var(--coral);}
+    .tip-box .icon,.fact-box .icon,.warn-box .icon{flex:0 0 auto;width:20px;height:20px;margin-top:2px;}
+    .tip-box .icon{color:var(--m4);}.fact-box .icon{color:var(--m0);}.warn-box .icon{color:var(--coral);}
+    .tip-box p,.fact-box p,.warn-box p{margin:0;font-size:15px;line-height:1.6;}
+    .tip-box strong,.fact-box strong,.warn-box strong{font-family:'Kalam',cursive;font-size:15.5px;}
+
+    .flow{display:flex;flex-direction:column;align-items:center;gap:2px;margin:14px 0 18px;}
+    .fbox{width:100%;max-width:520px;border:2px solid var(--accent);border-radius:10px;background:#fff;padding:9px 16px;text-align:center;font-size:14px;}
+    .fbox .lbl{font-family:'Kalam',cursive;font-weight:700;font-size:15px;display:block;}
+    .fbox .sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sub-ink);}
+    .frow{display:flex;gap:10px;width:100%;max-width:520px;justify-content:center;}
+    .frow .fbox{flex:1;}
+    .farrow{color:var(--accent);}
+    .farrow .icon{width:16px;height:16px;}
+
+    .cover{text-align:center;padding:54px 34px 44px;border-left:none;border-top:10px solid var(--react);}
+    .cover .icon-hero{width:72px;height:72px;color:var(--react);margin-bottom:10px;}
+    .cover h1{font-family:'Kalam',cursive;font-size:44px;margin:6px 0 2px;line-height:1.1;}
+    .cover .sub1{font-size:19px;color:var(--sub-ink);margin:0 0 22px;}
+    .cover .tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;background:#2B2620;color:#fff;padding:6px 16px;border-radius:20px;margin-bottom:26px;}
+    
+    .phase-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;text-align:left;margin-top:10px;}
+    a.phase-item{display:block;text-decoration:none;color:inherit;border:1.5px solid #E6DFC9;border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.4;background:#fff;transition:transform 0.15s ease, box-shadow 0.15s ease;}
+    a.phase-item:hover{transform:translateY(-2px);box-shadow:0 6px 12px rgba(0,0,0,0.08);border-color:var(--react);}
+    .phase-item b{display:block;font-family:'Kalam',cursive;font-size:16px;margin-bottom:4px;color:var(--react);}
+
+    .qa-block{background:var(--accentL);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+    .qa-block .q{font-family:'Kalam',cursive;font-size:16px;font-weight:700;color:var(--accent);margin:0 0 6px;}
+    .qa-block .a{font-size:15px;line-height:1.6;margin:0;}
+
+    @media(max-width:600px){
+      body{padding:12px 8px;}
+      .page{padding:24px 20px;border-left-width:6px;margin-bottom:20px;}
+      .main-title{font-size:24px;}
+      .code-box{font-size:11.5px;padding:12px 10px;}
+      .cover{padding:40px 20px 30px;border-top-width:6px;}
+      .cover h1{font-size:32px;}
+      .phase-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== SVG SPRITE ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-react" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/>
+    <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(30 12 12)"/>
+    <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(90 12 12)"/>
+    <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(150 12 12)"/>
+  </symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.45.9 1.15.9 1.9V16h5.4v-.3c0-.75.3-1.45.9-1.9A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="4 12 9 18 20 6"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.9 7.1.7-5.5 5.1 1.6 7-6.1-3.7-6.1 3.7 1.6-7L2 10.1l7.1-.7z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-7.3-7-12.5A7 7 0 0 1 19 8.5C19 13.7 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.6"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3.5 22 20H2L12 3.5z" stroke-linejoin="round"/><line x1="12" y1="10" x2="12" y2="14.5"/><circle cx="12" cy="17.3" r="0.9" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 5.5c3-1.2 6-1.2 9 0v14c-3-1.2-6-1.2-9 0v-14z"/><path d="M22 5.5c-3-1.2-6-1.2-9 0v14c3-1.2 6-1.2 9 0v-14z"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.5 4 5.5v6c0 5.2 3.4 8.6 8 10 4.6-1.4 8-4.8 8-10v-6L12 2.5z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2.5 2.5 7.5 12 12.5 21.5 7.5" stroke-linejoin="round"/><polyline points="2.5 12.5 12 17.5 21.5 12.5"/><polyline points="2.5 17.5 12 22.5 21.5 17.5"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.6 3.6 3 8 3s8-1.4 8-3v-13"/><path d="M4 12c0 1.6 3.6 3 8 3s8-1.4 8-3"/></symbol>
+</defs></svg>
+
+
+<!-- ====================================================
+     COVER PAGE
+     ==================================================== -->
+<div class="page cover">
+  <svg class="icon icon-hero"><use href="#i-react"/></svg>
+  <h1>React JS: Zero to Mastery</h1>
+  <p class="sub1">Phase 1 (Basics) se Phase 14 (Testing) tak — The Ultimate Mega Book</p>
+  <span class="tag">14 PHASES &middot; FULL DEPTH &middot; ADVANCED PATTERNS</span>
+  <div class="phase-grid">
+    <a href="#phase-1" class="phase-item"><b>Phase 1: Foundation</b>JSX, Components, Props, Events</a>
+    <a href="#phase-1" class="phase-item"><b>Phase 2: State &amp; Lists</b>useState, Array rendering, Keys</a>
+    <a href="#phase-3" class="phase-item"><b>Phase 3: useEffect</b>Side effects, Cleanup, Dependencies</a>
+    <a href="#phase-3" class="phase-item"><b>Phase 4: Custom Hooks</b>Reusable logic, useFetch, useDebounce</a>
+    <a href="#phase-5" class="phase-item"><b>Phase 5: Forms</b>React Hook Form, Zod, Validation</a>
+    <a href="#phase-6" class="phase-item"><b>Phase 6: State Management</b>Context API, useReducer, Mini-Redux</a>
+    <a href="#phase-7" class="phase-item"><b>Phase 7: Routing</b>React Router v6, Protected Routes</a>
+    <a href="#phase-8" class="phase-item"><b>Phase 8: React Internals</b>Virtual DOM, Fiber, Reconciliation</a>
+    <a href="#phase-8" class="phase-item"><b>Phase 9: Performance</b>memo, useMemo, useCallback, Profiler</a>
+    <a href="#phase-10" class="phase-item"><b>Phase 10: Patterns</b>Compound Components, Portals, Error Bounds</a>
+    <a href="#phase-10" class="phase-item"><b>Phase 11: Code Splitting</b>React.lazy, Suspense, Prefetching</a>
+    <a href="#phase-6" class="phase-item"><b>Phase 12: TanStack Query</b>useQuery, Mutations, Optimistic Updates</a>
+    <a href="#phase-5" class="phase-item"><b>Phase 13: Forms at Scale</b>Field Arrays, Multi-step, File Upload</a>
+    <a href="#phase-14" class="phase-item"><b>Phase 14: Testing</b>Vitest, RTL, MSW, Unit + Integration</a>
+  </div>
+</div>
+
+
+<!-- ====================================================
+     PHASE 1 & 2 — FOUNDATION & STATE
+     ==================================================== -->
+<div class="page m0" id="phase-1">
+  <div class="page-num">1</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-bulb"/></svg> PHASE 1 &amp; 2</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-react"/></svg>Foundation, State &amp; Lists</h1>
+  <div class="title-underline"></div>
+  <p class="lede">React ka core concept: UI ko chote reusable hisso (Components) mein todo, aur data (State/Props) ke change hone pe UI ko auto-update hone do.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>Components, Props &amp; State</h2></div>
+    <div class="code-box"><span class="cmt">// 1. Component hamesha Capital letter se shuru hota hai</span>
+<span class="kw">function</span> <span class="fn">UserCard</span>({ name, age, onPromote }) { <span class="cmt">// Destructuring Props</span>
+  <span class="kw">return</span> (
+    &lt;div className="card"&gt; <span class="cmt">{/* class ki jagah className */}</span>
+      &lt;h2&gt;{name}&lt;/h2&gt;      <span class="cmt">{/* JS likhne ke liye {} use karo */}</span>
+      &lt;p&gt;Age: {age}&lt;/p&gt;
+      &lt;button onClick={onPromote}&gt;Promote&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+<span class="cmt">// 2. State &amp; Lists (Array Rendering)</span>
+<span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="kw">export default function</span> <span class="fn">App</span>() {
+  <span class="cmt">// useState hook: [variableName, setterFunction]</span>
+  <span class="kw">const</span> [users, <span class="fn">setUsers</span>] = <span class="fn">useState</span>([
+    { id: <span class="num">1</span>, name: <span class="str">'Alice'</span>, age: <span class="num">25</span> },
+    { id: <span class="num">2</span>, name: <span class="str">'Bob'</span>, age: <span class="num">30</span> }
+  ]);
+
+  <span class="kw">const</span> <span class="fn">handlePromote</span> = (id) => {
+    <span class="cmt">// React state IMMUTABLE hoti hai — direct modify mat karo (users[0].age++)</span>
+    <span class="cmt">// Hamesha naya array/object return karo map/filter use karke</span>
+    <span class="fn">setUsers</span>(prevUsers =&gt; prevUsers.<span class="fn">map</span>(user =&gt; 
+      user.id === id ? { ...user, age: user.age + <span class="num">1</span> } : user
+    ));
+  };
+
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      {users.<span class="fn">map</span>(user =&gt; (
+        <span class="cmt">{/* Har list item ko unique 'key' dena ZAROORI hai! */}</span>
+        &lt;UserCard 
+          key={user.id} 
+          name={user.name} 
+          age={user.age} 
+          onPromote={() =&gt; <span class="fn">handlePromote</span>(user.id)} 
+        /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-warn"/></svg></span><h2>Kyu `key` zaroori hai?</h2></div>
+    <p>React Virtual DOM ko compare (Reconciliation) karte waqt `key` se pehchanta hai ki kaunsa element add hua, remove hua ya re-order hua. Agar index ko key banaoge, aur list re-order hogi, toh React galti se galat component ka state maintain kar lega.</p>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     PHASE 3 & 4 — USEEFFECT & CUSTOM HOOKS
+     ==================================================== -->
+<div class="page m1" id="phase-3">
+  <div class="page-num">2</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-refresh"/></svg> PHASE 3 &amp; 4</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-refresh"/></svg>useEffect &amp; Custom Hooks</h1>
+  <div class="title-underline"></div>
+  <p class="lede">React components ko external duniya (APIs, Timers, DOM) se sync karne ke liye useEffect use hota hai. Aur logic ko reuse karne ke liye hum Custom Hooks banate hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>useEffect &amp; Cleanup (Memory Leak rokna)</h2></div>
+    <div class="code-box"><span class="fn">useEffect</span>(() => {
+  <span class="cmt">// 1. Setup function (Component Mount hone pe chalega)</span>
+  <span class="kw">const</span> timer = <span class="fn">setInterval</span>(() => console.<span class="fn">log</span>(<span class="str">'Tick'</span>), <span class="num">1000</span>);
+  <span class="kw">const</span> controller = <span class="kw">new</span> <span class="fn">AbortController</span>();
+  
+  <span class="fn">fetchData</span>(controller.signal);
+
+  <span class="cmt">// 2. Cleanup function (Component Unmount hone pe chalega)</span>
+  <span class="kw">return</span> () => {
+    <span class="fn">clearInterval</span>(timer); <span class="cmt">// Timer roko</span>
+    controller.<span class="fn">abort</span>();   <span class="cmt">// API request cancel karo</span>
+  };
+}, [userId]); <span class="cmt">// 3. Dependency Array (userId change hone pe wapas chalega)</span></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>Custom Hook (useDebounce)</h2></div>
+    <p>Search input pe har keystroke pe API call rokne ke liye useDebounce ka use karte hain. Yeh logic hum alag file mein nikaal lete hain.</p>
+    <div class="code-box"><span class="cmt">// hooks/useDebounce.js</span>
+<span class="kw">import</span> { useState, useEffect } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="kw">export function</span> <span class="fn">useDebounce</span>(value, delay) {
+  <span class="kw">const</span> [debouncedValue, <span class="fn">setDebouncedValue</span>] = <span class="fn">useState</span>(value);
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="kw">const</span> handler = <span class="fn">setTimeout</span>(() => {
+      <span class="fn">setDebouncedValue</span>(value);
+    }, delay);
+
+    <span class="cmt">// Agar delay se pehle value dobara change hui, </span>
+    <span class="cmt">// toh purana timeout clear ho jayega (Cleanup magic!)</span>
+    <span class="kw">return</span> () => <span class="fn">clearTimeout</span>(handler);
+  }, [value, delay]);
+
+  <span class="kw">return</span> debouncedValue;
+}
+
+<span class="cmt">// Component mein use karna:</span>
+<span class="kw">const</span> debouncedSearchTerm = <span class="fn">useDebounce</span>(searchTerm, <span class="num">500</span>);
+<span class="fn">useEffect</span>(() =&gt; { <span class="fn">searchApi</span>(debouncedSearchTerm) }, [debouncedSearchTerm]);</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     PHASE 5 & 13 — FORMS AT SCALE
+     ==================================================== -->
+<div class="page m2" id="phase-5">
+  <div class="page-num">3</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-check"/></svg> PHASE 5 &amp; 13</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-check"/></svg>Forms at Scale (RHF + Zod)</h1>
+  <div class="title-underline"></div>
+  <p class="lede">useState se har input ko track karna (Controlled components) badhe forms mein app ko slow kar deta hai. React Hook Form (RHF) Uncontrolled inputs use karta hai, jisse performance bachti hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>React Hook Form + Zod Schema Validation</h2></div>
+    <div class="code-box"><span class="kw">import</span> { useForm } <span class="kw">from</span> <span class="str">'react-hook-form'</span>;
+<span class="kw">import</span> { zodResolver } <span class="kw">from</span> <span class="str">'@hookform/resolvers/zod'</span>;
+<span class="kw">import</span> { z } <span class="kw">from</span> <span class="str">'zod'</span>;
+
+<span class="cmt">// 1. Zod se validation schema banao (Single source of truth)</span>
+<span class="kw">const</span> userSchema = z.<span class="fn">object</span>({
+  email: z.<span class="fn">string</span>().<span class="fn">email</span>(<span class="str">'Invalid email'</span>),
+  password: z.<span class="fn">string</span>().<span class="fn">min</span>(<span class="num">6</span>, <span class="str">'Min 6 chars'</span>),
+  age: z.<span class="fn">number</span>().<span class="fn">min</span>(<span class="num">18</span>, <span class="str">'Must be 18+'</span>)
+});
+
+<span class="kw">export default function</span> <span class="fn">SignupForm</span>() {
+  <span class="cmt">// 2. useForm hook initialize karo</span>
+  <span class="kw">const</span> { register, handleSubmit, formState: { errors, isSubmitting } } = <span class="fn">useForm</span>({
+    resolver: <span class="fn">zodResolver</span>(userSchema)
+  });
+
+  <span class="kw">const</span> <span class="fn">onSubmit</span> = <span class="kw">async</span> (data) => {
+    <span class="kw">await</span> <span class="fn">apiCall</span>(data); <span class="cmt">// data perfectly typed aur validated hai</span>
+  };
+
+  <span class="kw">return</span> (
+    &lt;form onSubmit={<span class="fn">handleSubmit</span>(onSubmit)}&gt;
+      <span class="cmt">{/* 3. Inputs ko register karo — onChange, onBlur, ref sab auto handle hoga */}</span>
+      &lt;input {...<span class="fn">register</span>(<span class="str">'email'</span>)} placeholder="Email" /&gt;
+      {errors.email &amp;&amp; &lt;p className="error"&gt;{errors.email.message}&lt;/p&gt;}
+
+      &lt;input type="password" {...<span class="fn">register</span>(<span class="str">'password'</span>)} placeholder="Password" /&gt;
+      {errors.password &amp;&amp; &lt;p className="error"&gt;{errors.password.message}&lt;/p&gt;}
+
+      &lt;input type="number" {...<span class="fn">register</span>(<span class="str">'age'</span>, { valueAsNumber: <span class="kw">true</span> })} /&gt;
+
+      &lt;button type="submit" disabled={isSubmitting}&gt;
+        {isSubmitting ? <span class="str">'Submitting...'</span> : <span class="str">'Sign Up'</span>}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</div>
+    <div class="tip-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Phase 13 (Field Arrays):</strong> Agar tumhe dynamic lists (e.g. multiple skills add karna) chahiye, toh RHF ka <code>useFieldArray</code> hook use karo, array ko asani se map, append, aur remove kar sakte ho bina performance drop ke.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     PHASE 6 & 12 — STATE MANAGEMENT & TANSTACK QUERY
+     ==================================================== -->
+<div class="page m3" id="phase-6">
+  <div class="page-num">4</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-database"/></svg> PHASE 6 &amp; 12</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-database"/></svg>State &amp; Server Data (TanStack Query)</h1>
+  <div class="title-underline"></div>
+  <p class="lede">React mein do tarah ka state hota hai: <strong>Client State</strong> (UI theme, modal open) aur <strong>Server State</strong> (API data). Client state ke liye Context API best hai, par Server state ke liye TanStack Query (React Query) industry standard hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-zap"/></svg></span><h2>TanStack Query (Data Fetching &amp; Caching)</h2></div>
+    <p>Yeh apne aap caching, background fetching, aur loading/error states handle karta hai. Redux mein asyc logic likhne se bachata hai.</p>
+    <div class="code-box"><span class="kw">import</span> { useQuery, useMutation, useQueryClient } <span class="kw">from</span> <span class="str">'@tanstack/react-query'</span>;
+
+<span class="kw">function</span> <span class="fn">TodosList</span>() {
+  <span class="kw">const</span> queryClient = <span class="fn">useQueryClient</span>();
+
+  <span class="cmt">// 1. FETCH (useQuery) — Data laane ke liye</span>
+  <span class="kw">const</span> { data: todos, isLoading, isError } = <span class="fn">useQuery</span>({
+    queryKey: [<span class="str">'todos'</span>], <span class="cmt">// Cache key</span>
+    queryFn: () => axios.<span class="fn">get</span>(<span class="str">'/todos'</span>).<span class="fn">then</span>(res => res.data),
+    staleTime: <span class="num">5</span> * <span class="num">60</span> * <span class="num">1000</span> <span class="cmt">// 5 minute tak data fresh rahega (no refetch)</span>
+  });
+
+  <span class="cmt">// 2. MUTATION (useMutation) — Data create/update/delete karne ke liye</span>
+  <span class="kw">const</span> mutation = <span class="fn">useMutation</span>({
+    mutationFn: (newTodo) => axios.<span class="fn">post</span>(<span class="str">'/todos'</span>, newTodo),
+    onSuccess: () => {
+      <span class="cmt">// Success pe purana cache invalidate karo taaki naya list auto-fetch ho</span>
+      queryClient.<span class="fn">invalidateQueries</span>({ queryKey: [<span class="str">'todos'</span>] });
+    }
+  });
+
+  <span class="kw">if</span> (isLoading) <span class="kw">return</span> &lt;Spinner /&gt;;
+  <span class="kw">if</span> (isError) <span class="kw">return</span> &lt;p&gt;Error loading todos&lt;/p&gt;;
+
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      &lt;button onClick={() =&gt; mutation.<span class="fn">mutate</span>({ title: <span class="str">'New Task'</span> })}&gt;
+        {mutation.isPending ? <span class="str">'Adding...'</span> : <span class="str">'Add Todo'</span>}
+      &lt;/button&gt;
+      
+      &lt;ul&gt;{todos.<span class="fn">map</span>(t =&gt; &lt;li key={t.id}&gt;{t.title}&lt;/li&gt;)}&lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     PHASE 8 & 9 — INTERNALS & PERFORMANCE
+     ==================================================== -->
+<div class="page m4" id="phase-8">
+  <div class="page-num">5</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-zap"/></svg> PHASE 8 &amp; 9</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-zap"/></svg>Internals &amp; Performance</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Jab parent component render hota hai, toh saare children bhi default render hote hain. React Fiber aur Virtual DOM fast hain, par kabhi-kabhi heavy components ko optimize karna padta hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>React.memo, useMemo, useCallback</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Hook / Utility</th><th>Kiske liye hai?</th><th>Kya karta hai?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>React.memo</strong></td><td>Component</td><td>Agar Props change nahi hue, toh Component ko re-render hone se roko.</td></tr>
+        <tr><td><strong>useMemo</strong></td><td>Value / Array / Obj</td><td>Heavy calculation ka result cache karta hai. Jab tak deps same hain, function wapas run nahi hoga.</td></tr>
+        <tr><td><strong>useCallback</strong></td><td>Function</td><td>Function ko cache karta hai, taaki har render pe naya function refernce na bane. (Varna React.memo toot jayega)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="code-box"><span class="kw">import</span> { memo, useState, useCallback, useMemo } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="cmt">// 1. React.memo: Child tab tak render nahi hoga jab tak text ya onClick change na ho</span>
+<span class="kw">const</span> ChildButton = <span class="fn">memo</span>(({ text, onClick }) => {
+  console.<span class="fn">log</span>(<span class="str">'Child render:'</span>, text);
+  <span class="kw">return</span> &lt;button onClick={onClick}&gt;{text}&lt;/button&gt;;
+});
+
+<span class="kw">function</span> <span class="fn">Parent</span>() {
+  <span class="kw">const</span> [count, setCount] = <span class="fn">useState</span>(<span class="num">0</span>);
+  <span class="kw">const</span> [theme, setTheme] = <span class="fn">useState</span>(<span class="str">'light'</span>);
+
+  <span class="cmt">// 2. useCallback: Function ka reference same rakho har render mein</span>
+  <span class="kw">const</span> <span class="fn">increment</span> = <span class="fn">useCallback</span>(() => {
+    <span class="fn">setCount</span>(c => c + <span class="num">1</span>);
+  }, []); <span class="cmt">// Empty array = function life bhar same rahega</span>
+
+  <span class="cmt">// 3. useMemo: Heavy calculations roko</span>
+  <span class="kw">const</span> expensiveValue = <span class="fn">useMemo</span>(() => {
+    <span class="kw">let</span> total = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">let</span> i=<span class="num">0</span>; i&lt;<span class="num">10000000</span>; i++) total += i;
+    <span class="kw">return</span> total;
+  }, []); <span class="cmt">// Sirf pehli baar calculate hoga</span>
+
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      &lt;h1&gt;Count: {count} - Theme: {theme}&lt;/h1&gt;
+      &lt;button onClick={() =&gt; <span class="fn">setTheme</span>(theme === <span class="str">'light'</span> ? <span class="str">'dark'</span> : <span class="str">'light'</span>)}&gt;
+        Toggle Theme
+      &lt;/button&gt;
+      
+      <span class="cmt">{/* Theme change hone pe ChildButton re-render NAHI hoga 
+          kyunki uske props (increment fn) cache ho chuke hain! */}</span>
+      &lt;ChildButton text="Increment Count" onClick={increment} /&gt;
+    &lt;/div&gt;
+  );
+}</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     PHASE 10 & 11 — PATTERNS & CODE SPLITTING
+     ==================================================== -->
+<div class="page m5" id="phase-10">
+  <div class="page-num">6</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-layers"/></svg> PHASE 10 &amp; 11</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-layers"/></svg>Patterns &amp; Code Splitting</h1>
+  <div class="title-underline"></div>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-star"/></svg></span><h2>Compound Components (Accordion/Tabs)</h2></div>
+    <p>Compound components state ko implicitly share karte hain (jaise &lt;select&gt; aur &lt;option&gt;). Yeh Context API ka best use case hai UI elements ke liye.</p>
+    <div class="code-box"><span class="cmt">// Aise use hota hai:</span>
+&lt;Tabs&gt;
+  &lt;Tabs.List&gt;
+    &lt;Tabs.Tab id="1"&gt;Profile&lt;/Tabs.Tab&gt;
+    &lt;Tabs.Tab id="2"&gt;Settings&lt;/Tabs.Tab&gt;
+  &lt;/Tabs.List&gt;
+  &lt;Tabs.Panel id="1"&gt;Profile Data...&lt;/Tabs.Panel&gt;
+  &lt;Tabs.Panel id="2"&gt;Settings Data...&lt;/Tabs.Panel&gt;
+&lt;/Tabs&gt;</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-zap"/></svg></span><h2>Code Splitting (lazy &amp; Suspense)</h2></div>
+    <p>Poora app ek hi bundle JS file mein hone se load time badh jaata hai. <code>React.lazy</code> se hum route/component ko tabhi download karte hain jab user us page par jaaye.</p>
+    <div class="code-box"><span class="kw">import</span> { lazy, Suspense } <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">import</span> { createBrowserRouter, RouterProvider } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="cmt">// Heavy component ko dynamically import karo</span>
+<span class="kw">const</span> AdminDashboard = <span class="fn">lazy</span>(() => <span class="kw">import</span>(<span class="str">'./pages/AdminDashboard'</span>));
+
+<span class="kw">const</span> router = <span class="fn">createBrowserRouter</span>([
+  {
+    path: <span class="str">'/admin'</span>,
+    <span class="cmt">// Suspense lagana zaroori hai, taaki jab tak script download ho, fallback dikhe</span>
+    element: (
+      &lt;Suspense fallback={&lt;h2&gt;Loading Admin Dashboard...&lt;/h2&gt;}&gt;
+        &lt;AdminDashboard /&gt;
+      &lt;/Suspense&gt;
+    )
+  }
+]);</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     PHASE 14 — TESTING (VITEST + RTL)
+     ==================================================== -->
+<div class="page m0" id="phase-14">
+  <div class="page-num">7</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-shield"/></svg> PHASE 14</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-shield"/></svg>Testing: Vitest, RTL &amp; MSW</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Testing sirf code likhna nahi hai, yeh confidence hai. Rule: Implementation details test mat karo (e.g. useState call hua?), balki User Behavior test karo (e.g. Button dabane pe error aaya?).</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>14.1 Component Test (RTL)</h2></div>
+    <p>React Testing Library (RTL) se hum components ko waise hi test karte hain jaise user interact karta hai.</p>
+    <div class="code-box"><span class="cmt">// src/components/__tests__/Modal.test.jsx</span>
+<span class="kw">import</span> { describe, it, expect, vi } <span class="kw">from</span> <span class="str">'vitest'</span>;
+<span class="kw">import</span> { render, screen, fireEvent } <span class="kw">from</span> <span class="str">'@testing-library/react'</span>;
+<span class="kw">import</span> userEvent <span class="kw">from</span> <span class="str">'@testing-library/user-event'</span>;
+<span class="kw">import</span> Modal <span class="kw">from</span> <span class="str">'../Modal'</span>;
+
+<span class="fn">describe</span>(<span class="str">'Modal Component'</span>, () => {
+  <span class="fn">it</span>(<span class="str">'renders content when open'</span>, () => {
+    <span class="fn">render</span>(&lt;Modal isOpen={<span class="kw">true</span>} title="Test Modal"&gt;Content&lt;/Modal&gt;);
+    
+    <span class="cmt">// Assertions (jest-dom matchers)</span>
+    <span class="fn">expect</span>(screen.<span class="fn">getByText</span>(<span class="str">'Test Modal'</span>)).<span class="fn">toBeInTheDocument</span>();
+    <span class="fn">expect</span>(screen.<span class="fn">getByText</span>(<span class="str">'Content'</span>)).<span class="fn">toBeInTheDocument</span>();
+  });
+
+  <span class="fn">it</span>(<span class="str">'calls onClose when Escape is pressed'</span>, <span class="kw">async</span> () => {
+    <span class="kw">const</span> user = userEvent.<span class="fn">setup</span>();
+    <span class="kw">const</span> onCloseMock = vi.<span class="fn">fn</span>(); <span class="cmt">// Vitest se mock function</span>
+
+    <span class="fn">render</span>(&lt;Modal isOpen={<span class="kw">true</span>} onClose={onCloseMock}&gt;Content&lt;/Modal&gt;);
+    
+    <span class="kw">await</span> user.<span class="fn">keyboard</span>(<span class="str">'{Escape}'</span>); <span class="cmt">// User action simulate karo</span>
+    <span class="fn">expect</span>(onCloseMock).<span class="fn">toHaveBeenCalledTimes</span>(<span class="num">1</span>);
+  });
+});</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-refresh"/></svg></span><h2>14.2 Mock Service Worker (MSW)</h2></div>
+    <p>Testing mein real backend API hit nahi karni chahiye. MSW browser aur Node level pe network requests ko intercept karta hai aur mock response deta hai.</p>
+    <div class="code-box"><span class="cmt">// src/test/mocks/handlers.js</span>
+<span class="kw">import</span> { http, HttpResponse } <span class="kw">from</span> <span class="str">'msw'</span>;
+
+<span class="kw">export const</span> handlers = [
+  http.<span class="fn">get</span>(<span class="str">'http://localhost:3001/courses'</span>, () => {
+    <span class="kw">return</span> HttpResponse.<span class="fn">json</span>([
+      { id: <span class="num">1</span>, title: <span class="str">'React Basics'</span> },
+      { id: <span class="num">2</span>, title: <span class="str">'Advanced Testing'</span> }
+    ]);
+  }),
+
+  http.<span class="fn">post</span>(<span class="str">'http://localhost:3001/login'</span>, <span class="kw">async</span> ({ request }) => {
+    <span class="kw">const</span> body = <span class="kw">await</span> request.<span class="fn">json</span>();
+    <span class="kw">if</span> (body.email === <span class="str">'admin@test.com'</span>) {
+      <span class="kw">return</span> HttpResponse.<span class="fn">json</span>({ token: <span class="str">'12345'</span> }, { status: <span class="num">200</span> });
+    }
+    <span class="kw">return</span> HttpResponse.<span class="fn">json</span>({ message: <span class="str">'Error'</span> }, { status: <span class="num">401</span> });
+  })
+];
+
+<span class="cmt">// Ab jab tumhari React app fetch() ya axios chalayegi testing mein,</span>
+<span class="cmt">// MSW real server ki tarah yeh mock data bhej dega!</span></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     CHEAT SHEET / RECAP
+     ==================================================== -->
+<div class="page react" id="recap">
+  <div class="page-num">8</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-star"/></svg> FINAL RECAP</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-target"/></svg>React 18/19 Complete Checklist</h1>
+  <div class="title-underline"></div>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-check"/></svg></span><h2>Production-Ready Architecture Summary</h2></div>
+    <ul class="check-list">
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Routing:</strong> React Router v6.4+ (createBrowserRouter, Loaders, Actions)</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Server State:</strong> TanStack Query (Caching, Mutations, Optimistic updates)</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Client State:</strong> Zustand ya Context API + useReducer</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Forms:</strong> React Hook Form (Uncontrolled) + Zod (Validation Schema)</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Styling:</strong> TailwindCSS ya CSS Modules</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Testing:</strong> Vitest + RTL (Behavior testing) + MSW (API Mocking)</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Performance:</strong> React.lazy(), Skeleton Loaders, React.memo (sirf jab heavy ho)</li>
+    </ul>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>Next Steps (Kya Seekhna Chahiye)</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Category</th><th>Technologies to Explore</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Immediate</strong></td><td>TypeScript (Type safety), Zustand (Simple state)</td></tr>
+        <tr><td><strong>Intermediate</strong></td><td>Next.js (SSR, App Router), Cypress (E2E Testing)</td></tr>
+        <tr><td><strong>Backend Connect</strong></td><td>Node.js/Express, PostgreSQL (Prisma), JWT Auth</td></tr>
+        <tr><td><strong>Advanced</strong></td><td>React Server Components (RSC), WebSockets, PWA</td></tr>
+      </tbody>
+    </table></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Congratulations!</strong> Ek "College Portal" jaisa poora production-grade application banane aur uski architecture samajhne se aap ab intermediate se <strong>Advanced React Developer</strong> ban chuke hain! 🚀</p></div>
+  </section>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>React Redux Toolkit & RTK Query: Zero to Hero — Hinglish Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FFFDF7;
+      --paper-edge: #F2EDDD;
+      --ink: #2B2620;
+      --sub-ink: #5A5348;
+      --outer-bg: #E9E4D6;
+      --coral: #D6524A;
+      --m0: #0F6F6B;  --m0L: #E4F2F0;
+      --m1: #22395B;  --m1L: #E7ECF3;
+      --m2: #A6461E;  --m2L: #FBEBDD;
+      --m3: #5B3E96;  --m3L: #EEE8F8;
+      --m4: #A9740C;  --m4L: #FBF0DD;
+      --m5: #2F6F4E;  --m5L: #E7F3EC;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--outer-bg);
+      font-family: 'Patrick Hand', sans-serif;
+      color: var(--ink);
+      padding: 16px;
+    }
+    .icon { width:1em; height:1em; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; vertical-align:-0.15em; }
+    .icon.filled { fill:currentColor; stroke:none; }
+
+    /* ---- page shell ---- */
+    .page {
+      max-width: 780px;
+      margin: 0 auto 34px;
+      background: var(--paper);
+      border-radius: 8px;
+      box-shadow: 0 14px 15px rgba(0,0,0,.18);
+      position: relative;
+      padding: 30px 34px 34px 34px;
+      border-left: 10px solid var(--accent);
+    }
+    .page.m0 { --accent:var(--m0); --accentL:var(--m0L); }
+    .page.m1 { --accent:var(--m1); --accentL:var(--m1L); }
+    .page.m2 { --accent:var(--m2); --accentL:var(--m2L); }
+    .page.m3 { --accent:var(--m3); --accentL:var(--m3L); }
+    .page.m4 { --accent:var(--m4); --accentL:var(--m4L); }
+    .page.m5 { --accent:var(--m5); --accentL:var(--m5L); }
+
+    .page-num {
+      position:absolute; top:18px; right:24px;
+      font-family:'Kalam',cursive; font-size:18px; font-weight:700; color:var(--accent);
+      width:30px; height:30px; border-radius:50%; border:2px solid var(--accent);
+      background:#fff; display:flex; align-items:center; justify-content:center;
+    }
+    .topic-badge {
+      display:inline-flex; align-items:center; gap:6px;
+      font-family:'JetBrains Mono',monospace; font-size:11.5px; font-weight:700;
+      letter-spacing:.08em; color:#fff; background:var(--accent); padding:4px 12px 4px 10px;
+      border-radius:20px; margin-bottom:10px;
+    }
+    .main-title {
+      display:flex; align-items:center; gap:12px;
+      font-family:'Kalam',cursive; font-size:30px; font-weight:700; margin:0 0 4px; line-height:1.2; color:var(--ink);
+    }
+    .main-title .icon { width:1.05em; height:1.05em; color:var(--accent); }
+    .title-underline { width:170px; height:4px; background:var(--coral); border-radius:3px; margin-bottom:8px; }
+    .lede { font-size:16.5px; line-height:1.6; color:var(--sub-ink); margin:0 0 22px; max-width:640px; }
+
+    section.block { margin-bottom:26px; }
+    .sec-head { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+    .sec-circle {
+      flex:0 0 auto; width:38px; height:38px; border-radius:50%; background:var(--accent); color:#fff;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .sec-circle .icon { width:18px; height:18px; }
+    .sec-head h2 { font-family:'Kalam',cursive; font-size:20px; margin:0; font-weight:700; color:var(--ink); }
+    section.block p { font-size:16.5px; line-height:1.65; margin:0 0 10px; }
+    section.block > p:last-child { margin-bottom:0; }
+
+    .check-list, .cross-list { list-style:none; margin:0 0 14px; padding:0; }
+    .check-list li, .cross-list li { font-size:16px; line-height:1.6; padding-left:28px; position:relative; margin-bottom:5px; }
+    .check-list li .icon { position:absolute; left:0; top:3px; color:var(--accent); width:16px; height:16px; }
+    .cross-list li .icon { position:absolute; left:0; top:3px; color:var(--coral); width:16px; height:16px; }
+
+    .table-wrap { overflow-x:auto; margin-bottom:14px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,.10); }
+    table { width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:12.5px; background:#fff; }
+    thead tr { background:var(--accent); }
+    thead th { color:#fff; text-align:left; padding:9px 12px; font-family:'Patrick Hand',sans-serif; font-weight:700; font-size:14px; }
+    tbody td { padding:8px 12px; border-bottom:1px solid #EFE9D8; line-height:1.5; }
+    tbody tr:nth-child(even) { background:var(--accentL); }
+
+    /* code box */
+    .code-box {
+      background:#F7F8F3; color:#233B34;
+      font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.85;
+      padding:13px 16px; border:1.5px dashed var(--accent); border-radius:10px;
+      margin-bottom:14px; white-space:pre-wrap; overflow-x:auto;
+    }
+    .code-box .cmt { color:#8A9490; font-style:italic; }
+    .code-box .kw  { color:var(--coral); font-weight:700; }
+    .code-box .fn  { color:#1D6E7A; font-weight:700; }
+    .code-box .str { color:#8A5A15; }
+
+    .callout {
+      background:var(--accentL); border-left:4px solid var(--accent);
+      padding:10px 14px; border-radius:6px; font-size:15px !important; font-style:italic;
+    }
+    .tip-box, .warn-box, .fact-box {
+      margin-top:16px; border-radius:12px; padding:13px 18px; display:flex; gap:11px; align-items:flex-start;
+    }
+    .tip-box  { background:var(--m4L); border:2px dashed var(--m4); }
+    .fact-box { background:var(--m0L); border:2px dashed var(--m0); }
+    .warn-box { background:#FDECEC; border:2px dashed var(--coral); }
+    .tip-box .icon, .fact-box .icon, .warn-box .icon { flex:0 0 auto; width:20px; height:20px; margin-top:2px; }
+    .tip-box .icon { color:var(--m4); } .fact-box .icon { color:var(--m0); } .warn-box .icon { color:var(--coral); }
+    .tip-box p, .fact-box p, .warn-box p { margin:0; font-size:15px; line-height:1.6; }
+    .tip-box strong, .fact-box strong, .warn-box strong { font-family:'Kalam',cursive; font-size:15.5px; }
+
+    .divider { text-align:center; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; color:#9B927F; margin:6px 0 26px; }
+
+    /* flow diagram */
+    .flow { display:flex; flex-direction:column; align-items:center; gap:2px; margin:14px 0 18px; }
+    .fbox {
+      width:100%; max-width:480px; border:2px solid var(--accent); border-radius:10px;
+      background:#fff; padding:9px 16px; text-align:center; font-size:14px;
+    }
+    .fbox .lbl { font-family:'Kalam',cursive; font-weight:700; font-size:15px; display:block; }
+    .fbox .sub { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--sub-ink); }
+    .frow { display:flex; gap:10px; width:100%; max-width:480px; justify-content:center; }
+    .frow .fbox { flex:1; }
+    .farrow { color:var(--accent); }
+    .farrow .icon { width:16px; height:16px; }
+
+    /* cover */
+    .cover { text-align:center; padding:54px 34px 44px; border-left:none; border-top:10px solid var(--coral); }
+    .cover .icon-hero { width:64px; height:64px; color:var(--coral); margin-bottom:10px; }
+    .cover h1 { font-family:'Kalam',cursive; font-size:44px; margin:6px 0 2px; line-height:1.1; }
+    .cover .sub1 { font-size:19px; color:var(--sub-ink); margin:0 0 22px; }
+    .cover .tag { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; background:#2B2620; color:#fff; padding:6px 16px; border-radius:20px; margin-bottom:26px; }
+    .cover-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; text-align:left; margin-top:10px; }
+    @media (max-width:600px) { .cover-grid { grid-template-columns:1fr 1fr; } }
+    .cover-item { border:1.5px solid #E6DFC9; border-radius:10px; padding:10px 12px; font-size:13px; line-height:1.4; }
+    .cover-item b { display:block; font-family:'Kalam',cursive; font-size:14.5px; margin-bottom:2px; }
+
+    /* interview q/a box */
+    .qa-block { background:var(--accentL); border-radius:10px; padding:14px 16px; margin-bottom:12px; }
+    .qa-block .q { font-family:'Kalam',cursive; font-size:16px; font-weight:700; color:var(--accent); margin:0 0 6px; }
+    .qa-block .a { font-size:15px; line-height:1.6; margin:0; }
+
+    @media (max-width:600px) {
+      body { padding:12px 8px; }
+      .page { padding:24px 20px; border-left-width:6px; margin-bottom:20px; }
+      .page-num { top:14px; right:16px; width:24px; height:24px; font-size:14px; }
+      .main-title { font-size:24px; }
+      .lede { font-size:15px; margin-bottom:16px; }
+      .sec-head h2 { font-size:18px; }
+      section.block p { font-size:15px; }
+      .code-box { font-size:11.5px; padding:12px 10px; }
+      .cover { padding:40px 20px 30px; border-top-width:6px; }
+      .cover h1 { font-size:32px; }
+      .cover .sub1 { font-size:16px; }
+      .cover-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SVG SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.45.9 1.15.9 1.9V16h5.4v-.3c0-.75.3-1.45.9-1.9A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="4 12 9 18 20 6"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.9 7.1.7-5.5 5.1 1.6 7-6.1-3.7-6.1 3.7 1.6-7L2 10.1l7.1-.7z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-7.3-7-12.5A7 7 0 0 1 19 8.5C19 13.7 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.6"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3.5 22 20H2L12 3.5z" stroke-linejoin="round"/><line x1="12" y1="10" x2="12" y2="14.5"/><circle class="filled" cx="12" cy="17.3" r="0.9" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 5.5c3-1.2 6-1.2 9 0v14c-3-1.2-6-1.2-9 0v-14z"/><path d="M22 5.5c-3-1.2-6-1.2-9 0v14c3-1.2 6-1.2 9 0v-14z"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="13 5 20 12 13 19"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="5 13 12 20 19 13"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2.5 2.5 7.5 12 12.5 21.5 7.5" stroke-linejoin="round"/><polyline points="2.5 12.5 12 17.5 21.5 12.5"/><polyline points="2.5 17.5 12 22.5 21.5 17.5"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.5 4 5.5v6c0 5.2 3.4 8.6 8 10 4.6-1.4 8-4.8 8-10v-6L12 2.5z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="5" rx="1.5"/><rect x="3" y="10" width="18" height="5" rx="1.5"/><rect x="3" y="17" width="18" height="4" rx="1.5"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"/><path d="M11 6.5l1.3-1.3a4 4 0 0 1 5.7 5.7L16.7 12.2"/><path d="M13 17.5l-1.3 1.3a4 4 0 0 1-5.7-5.7L7.3 11.8"/></symbol>
+</defs>
+</svg>
+
+
+<!-- ====================================================
+     COVER PAGE
+     ==================================================== -->
+<div class="page cover">
+  <svg class="icon icon-hero" style="width:64px;height:64px;color:var(--coral);margin-bottom:10px;"><use href="#i-layers"/></svg>
+  <h1>React Redux Toolkit &amp; RTK Query</h1>
+  <p class="sub1">Zero se Interview-Ready tak — Hinglish Notebook</p>
+  <span class="tag">JAVASCRIPT ONLY &middot; HINGLISH &middot; BEGINNER→HERO</span>
+  <div class="cover-grid">
+    <div class="cover-item"><b>Part 1</b>Redux kya hai, core concepts, plain Redux ki problems</div>
+    <div class="cover-item"><b>Part 2</b>RTK Basics — createSlice, configureStore, Immer, extraReducers</div>
+    <div class="cover-item"><b>Part 3</b>Async — createAsyncThunk, pending/fulfilled/rejected</div>
+    <div class="cover-item"><b>Part 4</b>RTK Query — caching, mutations, tags (sabse important!)</div>
+    <div class="cover-item"><b>Part 5</b>Best Practices, Folder Structure, Comparisons</div>
+    <div class="cover-item"><b>Part 6</b>30 Interview Questions + Complete Cheat Sheet</div>
+  </div>
+</div>
+
+
+<!-- ====================================================
+     MODULE 1 — REDUX KYA HAI
+     ==================================================== -->
+<div class="page m0">
+  <div class="page-num">1</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 01</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-bulb"/></svg>Redux Kya Hai Aur Kyun?</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Jab React app badi hoti hai aur multiple components ek hi data share karte hain — wahan state management ki zaroorat padti hai. Redux usi problem ka solution hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-warn"/></svg></span><h2>1.1 Prop Drilling Problem</h2></div>
+    <p>Socho App → Layout → Sidebar → UserMenu → Avatar — Avatar ko user ka naam chahiye. Har intermediate component ko props pass karne padte hain chahe unhe zaroorat na ho.</p>
+    <div class="flow">
+      <div class="fbox"><span class="lbl">App</span><span class="sub">user = { name, role }</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Layout</span><span class="sub">khud use nahi karta, sirf pass karta hai</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Sidebar → UserMenu → Avatar</span><span class="sub">aakhir yahan use hota hai!</span></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>1.2 Redux Ka Solution</h2></div>
+    <ul class="check-list">
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Single Source of Truth</strong> — ek Store mein poori app ka state</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Predictable</strong> — state sirf dispatch → reducer → new state se change hota hai</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>Time-travel Debugging</strong> — DevTools se past state pe jaao</li>
+      <li><svg class="icon"><use href="#i-check"/></svg><strong>No Prop Drilling</strong> — koi bhi component seedha store se data le sakta hai</li>
+    </ul>
+    <div class="flow">
+      <div class="frow">
+        <div class="fbox"><span class="lbl">dispatch(action)</span><span class="sub">Kya hua?</span></div>
+        <div class="fbox"><span class="lbl">Reducer</span><span class="sub">Kaise change hoga?</span></div>
+        <div class="fbox"><span class="lbl">Store → UI</span><span class="sub">New State</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-grid"/></svg></span><h2>1.3 Redux Kab Use Karein?</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Situation</th><th>Redux Chahiye?</th></tr></thead>
+        <tbody>
+          <tr><td>Simple to-do, 2-3 components</td><td>❌ useState kafi hai</td></tr>
+          <tr><td>Multiple pages, shared state</td><td>✅ Haan</td></tr>
+          <tr><td>Cart, notifications, auth</td><td>✅ Haan</td></tr>
+          <tr><td>Large team, multiple features</td><td>✅ Haan</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Plain Redux complex tha. RTK (Redux Toolkit) ne isko simple bana diya — aaj RTK hi "Modern Redux" hai.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 2 — CORE CONCEPTS
+     ==================================================== -->
+<div class="page m1">
+  <div class="page-num">2</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 02</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-grid"/></svg>Redux Core Concepts</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Redux ki 5 building blocks: Store, Action, Reducer, Dispatch, Selector — yeh sab milke predictable state management banate hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>2.1 The 5 Pillars</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Concept</th><th>Kya Hai</th><th>Analogy</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Store</strong></td><td>Poori app ka state ek jagah</td><td>School ka Principal Office</td></tr>
+          <tr><td><strong>Action</strong></td><td>Plain object — kya hua batata hai</td><td>Form/Request bharna</td></tr>
+          <tr><td><strong>Reducer</strong></td><td>Pure function — state kaise change ho</td><td>Librarian request process karta hai</td></tr>
+          <tr><td><strong>Dispatch</strong></td><td>Action store tak pahunchana</td><td>Form submit karna</td></tr>
+          <tr><td><strong>Selector</strong></td><td>Store se specific data nikalna</td><td>ATM se balance check karna</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>2.2 Pure Function &amp; Immutability</h2></div>
+    <p><strong>Pure Function:</strong> Same input → Always same output, no side effects (no API calls, no random values)</p>
+    <p><strong>Immutability:</strong> State ko directly modify mat karo — hamesha naya object return karo</p>
+    <div class="code-box"><span class="cmt">// ❌ WRONG — state mutate karna</span>
+<span class="kw">function</span> <span class="fn">badReducer</span>(state, action) {
+  state.count += 1;  <span class="cmt">// direct mutation!</span>
+  <span class="kw">return</span> state;      <span class="cmt">// same reference — React ko pata nahi chalega</span>
+}
+
+<span class="cmt">// ✅ CORRECT — naya object return karo</span>
+<span class="kw">function</span> <span class="fn">goodReducer</span>(state = { count: 0 }, action) {
+  <span class="kw">if</span> (action.type === <span class="str">'increment'</span>) {
+    <span class="kw">return</span> { ...state, count: state.count + 1 }; <span class="cmt">// naya object!</span>
+  }
+  <span class="kw">return</span> state; <span class="cmt">// default case — zaroori hai!</span>
+}</div>
+    <div class="warn-box"><svg class="icon"><use href="#i-warn"/></svg><p><strong>Warning:</strong> React shallow comparison karta hai. Same reference = no re-render. Isliye hamesha naya object return karo.</p></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-arrow-right"/></svg></span><h2>2.3 Complete Flow</h2></div>
+    <div class="flow">
+      <div class="fbox"><span class="lbl">User Action</span><span class="sub">Button click kiya</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">dispatch(action)</span><span class="sub">{ type: "cart/itemAdded", payload: {...} }</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Reducer</span><span class="sub">Old State + Action → New State</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Store Update → UI Re-render</span><span class="sub">CartIcon, Header, CartPage — sab update</span></div>
+    </div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 3 — PLAIN REDUX → RTK
+     ==================================================== -->
+<div class="page m2">
+  <div class="page-num">3</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 03</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-zap"/></svg>Plain Redux → Redux Toolkit</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Plain Redux mein bahut boilerplate tha — RTK ne sab simplify kar diya. Yeh comparison dekhte hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-warn"/></svg></span><h2>3.1 Plain Redux Ki Problems</h2></div>
+    <ul class="cross-list">
+      <li><svg class="icon"><use href="#i-cross"/></svg>Bahut saara boilerplate — constants, action creators, reducers alag-alag files</li>
+      <li><svg class="icon"><use href="#i-cross"/></svg>Manual immutability — nested spread operators likhna mushkil</li>
+      <li><svg class="icon"><use href="#i-cross"/></svg>Mutation ka risk — easily galti ho sakti hai</li>
+      <li><svg class="icon"><use href="#i-cross"/></svg>Middleware manually install/configure karna padta tha</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-zap"/></svg></span><h2>3.2 RTK — Same Counter, Half Code</h2></div>
+    <div class="code-box"><span class="cmt">// npm install @reduxjs/toolkit react-redux</span>
+<span class="kw">import</span> { createSlice, configureStore } <span class="kw">from</span> <span class="str">'@reduxjs/toolkit'</span>;
+
+<span class="kw">const</span> counterSlice = <span class="fn">createSlice</span>({
+  name: <span class="str">'counter'</span>,         <span class="cmt">// action types ka prefix</span>
+  initialState: { value: 0 },
+  reducers: {
+    <span class="fn">increment</span>(state) { state.value += 1; },  <span class="cmt">// Immer — safe mutation!</span>
+    <span class="fn">decrement</span>(state) { state.value -= 1; },
+    <span class="fn">incrementBy</span>(state, action) { state.value += action.payload; }
+  }
+});
+
+<span class="cmt">// Auto-generated action creators:</span>
+<span class="kw">export const</span> { increment, decrement, incrementBy } = counterSlice.actions;
+<span class="cmt">// increment() → { type: "counter/increment" }</span>
+
+<span class="kw">export const</span> store = <span class="fn">configureStore</span>({
+  reducer: { counter: counterSlice.reducer }
+  <span class="cmt">// Auto: thunk middleware + Redux DevTools!</span>
+});</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Plain Redux</th><th>RTK</th></tr></thead>
+        <tbody>
+          <tr><td>Action types</td><td>Manual constants</td><td>✅ Auto-generated</td></tr>
+          <tr><td>Action creators</td><td>Manual functions</td><td>✅ Auto-generated</td></tr>
+          <tr><td>Immutability</td><td>Manual spread</td><td>✅ Immer built-in</td></tr>
+          <tr><td>Middleware</td><td>Manual applyMiddleware</td><td>✅ Auto in configureStore</td></tr>
+          <tr><td>DevTools</td><td>Manual setup</td><td>✅ Auto in dev mode</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 4 — CONFIGURESTORE + PROVIDER
+     ==================================================== -->
+<div class="page m3">
+  <div class="page-num">4</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 04</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-server"/></svg>configureStore &amp; React Integration</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Store setup karna aur React components mein useSelector / useDispatch se connect karna — yeh hai RTK ka production setup.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-server"/></svg></span><h2>4.1 Store + Provider Setup</h2></div>
+    <div class="code-box"><span class="cmt">// src/app/store.js</span>
+<span class="kw">import</span> { configureStore } <span class="kw">from</span> <span class="str">'@reduxjs/toolkit'</span>;
+<span class="kw">import</span> counterReducer <span class="kw">from</span> <span class="str">'../features/counter/counterSlice'</span>;
+
+<span class="kw">export const</span> store = <span class="fn">configureStore</span>({
+  reducer: {
+    counter: counterReducer,  <span class="cmt">// state.counter</span>
+  },
+  devTools: process.env.NODE_ENV !== <span class="str">'production'</span>
+});
+
+<span class="cmt">// src/main.jsx</span>
+<span class="kw">import</span> { Provider } <span class="kw">from</span> <span class="str">'react-redux'</span>;
+<span class="kw">import</span> { store } <span class="kw">from</span> <span class="str">'./app/store'</span>;
+
+ReactDOM.<span class="fn">createRoot</span>(document.<span class="fn">getElementById</span>(<span class="str">'root'</span>)).<span class="fn">render</span>(
+  &lt;Provider store={store}&gt;  <span class="cmt">{/* Context se store available karta hai */}</span>
+    &lt;App /&gt;
+  &lt;/Provider&gt;
+);</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>4.2 useSelector &amp; useDispatch</h2></div>
+    <div class="code-box"><span class="kw">import</span> { useSelector, useDispatch } <span class="kw">from</span> <span class="str">'react-redux'</span>;
+<span class="kw">import</span> { increment, decrement, selectCount } <span class="kw">from</span> <span class="str">'./counterSlice'</span>;
+
+<span class="kw">function</span> <span class="fn">Counter</span>() {
+  <span class="cmt">// useSelector — store se data padhna</span>
+  <span class="cmt">// Jab count change ho tabhi re-render hoga</span>
+  <span class="kw">const</span> count = <span class="fn">useSelector</span>(state => state.counter.value);
+
+  <span class="cmt">// useDispatch — actions bhejne ka function</span>
+  <span class="kw">const</span> dispatch = <span class="fn">useDispatch</span>();
+
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;{count}&lt;/p&gt;
+      &lt;button onClick={() =&gt; <span class="fn">dispatch</span>(<span class="fn">decrement</span>())}&gt;-&lt;/button&gt;
+      &lt;button onClick={() =&gt; <span class="fn">dispatch</span>(<span class="fn">increment</span>())}&gt;+&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> useSelector sirf tab re-render karta hai jab selected value change ho (strict equality). Specific fields select karo, poora state nahi — performance ke liye.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 5 — CREATESLICE + IMMER
+     ==================================================== -->
+<div class="page m4">
+  <div class="page-num">5</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 05</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-zap"/></svg>createSlice &amp; Immer Deep Dive</h1>
+  <div class="title-underline"></div>
+  <p class="lede">createSlice ek hi function mein reducer, action creators, aur action types — teeno generate karta hai. Immer ki wajah se "mutating" code likh sakte ho safely.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>5.1 Immer Kaise Kaam Karta Hai</h2></div>
+    <div class="flow">
+      <div class="fbox"><span class="lbl">Tumhara Code</span><span class="sub">state.value += 1  (mutating lagta hai)</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Immer Draft</span><span class="sub">Ek proxy copy banata hai original state ka</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">New Immutable Object</span><span class="sub">{ ...state, value: state.value + 1 } — automatically!</span></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>5.2 Complete Slice — Auth Example</h2></div>
+    <div class="code-box"><span class="cmt">// features/auth/authSlice.js</span>
+<span class="kw">import</span> { createSlice } <span class="kw">from</span> <span class="str">'@reduxjs/toolkit'</span>;
+
+<span class="kw">const</span> authSlice = <span class="fn">createSlice</span>({
+  name: <span class="str">'auth'</span>,
+  initialState: { user: null, isLoggedIn: false, token: null, error: null },
+  reducers: {
+    <span class="fn">loginSuccess</span>(state, action) {
+      <span class="kw">const</span> { user, token } = action.payload;
+      state.user = user;       <span class="cmt">// Immer — direct assign safe hai!</span>
+      state.token = token;
+      state.isLoggedIn = true;
+      state.error = null;
+    },
+    <span class="fn">logout</span>(state) {
+      state.user = null; state.token = null; state.isLoggedIn = false;
+    },
+    <span class="fn">setAuthError</span>(state, action) {
+      state.error = action.payload; <span class="cmt">// error message store karo</span>
+    }
+  }
+});
+
+<span class="kw">export const</span> { loginSuccess, logout, setAuthError } = authSlice.actions;
+
+<span class="cmt">// Selectors — slice ke saath colocate karo (best practice)</span>
+<span class="kw">export const</span> selectUser     = state => state.auth.user;
+<span class="kw">export const</span> selectIsLoggedIn = state => state.auth.isLoggedIn;
+
+<span class="kw">export default</span> authSlice.reducer;</div>
+    <div class="warn-box"><svg class="icon"><use href="#i-warn"/></svg><p><strong>Important:</strong> Ya toh mutate karo (Immer handles), ya explicitly naya object return karo. Dono ek saath mat karo — Immer confuse ho jaata hai.</p></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-link"/></svg></span><h2>5.3 extraReducers — Cross-Slice Actions</h2></div>
+    <div class="code-box"><span class="cmt">// Cart slice jo auth slice ke logout ko handle kare</span>
+<span class="kw">import</span> { logout } <span class="kw">from</span> <span class="str">'../auth/authSlice'</span>;
+
+<span class="kw">const</span> cartSlice = <span class="fn">createSlice</span>({
+  name: <span class="str">'cart'</span>,
+  initialState: { items: [], total: 0 },
+  reducers: { <span class="cmt">/* cart ke apne actions */</span> },
+  extraReducers: (builder) => {
+    <span class="cmt">// Jab auth slice ka logout dispatch ho — cart bhi clear karo</span>
+    builder.<span class="fn">addCase</span>(logout, (state) => {
+      state.items = [];
+      state.total = 0;
+    });
+  }
+});
+<span class="cmt">// Ab dispatch(logout()) se auth + cart + notifications — sab clear!</span></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 6 — CREATEASYNCTHUNK
+     ==================================================== -->
+<div class="page m5">
+  <div class="page-num">6</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 06</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-refresh"/></svg>createAsyncThunk — Async Operations</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Reducer pure function hai — API calls nahi kar sakta. createAsyncThunk async operations ke liye middleware provide karta hai — auto pending/fulfilled/rejected states ke saath.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-arrow-right"/></svg></span><h2>6.1 Async Thunk Flow</h2></div>
+    <div class="flow">
+      <div class="fbox"><span class="lbl">dispatch(fetchUsers())</span><span class="sub">Thunk function dispatch kiya</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Auto: fetchUsers.pending</span><span class="sub">loading: true, error: null — spinner dikhao</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">payloadCreator runs (API call)</span><span class="sub">fetch('/api/users') aur response aata hai</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="frow">
+        <div class="fbox"><span class="lbl">✅ fulfilled</span><span class="sub">data store, loading false</span></div>
+        <div class="fbox"><span class="lbl">❌ rejected</span><span class="sub">error store, loading false</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>6.2 Complete Example</h2></div>
+    <div class="code-box"><span class="kw">import</span> { createSlice, createAsyncThunk } <span class="kw">from</span> <span class="str">'@reduxjs/toolkit'</span>;
+
+<span class="cmt">// Thunk define karo</span>
+<span class="kw">export const</span> fetchUsers = <span class="fn">createAsyncThunk</span>(
+  <span class="str">'users/fetchAll'</span>,           <span class="cmt">// action type prefix</span>
+  <span class="kw">async</span> (_, { getState, rejectWithValue }) => {
+    <span class="kw">const</span> token = <span class="fn">getState</span>().auth.token; <span class="cmt">// store se token lo</span>
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/users'</span>, {
+      headers: { Authorization: <span class="str">`Bearer ${token}`</span> }
+    });
+    <span class="kw">if</span> (!res.ok) <span class="kw">return</span> <span class="fn">rejectWithValue</span>(<span class="str">'Fetch fail hua'</span>);
+    <span class="kw">return</span> res.<span class="fn">json</span>(); <span class="cmt">// → action.payload in fulfilled</span>
+  }
+);
+
+<span class="cmt">// Slice mein handle karo</span>
+<span class="kw">const</span> usersSlice = <span class="fn">createSlice</span>({
+  name: <span class="str">'users'</span>,
+  initialState: { data: [], loading: false, error: null },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .<span class="fn">addCase</span>(fetchUsers.pending, (state) => {
+        state.loading = true; state.error = null;
+      })
+      .<span class="fn">addCase</span>(fetchUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload; <span class="cmt">// API response</span>
+      })
+      .<span class="fn">addCase</span>(fetchUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; <span class="cmt">// rejectWithValue ka value</span>
+      });
+  }
+});</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 7 — RTK QUERY INTRO
+     ==================================================== -->
+<div class="page m0">
+  <div class="page-num">7</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 07</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-zap"/></svg>RTK Query — Kya Aur Kyun?</h1>
+  <div class="title-underline"></div>
+  <p class="lede">createAsyncThunk se caching, deduplication, auto-refetching manually likhna padta tha. RTK Query yeh sab automatically handle karta hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-grid"/></svg></span><h2>7.1 createAsyncThunk vs RTK Query</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>createAsyncThunk</th><th>RTK Query</th></tr></thead>
+        <tbody>
+          <tr><td>Caching</td><td>❌ Manual</td><td>✅ Automatic</td></tr>
+          <tr><td>Loading states</td><td>Manual useState</td><td>Auto hooks</td></tr>
+          <tr><td>Cache invalidation</td><td>❌</td><td>✅ Tags system</td></tr>
+          <tr><td>Deduplication</td><td>❌</td><td>✅ Built-in</td></tr>
+          <tr><td>Auto re-fetch</td><td>Manual</td><td>✅ Configurable</td></tr>
+          <tr><td>Optimistic updates</td><td>Complex</td><td>✅ onQueryStarted</td></tr>
+          <tr><td>Polling</td><td>Manual setInterval</td><td>✅ pollingInterval</td></tr>
+          <tr><td>Code amount</td><td>Zyada</td><td>Bahut Kam</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Rule:</strong> Standard CRUD API → RTK Query. Complex business logic, non-REST operations → createAsyncThunk.</p></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>7.2 RTK Query Cache Flow</h2></div>
+    <div class="flow">
+      <div class="fbox"><span class="lbl">useGetPostsQuery() — pehli baar</span><span class="sub">Cache empty → GET /posts request hoti hai</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Response → Cache mein store</span><span class="sub">"getPosts(undefined)" → { data: [...] }</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Dobara same query</span><span class="sub">Cache se serve — NO network request!</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Mutation (create/update/delete)</span><span class="sub">invalidatesTags → cache invalid → auto re-fetch</span></div>
+    </div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 8 — CREATEAPI + FETCHBASEQUERY
+     ==================================================== -->
+<div class="page m1">
+  <div class="page-num">8</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 08</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-server"/></svg>createApi &amp; fetchBaseQuery</h1>
+  <div class="title-underline"></div>
+  <p class="lede">RTK Query ka core setup — ek createApi call mein sab endpoints, tags, aur auto-generated hooks milte hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>8.1 Complete createApi Setup</h2></div>
+    <div class="code-box"><span class="cmt">// src/features/api/apiSlice.js</span>
+<span class="kw">import</span> { createApi, fetchBaseQuery } <span class="kw">from</span> <span class="str">'@reduxjs/toolkit/query/react'</span>;
+<span class="cmt">// Note: '/react' suffix — hooks auto-generate ke liye zaroori!</span>
+
+<span class="kw">export const</span> apiSlice = <span class="fn">createApi</span>({
+  reducerPath: <span class="str">'api'</span>,   <span class="cmt">// store mein state ka path (unique hona chahiye)</span>
+
+  baseQuery: <span class="fn">fetchBaseQuery</span>({
+    baseUrl: <span class="str">'https://jsonplaceholder.typicode.com'</span>,
+
+    <span class="cmt">// Har request mein common headers add karo</span>
+    <span class="fn">prepareHeaders</span>: (headers, { getState }) => {
+      <span class="kw">const</span> token = <span class="fn">getState</span>().auth.token;
+      <span class="kw">if</span> (token) headers.<span class="fn">set</span>(<span class="str">'Authorization'</span>, <span class="str">`Bearer ${token}`</span>);
+      <span class="kw">return</span> headers;
+    }
+  }),
+
+  tagTypes: [<span class="str">'Post'</span>, <span class="str">'User'</span>],  <span class="cmt">// cache invalidation ke liye tags declare karo</span>
+
+  endpoints: (builder) => ({
+
+    <span class="cmt">// ---- QUERIES (GET requests) ----</span>
+    getPosts: builder.<span class="fn">query</span>({
+      query: () => <span class="str">'/posts'</span>,
+      providesTags: (result) => result
+        ? [...result.<span class="fn">map</span>(({ id }) => ({ type: <span class="str">'Post'</span>, id })), { type: <span class="str">'Post'</span>, id: <span class="str">'LIST'</span> }]
+        : [{ type: <span class="str">'Post'</span>, id: <span class="str">'LIST'</span> }]
+    }),
+
+    getPostById: builder.<span class="fn">query</span>({
+      query: (id) => <span class="str">`/posts/${id}`</span>,
+      providesTags: (result, error, id) => [{ type: <span class="str">'Post'</span>, id }]
+    }),
+
+    <span class="cmt">// ---- MUTATIONS (POST/PUT/DELETE) ----</span>
+    createPost: builder.<span class="fn">mutation</span>({
+      query: (body) => ({ url: <span class="str">'/posts'</span>, method: <span class="str">'POST'</span>, body }),
+      invalidatesTags: [{ type: <span class="str">'Post'</span>, id: <span class="str">'LIST'</span> }]
+      <span class="cmt">// Create ke baad list auto re-fetch hogi!</span>
+    }),
+
+    updatePost: builder.<span class="fn">mutation</span>({
+      query: ({ id, ...body }) => ({ url: <span class="str">`/posts/${id}`</span>, method: <span class="str">'PUT'</span>, body }),
+      invalidatesTags: (result, error, { id }) => [{ type: <span class="str">'Post'</span>, id }]
+    }),
+
+    deletePost: builder.<span class="fn">mutation</span>({
+      query: (id) => ({ url: <span class="str">`/posts/${id}`</span>, method: <span class="str">'DELETE'</span> }),
+      invalidatesTags: [{ type: <span class="str">'Post'</span>, id: <span class="str">'LIST'</span> }]
+    })
+  })
+});
+
+<span class="cmt">// Auto-generated hooks export karo</span>
+<span class="kw">export const</span> {
+  useGetPostsQuery, useGetPostByIdQuery,
+  useCreatePostMutation, useUpdatePostMutation, useDeletePostMutation
+} = apiSlice;</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-server"/></svg></span><h2>8.2 Store Mein Register Karna</h2></div>
+    <div class="code-box"><span class="cmt">// src/app/store.js — middleware add karna ZAROORI hai!</span>
+<span class="kw">import</span> { configureStore } <span class="kw">from</span> <span class="str">'@reduxjs/toolkit'</span>;
+<span class="kw">import</span> { apiSlice } <span class="kw">from</span> <span class="str">'../features/api/apiSlice'</span>;
+
+<span class="kw">export const</span> store = <span class="fn">configureStore</span>({
+  reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer, <span class="cmt">// "api" key</span>
+  },
+  middleware: (getDefault) =>
+    getDefault().<span class="fn">concat</span>(apiSlice.middleware) <span class="cmt">// caching + invalidation handles!</span>
+});</div>
+    <div class="warn-box"><svg class="icon"><use href="#i-warn"/></svg><p><strong>Warning:</strong> apiSlice.middleware add karna bhoologe toh caching, tags, polling — kuch kaam nahi karega!</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 9 — QUERIES IN DEPTH
+     ==================================================== -->
+<div class="page m2">
+  <div class="page-num">9</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 09</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-refresh"/></svg>Queries — Hooks, Caching, Polling</h1>
+  <div class="title-underline"></div>
+  <p class="lede">useXxxQuery hooks auto-run hoti hain, caching handle karti hain, aur isLoading vs isFetching ka fark samajhna zaroori hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>9.1 useQuery Hook — Sab Values</h2></div>
+    <div class="code-box"><span class="kw">const</span> {
+  data: posts,    <span class="cmt">// API response (initially undefined)</span>
+  isLoading,      <span class="cmt">// pehli baar fetch — cache empty</span>
+  isFetching,     <span class="cmt">// koi bhi re-fetch (background bhi)</span>
+  isSuccess,      <span class="cmt">// successfully fetch hua</span>
+  isError,        <span class="cmt">// error aaya</span>
+  error,          <span class="cmt">// error object</span>
+  refetch,        <span class="cmt">// manually refetch karo</span>
+} = <span class="fn">useGetPostsQuery</span>();
+
+<span class="cmt">// Options ke saath:</span>
+<span class="kw">const</span> { data } = <span class="fn">useGetPostsQuery</span>(undefined, {
+  pollingInterval: 30000,     <span class="cmt">// 30 sec mein auto-refresh</span>
+  skip: !isLoggedIn,          <span class="cmt">// condition false toh query nahi chalegi</span>
+  refetchOnFocus: true,       <span class="cmt">// tab focus pe re-fetch</span>
+  refetchOnReconnect: true,   <span class="cmt">// network reconnect pe re-fetch</span>
+});</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>9.2 isLoading vs isFetching — Zaroori Fark</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Scenario</th><th>isLoading</th><th>isFetching</th></tr></thead>
+        <tbody>
+          <tr><td>Pehli baar, cache empty</td><td>✅ true</td><td>✅ true</td></tr>
+          <tr><td>Cache hai, background refresh</td><td>❌ false</td><td>✅ true</td></tr>
+          <tr><td>Data aa gaya</td><td>❌ false</td><td>❌ false</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="code-box"><span class="cmt">// ✅ Correct pattern — dono alag handle karo</span>
+<span class="kw">if</span> (isLoading) <span class="kw">return</span> &lt;Spinner /&gt;;          <span class="cmt">// Full screen spinner</span>
+<span class="kw">if</span> (isError)   <span class="kw">return</span> &lt;ErrorMsg /&gt;;         <span class="cmt">// Error dikhao</span>
+<span class="kw">if</span> (!data?.length) <span class="kw">return</span> &lt;EmptyState /&gt;;  <span class="cmt">// Koi data nahi</span>
+<span class="kw">return</span> (
+  &lt;div&gt;
+    {isFetching &amp;&amp; &lt;span&gt;Refreshing...&lt;/span&gt;}  <span class="cmt">// Small indicator</span>
+    &lt;DataList data={data} /&gt;
+  &lt;/div&gt;
+);</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-zap"/></svg></span><h2>9.3 useLazyQuery — Manual Trigger</h2></div>
+    <div class="code-box"><span class="cmt">// Normal query: component mount pe auto-run hoti hai</span>
+<span class="cmt">// Lazy query: explicit trigger chahiye (search, button click)</span>
+
+<span class="kw">const</span> [triggerSearch, { data, isLoading }] = <span class="fn">useLazyGetUserQuery</span>();
+
+<span class="cmt">// Jab user search kare tabhI call karo:</span>
+<span class="kw">const</span> <span class="fn">handleSearch</span> = () => <span class="fn">triggerSearch</span>(userId);</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 10 — MUTATIONS & TAGS
+     ==================================================== -->
+<div class="page m3">
+  <div class="page-num">10</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 10</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-shield"/></svg>Mutations &amp; Cache Invalidation</h1>
+  <div class="title-underline"></div>
+  <p class="lede">providesTags aur invalidatesTags — RTK Query ka sabse powerful feature. Mutation ke baad related queries automatically re-fetch hoti hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-arrow-right"/></svg></span><h2>10.1 Tags Flow Diagram</h2></div>
+    <div class="flow">
+      <div class="fbox"><span class="lbl">getPosts — providesTags: ['Post/LIST', 'Post/1', 'Post/2'...]</span><span class="sub">Yeh query 'Post' tag ka data provide karti hai</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">createPost mutation — invalidatesTags: ['Post/LIST']</span><span class="sub">Create ke baad 'Post/LIST' tag invalid karo</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">RTK Query: 'Post/LIST' provide karne wali query kaun hai?</span><span class="sub">→ getPosts!</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">getPosts Automatically Re-Fetch ✅</span><span class="sub">Naya post list mein automatically aayega!</span></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>10.2 useMutation Hook — Component Mein</h2></div>
+    <div class="code-box"><span class="kw">function</span> <span class="fn">CreatePostForm</span>() {
+  <span class="kw">const</span> [createPost, { isLoading, isSuccess, isError, error }]
+    = <span class="fn">useCreatePostMutation</span>();
+
+  <span class="kw">const</span> <span class="fn">handleSubmit</span> = <span class="kw">async</span> (formData) => {
+    <span class="kw">try</span> {
+      <span class="cmt">// .unwrap() — success pe data deta hai, error pe throw karta hai</span>
+      <span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">createPost</span>(formData).<span class="fn">unwrap</span>();
+      console.<span class="fn">log</span>(<span class="str">'Created:'</span>, result);
+    } <span class="kw">catch</span> (err) {
+      console.<span class="fn">error</span>(<span class="str">'Failed:'</span>, err);
+    }
+  };
+
+  <span class="kw">return</span> (
+    &lt;button disabled={isLoading} onClick={() => <span class="fn">handleSubmit</span>(data)}&gt;
+      {isLoading ? <span class="str">'Creating...'</span> : <span class="str">'Create Post'</span>}
+    &lt;/button&gt;
+  );
+}</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>10.3 Optimistic Updates</h2></div>
+    <div class="code-box"><span class="cmt">// Server response ka wait mat karo — pehle UI update karo</span>
+updatePost: builder.<span class="fn">mutation</span>({
+  query: ({ id, ...body }) => ({ url: <span class="str">`/posts/${id}`</span>, method: <span class="str">'PUT'</span>, body }),
+  <span class="kw">async</span> <span class="fn">onQueryStarted</span>({ id, ...patch }, { dispatch, queryFulfilled }) {
+    <span class="cmt">// Cache immediately patch karo (optimistic update)</span>
+    <span class="kw">const</span> patchResult = dispatch(
+      apiSlice.util.<span class="fn">updateQueryData</span>(<span class="str">'getPosts'</span>, undefined, (draft) => {
+        <span class="kw">const</span> post = draft.<span class="fn">find</span>(p => p.id === id);
+        <span class="kw">if</span> (post) Object.<span class="fn">assign</span>(post, patch); <span class="cmt">// Immer draft safe!</span>
+      })
+    );
+    <span class="kw">try</span> {
+      <span class="kw">await</span> queryFulfilled; <span class="cmt">// Server success — done!</span>
+    } <span class="kw">catch</span> {
+      patchResult.<span class="fn">undo</span>(); <span class="cmt">// Server fail → rollback!</span>
+    }
+  }
+})</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 11 — BEST PRACTICES
+     ==================================================== -->
+<div class="page m4">
+  <div class="page-num">11</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> MODULE 11</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-grid"/></svg>Folder Structure &amp; Best Practices</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Production app mein feature-based folder structure use karo — har feature ka sab code ek jagah. Easy to navigate, scale, aur delete.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>11.1 Feature-Based Structure</h2></div>
+    <div class="code-box"><span class="str">src/
+├── app/
+│   └── store.js              </span><span class="cmt">← Redux store</span>
+<span class="str">├── features/
+│   ├── auth/
+│   │   ├── authSlice.js      </span><span class="cmt">← Client state + selectors</span>
+<span class="str">│   │   ├── authApiSlice.js   </span><span class="cmt">← RTK Query endpoints</span>
+<span class="str">│   │   ├── LoginPage.jsx
+│   │   └── index.js          </span><span class="cmt">← Public exports (barrel file)</span>
+<span class="str">│   ├── products/
+│   │   ├── productsApiSlice.js
+│   │   ├── ProductsList.jsx
+│   │   └── ProductCard.jsx
+│   └── cart/
+│       └── cartSlice.js      </span><span class="cmt">← Client-only state</span>
+<span class="str">├── components/               </span><span class="cmt">← Shared reusable components</span>
+<span class="str">│   ├── Spinner.jsx
+│   └── ErrorMessage.jsx
+└── hooks/                    </span><span class="cmt">← Custom hooks</span>
+<span class="str">    └── useAuth.js</span></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-grid"/></svg></span><h2>11.2 RTK Query vs React Query vs Axios</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Axios+useEffect</th><th>React Query</th><th>RTK Query</th></tr></thead>
+        <tbody>
+          <tr><td>Caching</td><td>❌ Manual</td><td>✅ Auto</td><td>✅ Auto</td></tr>
+          <tr><td>Redux integration</td><td>External</td><td>❌</td><td>✅ Built-in</td></tr>
+          <tr><td>Cache invalidation</td><td>❌</td><td>Manual</td><td>✅ Tags</td></tr>
+          <tr><td>Boilerplate</td><td>Zyada</td><td>Kam</td><td>Bahut Kam</td></tr>
+          <tr><td>Best for</td><td>Simple apps</td><td>React-only</td><td>Redux users</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Rule of Thumb:</strong> Redux already use kar rahe ho → RTK Query. React-only app → React Query. Simple project → Axios + useEffect enough hai.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 12 — INTERVIEW Q&A
+     ==================================================== -->
+<div class="page m5">
+  <div class="page-num">12</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-target"/></svg> MODULE 12</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-target"/></svg>Interview Questions — Redux &amp; RTK</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Most commonly asked questions — concept + code dono taraf se. Yeh answers memorize mat karo, samjho.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>12.1 Redux Fundamentals</h2></div>
+
+    <div class="qa-block">
+      <p class="q">Q1: Redux ke 3 core principles kya hain?</p>
+      <p class="a"><strong>1) Single Source of Truth</strong> — ek store. <strong>2) State is Read-Only</strong> — sirf actions se change. <strong>3) Pure Reducers</strong> — same input → same output, no side effects.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q2: Reducer mein direct mutation kyun nahi karte?</p>
+      <p class="a">React shallow comparison karta hai. Agar same reference return ho, React ko change pata nahi chalta aur re-render nahi hota. Naya object return karna zaroori hai.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q3: createSlice kya auto-generate karta hai?</p>
+      <p class="a">Teen cheezein: (1) Reducer function, (2) Action creators — har reducer ke liye ek, (3) Action types — <code>sliceName/reducerName</code> format mein.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q4: extraReducers kab use karte hain?</p>
+      <p class="a">Jab ek slice ko doosre slice ke action par react karna ho. Example: <code>logout</code> dispatch hone pe cart bhi clear karo — cart slice auth ke logout ko extraReducers mein handle karta hai.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q5: Immer kya hai aur kaise kaam karta hai?</p>
+      <p class="a">Immer draft state banata hai. Mutations draft pe hoti hain. Immer internally naya immutable object produce karta hai. RTK mein createSlice ke andar automatically use hota hai.</p>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-zap"/></svg></span><h2>12.2 RTK Query Questions</h2></div>
+
+    <div class="qa-block">
+      <p class="q">Q6: isLoading aur isFetching mein kya fark hai?</p>
+      <p class="a"><code>isLoading</code> = sirf pehli baar (cache empty). <code>isFetching</code> = koi bhi re-fetch, background bhi. Cache available hone pe isLoading false hota hai, isFetching true.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q7: providesTags aur invalidatesTags ka relationship?</p>
+      <p class="a">Query batata hai kya data provide karta hai (providesTags). Mutation ke baad kaunse tags invalid karne hain (invalidatesTags). Match hone pe woh queries auto re-fetch hoti hain.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q8: .unwrap() kya karta hai?</p>
+      <p class="a">Mutation result ko normal promise mein convert karta hai. Success pe data return, error pe throw. try/catch se cleanly handle kar sakte ho.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q9: Optimistic updates kaise implement karein?</p>
+      <p class="a">onQueryStarted mein <code>api.util.updateQueryData()</code> se cache patch karo. Server success pe permanent. Fail pe <code>patchResult.undo()</code> se rollback.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q10: RTK Query middleware store mein kyun add karna zaroori hai?</p>
+      <p class="a">Middleware caching lifecycle, polling, cache invalidation, refetching sab handle karta hai. Bina middleware ke kuch bhi kaam nahi karega.</p>
+    </div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     MODULE 13 — CHEAT SHEET
+     ==================================================== -->
+<div class="page m0">
+  <div class="page-num">13</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-star"/></svg> CHEAT SHEET</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-star"/></svg>Quick Reference Cheat Sheet</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Sabse important syntax, hooks, aur patterns — ek hi jagah quick reference ke liye.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>Install Commands</h2></div>
+    <div class="code-box">npm install @reduxjs/toolkit react-redux
+npm create vite@latest my-app -- --template react</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>createSlice Pattern</h2></div>
+    <div class="code-box"><span class="kw">const</span> mySlice = <span class="fn">createSlice</span>({
+  name: <span class="str">'sliceName'</span>,
+  initialState: { value: 0, loading: false, error: null },
+  reducers: {
+    <span class="fn">myAction</span>(state, action) { state.value = action.payload; }
+  },
+  extraReducers: (builder) => {
+    builder
+      .<span class="fn">addCase</span>(someThunk.pending,   (state) => { state.loading = true; })
+      .<span class="fn">addCase</span>(someThunk.fulfilled, (state, action) => { state.value = action.payload; })
+      .<span class="fn">addCase</span>(someThunk.rejected,  (state, action) => { state.error = action.payload; });
+  }
+});
+<span class="kw">export const</span> { myAction } = mySlice.actions;
+<span class="kw">export default</span> mySlice.reducer;</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-refresh"/></svg></span><h2>Hooks Quick Reference</h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Hook</th><th>Use kaise</th></tr></thead>
+        <tbody>
+          <tr><td>useSelector</td><td><code>const val = useSelector(state => state.slice.value)</code></td></tr>
+          <tr><td>useDispatch</td><td><code>const dispatch = useDispatch(); dispatch(action())</code></td></tr>
+          <tr><td>useQuery</td><td><code>const { data, isLoading, isError, refetch } = useGetXQuery(arg)</code></td></tr>
+          <tr><td>useLazyQuery</td><td><code>const [trigger, { data }] = useLazyGetXQuery()</code></td></tr>
+          <tr><td>useMutation</td><td><code>const [mutate, { isLoading }] = useCreateXMutation()</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-shield"/></svg></span><h2>Tag Patterns</h2></div>
+    <div class="code-box"><span class="cmt">// Simple tag</span>
+providesTags: [<span class="str">'Entity'</span>]
+invalidatesTags: [<span class="str">'Entity'</span>]
+
+<span class="cmt">// ID-specific (granular)</span>
+providesTags: (result, error, id) => [{ type: <span class="str">'Entity'</span>, id }]
+invalidatesTags: (result, error, id) => [{ type: <span class="str">'Entity'</span>, id }]
+
+<span class="cmt">// List + individual (best practice for lists)</span>
+providesTags: (result) => result
+  ? [...result.<span class="fn">map</span>(({ id }) => ({ type: <span class="str">'Entity'</span>, id })), { type: <span class="str">'Entity'</span>, id: <span class="str">'LIST'</span> }]
+  : [{ type: <span class="str">'Entity'</span>, id: <span class="str">'LIST'</span> }]</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>Common Patterns</h2></div>
+    <div class="code-box"><span class="cmt">// Loading/Error/Success pattern</span>
+<span class="kw">if</span> (isLoading) <span class="kw">return</span> &lt;Spinner /&gt;;
+<span class="kw">if</span> (isError)   <span class="kw">return</span> &lt;Error message={error?.data?.message} onRetry={refetch} /&gt;;
+<span class="kw">if</span> (!data?.length) <span class="kw">return</span> &lt;EmptyState /&gt;;
+<span class="kw">return</span> &lt;DataList data={data} /&gt;;
+
+<span class="cmt">// Mutation with try/catch</span>
+<span class="kw">const</span> <span class="fn">handleSubmit</span> = <span class="kw">async</span> () => {
+  <span class="kw">try</span> {
+    <span class="kw">await</span> <span class="fn">mutate</span>(formData).<span class="fn">unwrap</span>();
+  } <span class="kw">catch</span> (err) { console.<span class="fn">error</span>(err); }
+};
+
+<span class="cmt">// Skip pattern</span>
+<span class="kw">const</span> { data } = <span class="fn">useGetProfileQuery</span>(undefined, { skip: !isLoggedIn });
+
+<span class="cmt">// Auth token in thunk</span>
+<span class="kw">async</span> (arg, { getState, rejectWithValue }) => {
+  <span class="kw">const</span> token = <span class="fn">getState</span>().auth.token;
+}
+
+<span class="cmt">// Environment variables</span>
+<span class="cmt">// .env: VITE_API_URL=https://api.example.com</span>
+baseUrl: import.meta.env.VITE_API_URL <span class="cmt">// Vite</span>
+baseUrl: process.env.REACT_APP_API_URL <span class="cmt">// CRA</span></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Final Tip:</strong> Redux DevTools browser extension install karo — actions list, state tree, aur time-travel debugging sab milta hai. RTK Query ka cache bhi wahan dekhte hain.</p></div>
+  </section>
+</div>
+
+</body>
+</html>

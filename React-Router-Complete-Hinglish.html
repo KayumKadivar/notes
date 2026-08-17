@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>React Router v6: Complete Guide — Hinglish Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper:#FFFDF7; --paper-edge:#F2EDDD; --ink:#2B2620; --sub-ink:#5A5348;
+      --outer-bg:#E9E4D6; --coral:#D6524A;
+      --m0:#0F6F6B; --m0L:#E4F2F0;
+      --m1:#22395B; --m1L:#E7ECF3;
+      --m2:#A6461E; --m2L:#FBEBDD;
+      --m3:#5B3E96; --m3L:#EEE8F8;
+      --m4:#A9740C; --m4L:#FBF0DD;
+      --m5:#2F6F4E; --m5L:#E7F3EC;
+    }
+    *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+    body{background:var(--outer-bg);font-family:'Patrick Hand',sans-serif;color:var(--ink);padding:16px;}
+    .icon{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-0.15em;}
+    .icon.filled{fill:currentColor;stroke:none;}
+
+    .page{max-width:780px;margin:0 auto 34px;background:var(--paper);border-radius:8px;box-shadow:0 14px 15px rgba(0,0,0,.18);position:relative;padding:30px 34px 34px 34px;border-left:10px solid var(--accent);}
+    .page.m0{--accent:var(--m0);--accentL:var(--m0L);}
+    .page.m1{--accent:var(--m1);--accentL:var(--m1L);}
+    .page.m2{--accent:var(--m2);--accentL:var(--m2L);}
+    .page.m3{--accent:var(--m3);--accentL:var(--m3L);}
+    .page.m4{--accent:var(--m4);--accentL:var(--m4L);}
+    .page.m5{--accent:var(--m5);--accentL:var(--m5L);}
+
+    .page-num{position:absolute;top:18px;right:24px;font-family:'Kalam',cursive;font-size:18px;font-weight:700;color:var(--accent);width:30px;height:30px;border-radius:50%;border:2px solid var(--accent);background:#fff;display:flex;align-items:center;justify-content:center;}
+    .topic-badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--accent);padding:4px 12px 4px 10px;border-radius:20px;margin-bottom:10px;}
+    .main-title{display:flex;align-items:center;gap:12px;font-family:'Kalam',cursive;font-size:30px;font-weight:700;margin:0 0 4px;line-height:1.2;color:var(--ink);}
+    .main-title .icon{width:1.05em;height:1.05em;color:var(--accent);}
+    .title-underline{width:170px;height:4px;background:var(--coral);border-radius:3px;margin-bottom:8px;}
+    .lede{font-size:16.5px;line-height:1.6;color:var(--sub-ink);margin:0 0 22px;max-width:640px;}
+
+    section.block{margin-bottom:26px;}
+    .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+    .sec-circle{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;}
+    .sec-circle .icon{width:18px;height:18px;}
+    .sec-head h2{font-family:'Kalam',cursive;font-size:20px;margin:0;font-weight:700;color:var(--ink);}
+    section.block p{font-size:16.5px;line-height:1.65;margin:0 0 10px;}
+    section.block>p:last-child{margin-bottom:0;}
+
+    .check-list,.cross-list{list-style:none;margin:0 0 14px;padding:0;}
+    .check-list li,.cross-list li{font-size:16px;line-height:1.6;padding-left:28px;position:relative;margin-bottom:5px;}
+    .check-list li .icon{position:absolute;left:0;top:3px;color:var(--accent);width:16px;height:16px;}
+    .cross-list li .icon{position:absolute;left:0;top:3px;color:var(--coral);width:16px;height:16px;}
+
+    .table-wrap{overflow-x:auto;margin-bottom:14px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.10);}
+    table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:12.5px;background:#fff;}
+    thead tr{background:var(--accent);}
+    thead th{color:#fff;text-align:left;padding:9px 12px;font-family:'Patrick Hand',sans-serif;font-weight:700;font-size:14px;}
+    tbody td{padding:8px 12px;border-bottom:1px solid #EFE9D8;line-height:1.5;}
+    tbody tr:nth-child(even){background:var(--accentL);}
+
+    .code-box{background:#F7F8F3;color:#233B34;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.85;padding:13px 16px;border:1.5px dashed var(--accent);border-radius:10px;margin-bottom:14px;white-space:pre-wrap;overflow-x:auto;}
+    .code-box .cmt{color:#8A9490;font-style:italic;}
+    .code-box .kw{color:var(--coral);font-weight:700;}
+    .code-box .fn{color:#1D6E7A;font-weight:700;}
+    .code-box .str{color:#8A5A15;}
+    .code-box .num{color:#5B3E96;}
+
+    .callout{background:var(--accentL);border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;font-size:15px!important;font-style:italic;}
+    .tip-box,.warn-box,.fact-box{margin-top:16px;border-radius:12px;padding:13px 18px;display:flex;gap:11px;align-items:flex-start;}
+    .tip-box{background:var(--m4L);border:2px dashed var(--m4);}
+    .fact-box{background:var(--m0L);border:2px dashed var(--m0);}
+    .warn-box{background:#FDECEC;border:2px dashed var(--coral);}
+    .tip-box .icon,.fact-box .icon,.warn-box .icon{flex:0 0 auto;width:20px;height:20px;margin-top:2px;}
+    .tip-box .icon{color:var(--m4);}.fact-box .icon{color:var(--m0);}.warn-box .icon{color:var(--coral);}
+    .tip-box p,.fact-box p,.warn-box p{margin:0;font-size:15px;line-height:1.6;}
+    .tip-box strong,.fact-box strong,.warn-box strong{font-family:'Kalam',cursive;font-size:15.5px;}
+
+    .flow{display:flex;flex-direction:column;align-items:center;gap:2px;margin:14px 0 18px;}
+    .fbox{width:100%;max-width:520px;border:2px solid var(--accent);border-radius:10px;background:#fff;padding:9px 16px;text-align:center;font-size:14px;}
+    .fbox .lbl{font-family:'Kalam',cursive;font-weight:700;font-size:15px;display:block;}
+    .fbox .sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sub-ink);}
+    .frow{display:flex;gap:10px;width:100%;max-width:520px;justify-content:center;}
+    .frow .fbox{flex:1;}
+    .farrow{color:var(--accent);}
+    .farrow .icon{width:16px;height:16px;}
+
+    .cover{text-align:center;padding:54px 34px 44px;border-left:none;border-top:10px solid var(--coral);}
+    .cover .icon-hero{width:64px;height:64px;color:var(--coral);margin-bottom:10px;}
+    .cover h1{font-family:'Kalam',cursive;font-size:44px;margin:6px 0 2px;line-height:1.1;}
+    .cover .sub1{font-size:19px;color:var(--sub-ink);margin:0 0 22px;}
+    .cover .tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;background:#2B2620;color:#fff;padding:6px 16px;border-radius:20px;margin-bottom:26px;}
+    .cover-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left;margin-top:10px;}
+    .cover-item{border:1.5px solid #E6DFC9;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.4;}
+    .cover-item b{display:block;font-family:'Kalam',cursive;font-size:14.5px;margin-bottom:2px;}
+
+    .qa-block{background:var(--accentL);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+    .qa-block .q{font-family:'Kalam',cursive;font-size:16px;font-weight:700;color:var(--accent);margin:0 0 6px;}
+    .qa-block .a{font-size:15px;line-height:1.6;margin:0;}
+
+    @media(max-width:600px){
+      body{padding:12px 8px;}
+      .page{padding:24px 20px;border-left-width:6px;margin-bottom:20px;}
+      .main-title{font-size:24px;}
+      .code-box{font-size:11.5px;padding:12px 10px;}
+      .cover{padding:40px 20px 30px;border-top-width:6px;}
+      .cover h1{font-size:32px;}
+      .cover-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== SVG SPRITE ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.45.9 1.15.9 1.9V16h5.4v-.3c0-.75.3-1.45.9-1.9A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="4 12 9 18 20 6"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.9 7.1.7-5.5 5.1 1.6 7-6.1-3.7-6.1 3.7 1.6-7L2 10.1l7.1-.7z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-7.3-7-12.5A7 7 0 0 1 19 8.5C19 13.7 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.6"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3.5 22 20H2L12 3.5z" stroke-linejoin="round"/><line x1="12" y1="10" x2="12" y2="14.5"/><circle cx="12" cy="17.3" r="0.9" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 5.5c3-1.2 6-1.2 9 0v14c-3-1.2-6-1.2-9 0v-14z"/><path d="M22 5.5c-3-1.2-6-1.2-9 0v14c3-1.2 6-1.2 9 0v-14z"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"/><path d="M11 6.5l1.3-1.3a4 4 0 0 1 5.7 5.7L16.7 12.2"/><path d="M13 17.5l-1.3 1.3a4 4 0 0 1-5.7-5.7L7.3 11.8"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="5 13 12 20 19 13"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="13 5 20 12 13 19"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.5 4 5.5v6c0 5.2 3.4 8.6 8 10 4.6-1.4 8-4.8 8-10v-6L12 2.5z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2.5 2.5 7.5 12 12.5 21.5 7.5" stroke-linejoin="round"/><polyline points="2.5 12.5 12 17.5 21.5 12.5"/><polyline points="2.5 17.5 12 22.5 21.5 17.5"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></symbol>
+</defs></svg>
+
+
+<!-- ====================================================
+     COVER PAGE
+     ==================================================== -->
+<div class="page cover">
+  <svg class="icon icon-hero" style="width:64px;height:64px;color:var(--coral);margin-bottom:10px;"><use href="#i-map"/></svg>
+  <h1>React Router v6</h1>
+  <p class="sub1">Modern Routing Architecture — Complete Hinglish Guide</p>
+  <span class="tag">ROUTER v6.4+ &middot; LAYOUTS &middot; PROTECTED ROUTES &middot; HINGLISH</span>
+  <div class="cover-grid">
+    <div class="cover-item"><b>Topic 01</b>Routing Basics — SPA concept aur nayi v6.4 API</div>
+    <div class="cover-item"><b>Topic 02</b>createBrowserRouter — Modern setup + RouterProvider</div>
+    <div class="cover-item"><b>Topic 03</b>Navigation — Link, NavLink, aur useNavigate()</div>
+    <div class="cover-item"><b>Topic 04</b>Dynamic Routes — URL params aur Search queries</div>
+    <div class="cover-item"><b>Topic 05</b>Nested Routes &amp; Layouts — &lt;Outlet /&gt; magic</div>
+    <div class="cover-item"><b>Topic 06</b>Protected Routes — Auth Guards for private pages</div>
+    <div class="cover-item"><b>Topic 07</b>Loaders &amp; Actions — Data fetching inside Router!</div>
+    <div class="cover-item"><b>Topic 08</b>Error Handling — 404 pages aur errorElement</div>
+    <div class="cover-item"><b>Topic 09</b>Interview Q&amp;A + Cheat Sheet</div>
+  </div>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 01 — ROUTING BASICS
+     ==================================================== -->
+<div class="page m0">
+  <div class="page-num">1</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 01</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-route"/></svg>Routing Kya Hai? (SPA)</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Traditional websites mein naye page pe jaane par poora page reload hota hai. React ek SPA (Single Page Application) hai — page reload nahi hota, sirf andar ka component change hota hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>1.1 MPA vs SPA</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>Multi-Page App (Old)</th><th>Single Page App (React)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Page transition</strong></td><td>Full browser reload hota hai</td><td>Instant (sirf DOM update hota hai)</td></tr>
+        <tr><td><strong>Speed</strong></td><td>Slow — har baar HTML server se aata hai</td><td>Fast — sirf JSON data fetch hota hai</td></tr>
+        <tr><td><strong>State</strong></td><td>Page refresh pe state loss ho jaati hai</td><td>State persist rehti hai navigation ke beech</td></tr>
+        <tr><td><strong>Routing</strong></td><td>Server handle karta hai</td><td>Client (Browser) handle karta hai</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-zap"/></svg></span><h2>1.2 React Router v6.4+ Updates</h2></div>
+    <p>Pehle hum <code>&lt;BrowserRouter&gt;</code> ke andar components wrap karte the. v6.4 se naya data API aaya hai (<code>createBrowserRouter</code>). Ab routing JavaScript objects/array ke through define hoti hai. Yeh naya pattern data loaders aur actions ko support karta hai.</p>
+    <div class="flow">
+      <div class="frow">
+        <div class="fbox"><span class="lbl">Old Way (v5 / early v6)</span><span class="sub">&lt;Route path="/" element={&lt;App/&gt;} /&gt;</span></div>
+        <div class="fbox"><span class="lbl">New Way (v6.4+)</span><span class="sub">{ path: "/", element: &lt;App/&gt; }</span></div>
+      </div>
+    </div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Naye projects mein hamesha <code>createBrowserRouter</code> use karo. Yeh nayi Data APIs (loaders, actions, fetchers) ko enable karta hai jo React 18 aur aage ke liye best hain.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 02 — SETUP
+     ==================================================== -->
+<div class="page m1">
+  <div class="page-num">2</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 02</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-code"/></svg>Modern Router Setup (v6.4+)</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Sabse pehle library install karni hai aur apna routing object banana hai. Uske baad usko app mein inject karna hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>2.1 Installation &amp; Basic Setup</h2></div>
+    <div class="code-box"><span class="cmt"># Terminal mein install karo:</span>
+npm install react-router-dom</div>
+
+    <div class="code-box"><span class="cmt">// src/main.jsx — Ya entry file mein</span>
+<span class="kw">import</span> React <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">import</span> ReactDOM <span class="kw">from</span> <span class="str">'react-dom/client'</span>;
+<span class="kw">import</span> { createBrowserRouter, RouterProvider } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="cmt">// Import your page components</span>
+<span class="kw">import</span> Home <span class="kw">from</span> <span class="str">'./pages/Home'</span>;
+<span class="kw">import</span> About <span class="kw">from</span> <span class="str">'./pages/About'</span>;
+<span class="kw">import</span> Contact <span class="kw">from</span> <span class="str">'./pages/Contact'</span>;
+<span class="kw">import</span> NotFound <span class="kw">from</span> <span class="str">'./pages/NotFound'</span>;
+
+<span class="cmt">// 1. Router configure karo — Objects ka array</span>
+<span class="kw">const</span> router = <span class="fn">createBrowserRouter</span>([
+  {
+    path: <span class="str">'/'</span>,
+    element: &lt;Home /&gt;,
+    errorElement: &lt;NotFound /&gt;, <span class="cmt">// Agar URL exist nahi karta toh yeh dikhega</span>
+  },
+  {
+    path: <span class="str">'/about'</span>,
+    element: &lt;About /&gt;,
+  },
+  {
+    path: <span class="str">'/contact'</span>,
+    element: &lt;Contact /&gt;,
+  }
+]);
+
+<span class="cmt">// 2. App ko RouterProvider mein wrap karo</span>
+ReactDOM.<span class="fn">createRoot</span>(document.<span class="fn">getElementById</span>(<span class="str">'root'</span>)).<span class="fn">render</span>(
+  &lt;React.StrictMode&gt;
+    &lt;RouterProvider router={router} /&gt;
+  &lt;/React.StrictMode&gt;
+);</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-warn"/></svg></span><h2>2.2 Common Mistake: errorElement</h2></div>
+    <p>Agar <code>errorElement</code> root pe define nahi karoge, toh invalid URL pe React default (ugly) error screen dikhayega jo development mein red screen hoti hai. Isliye root path pe hamesha ek 404 page lagana zaroori hai.</p>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 03 — NAVIGATION
+     ==================================================== -->
+<div class="page m2">
+  <div class="page-num">3</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 03</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-link"/></svg>Navigation: Link vs NavLink vs useNavigate</h1>
+  <div class="title-underline"></div>
+  <p class="lede">React mein <code>&lt;a href="..."&gt;</code> use nahi karte! Kyun? Kyunki woh poora page reload kar dega (SPA break ho jayega). Iski jagah React Router ke components aur hooks use hote hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>3.1 Link (Simple Navigation)</h2></div>
+    <div class="code-box"><span class="kw">import</span> { Link } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="kw">function</span> <span class="fn">Navbar</span>() {
+  <span class="kw">return</span> (
+    &lt;nav&gt;
+      <span class="cmt">{/* ❌ DON'T do this: &lt;a href="/about"&gt;About&lt;/a&gt; */}</span>
+      <span class="cmt">{/* ✅ DO this: */}</span>
+      &lt;Link to="/"&gt;Home&lt;/Link&gt;
+      &lt;Link to="/about"&gt;About Us&lt;/Link&gt;
+      &lt;Link to="/contact"&gt;Contact&lt;/Link&gt;
+    &lt;/nav&gt;
+  );
+}</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-star"/></svg></span><h2>3.2 NavLink (Active Styling)</h2></div>
+    <p><code>NavLink</code> bilkul <code>Link</code> jaisa hai, par usko pata hota hai ki woh "active" hai ya nahi. Navigation menus/sidebars ke liye best hai.</p>
+    <div class="code-box"><span class="kw">import</span> { NavLink } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="kw">function</span> <span class="fn">Sidebar</span>() {
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      &lt;NavLink
+        to="/dashboard"
+        className={({ isActive }) => (isActive ? <span class="str">'nav-active'</span> : <span class="str">'nav-inactive'</span>)}
+        style={({ isActive }) => ({ color: isActive ? <span class="str">'red'</span> : <span class="str">'black'</span> })}
+      &gt;
+        Dashboard
+      &lt;/NavLink&gt;
+    &lt;/div&gt;
+  );
+}</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-refresh"/></svg></span><h2>3.3 useNavigate (Programmatic Navigation)</h2></div>
+    <p>Jab kisi button click pe, form submit hone ke baad, ya API response ke baad navigate karna ho.</p>
+    <div class="code-box"><span class="kw">import</span> { useNavigate } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="kw">function</span> <span class="fn">LoginForm</span>() {
+  <span class="kw">const</span> navigate = <span class="fn">useNavigate</span>();
+
+  <span class="kw">const</span> <span class="fn">handleSubmit</span> = <span class="kw">async</span> (e) => {
+    e.<span class="fn">preventDefault</span>();
+    <span class="kw">await</span> <span class="fn">loginApi</span>(); <span class="cmt">// API call ki</span>
+    <span class="fn">navigate</span>(<span class="str">'/dashboard'</span>); <span class="cmt">// ✅ Success ke baad Dashboard bhejo</span>
+
+    <span class="cmt">// Back jaane ke liye:</span>
+    <span class="cmt">// navigate(-1); </span>
+  };
+
+  <span class="kw">return</span> &lt;button onClick={handleSubmit}&gt;Login&lt;/button&gt;;
+}</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 04 — DYNAMIC ROUTES
+     ==================================================== -->
+<div class="page m3">
+  <div class="page-num">4</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 04</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-layers"/></svg>Dynamic Routes &amp; URL Params</h1>
+  <div class="title-underline"></div>
+  <p class="lede">E-commerce mein har product ke liye alag page nahi banate. Ek hi "Product Details" page hota hai, bas URL mein ID badalti hai. Isey Dynamic Routing kehte hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>4.1 Route Parameter Setup (/:id)</h2></div>
+    <div class="code-box"><span class="cmt">// main.jsx mein route setup:</span>
+<span class="kw">const</span> router = <span class="fn">createBrowserRouter</span>([
+  { path: <span class="str">'/products'</span>, element: &lt;ProductsList /&gt; },
+  <span class="cmt">// URL mein colon (:) ka matlab hai yeh part dynamic/variable hai</span>
+  { path: <span class="str">'/products/:id'</span>, element: &lt;ProductDetails /&gt; }
+]);
+
+<span class="cmt">// Valid URLs: /products/123, /products/apple-watch</span></div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-hook"/></svg></span><h2>4.2 useParams() — ID Extract Karna</h2></div>
+    <p>Component ke andar URL ka woh variable (ID) padhne ke liye <code>useParams</code> hook use hota hai.</p>
+    <div class="code-box"><span class="kw">import</span> { useParams } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="kw">function</span> <span class="fn">ProductDetails</span>() {
+  <span class="cmt">// Hook wahi name return karega jo route mein colon (:) ke baad tha</span>
+  <span class="kw">const</span> { id } = <span class="fn">useParams</span>();
+  <span class="cmt">// Agar URL /products/99 hai, toh id = "99"</span>
+
+  <span class="cmt">// Ab is ID se API call kar sakte hain:</span>
+  <span class="cmt">// const { data } = useQuery(`/api/products/${id}`);</span>
+
+  <span class="kw">return</span> &lt;h1&gt;Showing details for Product ID: {id}&lt;/h1&gt;;
+}</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>4.3 useSearchParams() — Query Params (?key=value)</h2></div>
+    <p>Search filters, pagination, ya sorting ke liye hum URL ke aakhir mein query parameters lagate hain. (e.g. <code>/products?category=shoes&page=2</code>)</p>
+    <div class="code-box"><span class="kw">import</span> { useSearchParams } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="kw">function</span> <span class="fn">ProductsList</span>() {
+  <span class="cmt">// Yeh hook useState ki tarah [state, setter] return karta hai</span>
+  <span class="kw">const</span> [searchParams, setSearchParams] = <span class="fn">useSearchParams</span>();
+
+  <span class="cmt">// Value padhna:</span>
+  <span class="kw">const</span> category = searchParams.<span class="fn">get</span>(<span class="str">'category'</span>) || <span class="str">'all'</span>;
+  <span class="kw">const</span> page = searchParams.<span class="fn">get</span>(<span class="str">'page'</span>) || <span class="num">1</span>;
+
+  <span class="cmt">// Value set karna (URL update karna):</span>
+  <span class="kw">const</span> <span class="fn">handleFilter</span> = (newCategory) => {
+    <span class="fn">setSearchParams</span>({ category: newCategory, page: <span class="num">1</span> });
+    <span class="cmt">// URL ban jayega: /products?category=electronics&page=1</span>
+  };
+
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      &lt;h3&gt;Current Category: {category}&lt;/h3&gt;
+      &lt;button onClick={() =&gt; <span class="fn">handleFilter</span>(<span class="str">'shoes'</span>)}&gt;Shoes&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 05 — LAYOUTS & NESTED ROUTES
+     ==================================================== -->
+<div class="page m4">
+  <div class="page-num">5</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 05</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-layers"/></svg>Layouts &amp; Nested Routes (&lt;Outlet /&gt;)</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Har page mein Navbar aur Footer alag-alag import karne ki zaroorat nahi hai. Hum ek Parent Layout bana sakte hain jo fixed rahega, aur beech ka content URL ke hisaab se change hoga.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>5.1 Router Object mein Nesting</h2></div>
+    <div class="code-box"><span class="kw">const</span> router = <span class="fn">createBrowserRouter</span>([
+  {
+    path: <span class="str">'/'</span>,
+    element: &lt;MainLayout /&gt;,      <span class="cmt">// Parent Route</span>
+    errorElement: &lt;ErrorPage /&gt;,
+    children: [                   <span class="cmt">// Child Routes</span>
+      { path: <span class="str">''</span>, element: &lt;Home /&gt; },          <span class="cmt">// '/'</span>
+      { path: <span class="str">'about'</span>, element: &lt;About /&gt; },    <span class="cmt">// '/about'</span>
+      { path: <span class="str">'contact'</span>, element: &lt;Contact /&gt; } <span class="cmt">// '/contact'</span>
+    ]
+  },
+  {
+    path: <span class="str">'/dashboard'</span>,
+    element: &lt;DashboardLayout /&gt;, <span class="cmt">// Alag layout!</span>
+    children: [
+      { path: <span class="str">''</span>, element: &lt;DashHome /&gt; },
+      { path: <span class="str">'settings'</span>, element: &lt;Settings /&gt; }
+    ]
+  }
+]);</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-star"/></svg></span><h2>5.2 The Magic of &lt;Outlet /&gt;</h2></div>
+    <p><code>MainLayout</code> component ko pata hona chahiye ki jo "children" routes humne define kiye hain, unhe kahan render karna hai. Wahan hum <code>&lt;Outlet /&gt;</code> lagate hain.</p>
+    <div class="code-box"><span class="cmt">// layouts/MainLayout.jsx</span>
+<span class="kw">import</span> { Outlet } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+<span class="kw">import</span> Navbar <span class="kw">from</span> <span class="str">'../components/Navbar'</span>;
+<span class="kw">import</span> Footer <span class="kw">from</span> <span class="str">'../components/Footer'</span>;
+
+<span class="kw">function</span> <span class="fn">MainLayout</span>() {
+  <span class="kw">return</span> (
+    &lt;div className="app-container"&gt;
+      &lt;Navbar /&gt;  <span class="cmt">{/* Yeh hamesha dikhega */}</span>
+
+      &lt;main className="content-area"&gt;
+        <span class="cmt">{/* YAHAN magic hota hai! */}</span>
+        <span class="cmt">{/* Agar URL /about hai, toh <Outlet /> ki jagah <About /> aa jayega */}</span>
+        &lt;Outlet /&gt;
+      &lt;/main&gt;
+
+      &lt;Footer /&gt;  <span class="cmt">{/* Yeh hamesha dikhega */}</span>
+    &lt;/div&gt;
+  );
+}</div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> <code>&lt;Outlet /&gt;</code> ek placeholder hai child routes ke liye. Isse code repetition khatam ho jaati hai aur layout clean rehta hai.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 06 — PROTECTED ROUTES
+     ==================================================== -->
+<div class="page m5">
+  <div class="page-num">6</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 06</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-shield"/></svg>Protected Routes (Auth Guards)</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Kuch pages (jaise Profile ya Dashboard) sirf logged-in users ko dikhne chahiye. Agar bina login koi us URL pe jaaye, toh usko Login page pe redirect karna zaroori hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>6.1 AuthGuard Component Banana</h2></div>
+    <p>Ek wrapper component banao jo check kare ki user authenticate hai ya nahi. Agar nahi, toh <code>Navigate</code> component se redirect kar do.</p>
+    <div class="code-box"><span class="cmt">// components/RequireAuth.jsx</span>
+<span class="kw">import</span> { Navigate, Outlet } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="kw">function</span> <span class="fn">RequireAuth</span>() {
+  <span class="cmt">// Check auth status (Redux se, Context se, ya LocalStorage se)</span>
+  <span class="kw">const</span> isAuthenticated = localStorage.<span class="fn">getItem</span>(<span class="str">'token'</span>) ? <span class="kw">true</span> : <span class="kw">false</span>;
+
+  <span class="kw">if</span> (!isAuthenticated) {
+    <span class="cmt">// Redirect to login</span>
+    <span class="cmt">// replace=true lagana zaroori hai taaki user back button daba ke wapas yahan na aa sake</span>
+    <span class="kw">return</span> &lt;Navigate to="/login" replace /&gt;;
+  }
+
+  <span class="cmt">// Agar login hai, toh uske children (jo route maanga tha) ko render hone do</span>
+  <span class="kw">return</span> &lt;Outlet /&gt;;
+}
+
+<span class="kw">export default</span> RequireAuth;</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>6.2 Router mein Use Karna</h2></div>
+    <p>Ab is <code>RequireAuth</code> ko apne router mein parent element bana do un routes ke liye jo private hain.</p>
+    <div class="code-box"><span class="kw">const</span> router = <span class="fn">createBrowserRouter</span>([
+  <span class="cmt">// Public Routes</span>
+  { path: <span class="str">'/'</span>, element: &lt;Home /&gt; },
+  { path: <span class="str">'/login'</span>, element: &lt;Login /&gt; },
+
+  <span class="cmt">// Protected Routes (RequireAuth ke andar nest kiye)</span>
+  {
+    path: <span class="str">'/dashboard'</span>,
+    element: &lt;RequireAuth /&gt;, <span class="cmt">// &lt;-- Guard yahan laga hai</span>
+    children: [
+      { path: <span class="str">''</span>, element: &lt;DashboardHome /&gt; },     <span class="cmt">// Sirf logged-in users ko dikhega</span>
+      { path: <span class="str">'profile'</span>, element: &lt;Profile /&gt; },    <span class="cmt">// Sirf logged-in users ko dikhega</span>
+      { path: <span class="str">'settings'</span>, element: &lt;Settings /&gt; }   <span class="cmt">// Sirf logged-in users ko dikhega</span>
+    ]
+  }
+]);</div>
+    <div class="warn-box"><svg class="icon"><use href="#i-warn"/></svg><p><strong>Important:</strong> <code>useNavigate</code> ek function (hook) hai jo button clicks mein use hota hai. <code>Navigate</code> ek component hai jo render hote hi redirect kar deta hai. Auth guards mein hamesha component (<code>Navigate</code>) use karo.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 07 — LOADERS & ACTIONS (V6.4+)
+     ==================================================== -->
+<div class="page m0">
+  <div class="page-num">7</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 07</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-refresh"/></svg>Loaders &amp; Actions (Modern APIs)</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Yeh v6.4+ ka sabse powerful feature hai. Puraane tareeqe mein page load hota tha, spinner ghumta tha, fir data aata tha. Ab router route par jaane se *pehle* hi data fetch kar sakta hai!</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-arrow-down"/></svg></span><h2>7.1 Loaders — GET Data Before Render</h2></div>
+    <div class="code-box"><span class="cmt">// 1. Loader function define karo (Page ke bahar)</span>
+<span class="kw">export async function</span> <span class="fn">postsLoader</span>() {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/posts'</span>);
+  <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> Error(<span class="str">'Failed to load posts'</span>);
+  <span class="kw">return</span> res.<span class="fn">json</span>();
+}
+
+<span class="cmt">// 2. Component mein data consume karo</span>
+<span class="kw">import</span> { useLoaderData } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="kw">export function</span> <span class="fn">PostsPage</span>() {
+  <span class="cmt">// Yeh data route transition complete hone par hi available hoga</span>
+  <span class="cmt">// Koi loading state ki zaroorat nahi!</span>
+  <span class="kw">const</span> posts = <span class="fn">useLoaderData</span>();
+
+  <span class="kw">return</span> &lt;div&gt;{posts.<span class="fn">map</span>(p =&gt; &lt;h3 key={p.id}&gt;{p.title}&lt;/h3&gt;)}&lt;/div&gt;;
+}
+
+<span class="cmt">// 3. Router mein loader assign karo (main.jsx)</span>
+{
+  path: <span class="str">'/posts'</span>,
+  element: &lt;PostsPage /&gt;,
+  loader: postsLoader, <span class="cmt">// Yahan joda</span>
+}</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-zap"/></svg></span><h2>7.2 Actions — Handle Form Submissions (POST/PUT)</h2></div>
+    <p>Form submission bhi router handle kar sakta hai. Jab tum <code>&lt;Form&gt;</code> component (react-router-dom wala) submit karte ho, toh woh route ka <code>action</code> function run karta hai.</p>
+    <div class="code-box"><span class="cmt">// 1. Action function</span>
+<span class="kw">export async function</span> <span class="fn">contactAction</span>({ request }) {
+  <span class="kw">const</span> formData = <span class="kw">await</span> request.<span class="fn">formData</span>();
+  <span class="kw">const</span> data = Object.<span class="fn">fromEntries</span>(formData); <span class="cmt">// { email: '...', message: '...' }</span>
+
+  <span class="kw">await</span> <span class="fn">apiPost</span>(<span class="str">'/contact'</span>, data);
+  <span class="kw">return</span> <span class="fn">redirect</span>(<span class="str">'/success'</span>); <span class="cmt">// Success ke baad bhej do</span>
+}
+
+<span class="cmt">// 2. Component (Note: React Router wala <Form> hai, HTML wala nahi)</span>
+<span class="kw">import</span> { Form } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="kw">export function</span> <span class="fn">ContactPage</span>() {
+  <span class="cmt">// Koi event.preventDefault() ya state (useState) nahi chahiye!</span>
+  <span class="kw">return</span> (
+    &lt;Form method="post"&gt;
+      &lt;input type="email" name="email" required /&gt;
+      &lt;textarea name="message" required&gt;&lt;/textarea&gt;
+      &lt;button type="submit"&gt;Send&lt;/button&gt;
+    &lt;/Form&gt;
+  );
+}
+
+<span class="cmt">// 3. Router mein</span>
+{
+  path: <span class="str">'/contact'</span>,
+  element: &lt;ContactPage /&gt;,
+  action: contactAction
+}</div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> Actions aur Loaders ki wajah se "Render-as-you-fetch" approach milti hai, jisse Waterfalls problem (Render → Fetch → Render) solve ho jaati hai.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 08 — ERROR HANDLING
+     ==================================================== -->
+<div class="page m1">
+  <div class="page-num">8</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 08</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-warn"/></svg>Error Handling &amp; 404 Pages</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Agar user galat URL daale, ya loader API fail ho jaaye, toh poori app crash nahi honi chahiye. React Router mein iske liye <code>errorElement</code> hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>8.1 useRouteError Hook</h2></div>
+    <p>Galat URL par ya exception aane par jo component render hoga (errorElement), usme error ki details <code>useRouteError</code> se mil sakti hain.</p>
+    <div class="code-box"><span class="cmt">// pages/ErrorPage.jsx</span>
+<span class="kw">import</span> { useRouteError, Link } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+
+<span class="kw">export default function</span> <span class="fn">ErrorPage</span>() {
+  <span class="kw">const</span> error = <span class="fn">useRouteError</span>();
+  console.<span class="fn">error</span>(error);
+
+  <span class="kw">return</span> (
+    &lt;div className="error-container"&gt;
+      &lt;h1&gt;Oops! Kuch galat ho gaya.&lt;/h1&gt;
+
+      <span class="cmt">{/* 404 Not Found error */}</span>
+      {error.status === <span class="num">404</span> ? (
+        &lt;p&gt;Yeh page exist nahi karta.&lt;/p&gt;
+      ) : (
+        <span class="cmt">{/* Server errors or code throws */}</span>
+        &lt;p&gt;{error.statusText || error.message}&lt;/p&gt;
+      )}
+
+      &lt;Link to="/"&gt;Ghar Wapas Chalein&lt;/Link&gt;
+    &lt;/div&gt;
+  );
+}</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-layers"/></svg></span><h2>8.2 Global vs Specific Errors</h2></div>
+    <div class="code-box"><span class="kw">const</span> router = <span class="fn">createBrowserRouter</span>([
+  {
+    path: <span class="str">'/'</span>,
+    element: &lt;MainLayout /&gt;,
+    errorElement: &lt;GlobalErrorPage /&gt;, <span class="cmt">// <--- GLOBAL ERROR (404s, etc)</span>
+    children: [
+      {
+        path: <span class="str">'products'</span>,
+        element: &lt;ProductsPage /&gt;,
+        loader: productsLoader,
+        <span class="cmt">// Agar sir product loader fail ho, toh sirf yeh page error dikhayega,</span>
+        <span class="cmt">// baaki website (navbar/footer) chalti rahegi!</span>
+        errorElement: &lt;ProductErrorFallback /&gt;
+      }
+    ]
+  }
+]);</div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Pro Tip:</strong> Nested errorElements ka faida yeh hai ki error jis level pe aaya hai, sirf wahi UI break hota hai. Parent layout intact rehta hai (jise "Error Boundaries" kehte hain).</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 09 — INTERVIEW Q&A + CHEAT SHEET
+     ==================================================== -->
+<div class="page m2">
+  <div class="page-num">9</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-target"/></svg> TOPIC 09</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-target"/></svg>Interview Questions &amp; Cheat Sheet</h1>
+  <div class="title-underline"></div>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>9.1 Most Asked Interview Questions</h2></div>
+
+    <div class="qa-block">
+      <p class="q">Q1: Link aur <code>&lt;a href="..."&gt;</code> mein kya fark hai?</p>
+      <p class="a"><code>&lt;a&gt;</code> tag browser ko naya page load karne pe majboor karta hai (full reload, SPA break). <code>&lt;Link&gt;</code> default behaviour prevent karke sirf browser ka URL update karta hai (History API) aur React ko naya component render karne bolta hai.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q2: useNavigate vs &lt;Navigate /&gt; mein kya fark hai?</p>
+      <p class="a"><code>useNavigate</code> ek hook hai jo ek function return karta hai, jise hum event handlers (onClick, onSubmit) mein call karte hain. <code>&lt;Navigate /&gt;</code> ek component hai jo render hote hi redirect karta hai, isliye ise declarative redirection (jaise auth guards) mein use karte hain.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q3: Outlet kya hai aur kyun use hota hai?</p>
+      <p class="a">Outlet ek placeholder hai jo parent route ke component ko batata hai ki child routes kahan render honge. Iske bina nested routing kaam nahi karegi aur shared layouts (Navbar/Footer) apply nahi honge.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q4: useParams aur useSearchParams mein kya fark hai?</p>
+      <p class="a"><code>useParams</code> dynamic path segments extract karta hai (e.g., <code>/users/:id</code>). <code>useSearchParams</code> query strings read aur modify karta hai (e.g., <code>?page=2&sort=asc</code>) aur yeh <code>useState</code> ki tarah kaam karta hai.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q5: v6.4+ mein Loaders kyun introduce kiye gaye?</p>
+      <p class="a">Pehel "render → fetch (useEffect) → loading → render" cycle hoti thi jisse UI delays (waterfalls) aate the. Loaders se navigation shuru hote hi data fetch hota hai (Fetch-as-you-render), jab data ready ho tabhi page render hota hai.</p>
+    </div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>9.2 Quick Syntax Cheat Sheet</h2></div>
+    <div class="code-box"><span class="cmt">// --- Navigation Hooks ---</span>
+<span class="kw">const</span> navigate = <span class="fn">useNavigate</span>();
+<span class="fn">navigate</span>(<span class="str">'/dashboard'</span>);         <span class="cmt">// normal push</span>
+<span class="fn">navigate</span>(<span class="str">'/login'</span>, {replace:<span class="kw">true</span>});<span class="cmt">// replace history (no back)</span>
+<span class="fn">navigate</span>(<span class="num">-1</span>);                   <span class="cmt">// go back</span>
+
+<span class="cmt">// --- Params Hooks ---</span>
+<span class="kw">const</span> { id, slug } = <span class="fn">useParams</span>();
+<span class="kw">const</span> [searchParams, setSearchParams] = <span class="fn">useSearchParams</span>();
+<span class="kw">const</span> page = searchParams.<span class="fn">get</span>(<span class="str">'page'</span>);
+<span class="fn">setSearchParams</span>({ page: <span class="num">2</span> });
+
+<span class="cmt">// --- Layouts ---</span>
+<span class="kw">import</span> { Outlet } <span class="kw">from</span> <span class="str">'react-router-dom'</span>;
+<span class="cmt">// Render &lt;Outlet /&gt; inside parent to show children</span>
+
+<span class="cmt">// --- Active Links ---</span>
+&lt;NavLink className={({isActive}) =&gt; isActive ? <span class="str">'active'</span> : <span class="str">''</span>}&gt;
+  Dashboard
+&lt;/NavLink&gt;
+
+<span class="cmt">// --- v6.4 Loaders ---</span>
+{
+  path: <span class="str">'/posts'</span>,
+  element: &lt;Posts /&gt;,
+  loader: <span class="kw">async</span> () => <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/posts'</span>)
+}
+<span class="cmt">// In Posts component:</span>
+<span class="kw">const</span> posts = <span class="fn">useLoaderData</span>();</div>
+  </section>
+
+</div>
+
+</body>
+</html>

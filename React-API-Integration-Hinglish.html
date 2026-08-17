@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>React API Integration: Complete Guide — Hinglish Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper:#FFFDF7; --paper-edge:#F2EDDD; --ink:#2B2620; --sub-ink:#5A5348;
+      --outer-bg:#E9E4D6; --coral:#D6524A;
+      --m0:#0F6F6B; --m0L:#E4F2F0;
+      --m1:#22395B; --m1L:#E7ECF3;
+      --m2:#A6461E; --m2L:#FBEBDD;
+      --m3:#5B3E96; --m3L:#EEE8F8;
+      --m4:#A9740C; --m4L:#FBF0DD;
+      --m5:#2F6F4E; --m5L:#E7F3EC;
+    }
+    *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+    body{background:var(--outer-bg);font-family:'Patrick Hand',sans-serif;color:var(--ink);padding:16px;}
+    .icon{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-0.15em;}
+    .icon.filled{fill:currentColor;stroke:none;}
+
+    .page{max-width:780px;margin:0 auto 34px;background:var(--paper);border-radius:8px;box-shadow:0 14px 15px rgba(0,0,0,.18);position:relative;padding:30px 34px 34px 34px;border-left:10px solid var(--accent);}
+    .page.m0{--accent:var(--m0);--accentL:var(--m0L);}
+    .page.m1{--accent:var(--m1);--accentL:var(--m1L);}
+    .page.m2{--accent:var(--m2);--accentL:var(--m2L);}
+    .page.m3{--accent:var(--m3);--accentL:var(--m3L);}
+    .page.m4{--accent:var(--m4);--accentL:var(--m4L);}
+    .page.m5{--accent:var(--m5);--accentL:var(--m5L);}
+
+    .page-num{position:absolute;top:18px;right:24px;font-family:'Kalam',cursive;font-size:18px;font-weight:700;color:var(--accent);width:30px;height:30px;border-radius:50%;border:2px solid var(--accent);background:#fff;display:flex;align-items:center;justify-content:center;}
+    .topic-badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--accent);padding:4px 12px 4px 10px;border-radius:20px;margin-bottom:10px;}
+    .main-title{display:flex;align-items:center;gap:12px;font-family:'Kalam',cursive;font-size:30px;font-weight:700;margin:0 0 4px;line-height:1.2;color:var(--ink);}
+    .main-title .icon{width:1.05em;height:1.05em;color:var(--accent);}
+    .title-underline{width:170px;height:4px;background:var(--coral);border-radius:3px;margin-bottom:8px;}
+    .lede{font-size:16.5px;line-height:1.6;color:var(--sub-ink);margin:0 0 22px;max-width:640px;}
+
+    section.block{margin-bottom:26px;}
+    .sec-head{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+    .sec-circle{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;}
+    .sec-circle .icon{width:18px;height:18px;}
+    .sec-head h2{font-family:'Kalam',cursive;font-size:20px;margin:0;font-weight:700;color:var(--ink);}
+    section.block p{font-size:16.5px;line-height:1.65;margin:0 0 10px;}
+    section.block>p:last-child{margin-bottom:0;}
+
+    .check-list,.cross-list{list-style:none;margin:0 0 14px;padding:0;}
+    .check-list li,.cross-list li{font-size:16px;line-height:1.6;padding-left:28px;position:relative;margin-bottom:5px;}
+    .check-list li .icon{position:absolute;left:0;top:3px;color:var(--accent);width:16px;height:16px;}
+    .cross-list li .icon{position:absolute;left:0;top:3px;color:var(--coral);width:16px;height:16px;}
+
+    .table-wrap{overflow-x:auto;margin-bottom:14px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.10);}
+    table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:12.5px;background:#fff;}
+    thead tr{background:var(--accent);}
+    thead th{color:#fff;text-align:left;padding:9px 12px;font-family:'Patrick Hand',sans-serif;font-weight:700;font-size:14px;}
+    tbody td{padding:8px 12px;border-bottom:1px solid #EFE9D8;line-height:1.5;}
+    tbody tr:nth-child(even){background:var(--accentL);}
+
+    .code-box{background:#F7F8F3;color:#233B34;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.85;padding:13px 16px;border:1.5px dashed var(--accent);border-radius:10px;margin-bottom:14px;white-space:pre-wrap;overflow-x:auto;}
+    .code-box .cmt{color:#8A9490;font-style:italic;}
+    .code-box .kw{color:var(--coral);font-weight:700;}
+    .code-box .fn{color:#1D6E7A;font-weight:700;}
+    .code-box .str{color:#8A5A15;}
+    .code-box .num{color:#5B3E96;}
+
+    .callout{background:var(--accentL);border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;font-size:15px!important;font-style:italic;}
+    .tip-box,.warn-box,.fact-box{margin-top:16px;border-radius:12px;padding:13px 18px;display:flex;gap:11px;align-items:flex-start;}
+    .tip-box{background:var(--m4L);border:2px dashed var(--m4);}
+    .fact-box{background:var(--m0L);border:2px dashed var(--m0);}
+    .warn-box{background:#FDECEC;border:2px dashed var(--coral);}
+    .tip-box .icon,.fact-box .icon,.warn-box .icon{flex:0 0 auto;width:20px;height:20px;margin-top:2px;}
+    .tip-box .icon{color:var(--m4);}.fact-box .icon{color:var(--m0);}.warn-box .icon{color:var(--coral);}
+    .tip-box p,.fact-box p,.warn-box p{margin:0;font-size:15px;line-height:1.6;}
+    .tip-box strong,.fact-box strong,.warn-box strong{font-family:'Kalam',cursive;font-size:15.5px;}
+
+    .flow{display:flex;flex-direction:column;align-items:center;gap:2px;margin:14px 0 18px;}
+    .fbox{width:100%;max-width:520px;border:2px solid var(--accent);border-radius:10px;background:#fff;padding:9px 16px;text-align:center;font-size:14px;}
+    .fbox .lbl{font-family:'Kalam',cursive;font-weight:700;font-size:15px;display:block;}
+    .fbox .sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sub-ink);}
+    .frow{display:flex;gap:10px;width:100%;max-width:520px;justify-content:center;}
+    .frow .fbox{flex:1;}
+    .farrow{color:var(--accent);}
+    .farrow .icon{width:16px;height:16px;}
+
+    .cover{text-align:center;padding:54px 34px 44px;border-left:none;border-top:10px solid var(--coral);}
+    .cover .icon-hero{width:64px;height:64px;color:var(--coral);margin-bottom:10px;}
+    .cover h1{font-family:'Kalam',cursive;font-size:44px;margin:6px 0 2px;line-height:1.1;}
+    .cover .sub1{font-size:19px;color:var(--sub-ink);margin:0 0 22px;}
+    .cover .tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;background:#2B2620;color:#fff;padding:6px 16px;border-radius:20px;margin-bottom:26px;}
+    .cover-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left;margin-top:10px;}
+    .cover-item{border:1.5px solid #E6DFC9;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.4;}
+    .cover-item b{display:block;font-family:'Kalam',cursive;font-size:14.5px;margin-bottom:2px;}
+
+    .qa-block{background:var(--accentL);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+    .qa-block .q{font-family:'Kalam',cursive;font-size:16px;font-weight:700;color:var(--accent);margin:0 0 6px;}
+    .qa-block .a{font-size:15px;line-height:1.6;margin:0;}
+
+    .badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+    .badge{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:20px;border:1.5px solid var(--accent);color:var(--accent);background:var(--accentL);}
+
+    @media(max-width:600px){
+      body{padding:12px 8px;}
+      .page{padding:24px 20px;border-left-width:6px;margin-bottom:20px;}
+      .main-title{font-size:24px;}
+      .code-box{font-size:11.5px;padding:12px 10px;}
+      .cover{padding:40px 20px 30px;border-top-width:6px;}
+      .cover h1{font-size:32px;}
+      .cover-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== SVG SPRITE ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.45.9 1.15.9 1.9V16h5.4v-.3c0-.75.3-1.45.9-1.9A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="4 12 9 18 20 6"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.9 7.1.7-5.5 5.1 1.6 7-6.1-3.7-6.1 3.7 1.6-7L2 10.1l7.1-.7z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-7.3-7-12.5A7 7 0 0 1 19 8.5C19 13.7 12 21 12 21z"/><circle cx="12" cy="8.5" r="2.6"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3.5 22 20H2L12 3.5z" stroke-linejoin="round"/><line x1="12" y1="10" x2="12" y2="14.5"/><circle cx="12" cy="17.3" r="0.9" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 5.5c3-1.2 6-1.2 9 0v14c-3-1.2-6-1.2-9 0v-14z"/><path d="M22 5.5c-3-1.2-6-1.2-9 0v14c3-1.2 6-1.2 9 0v-14z"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"/><path d="M11 6.5l1.3-1.3a4 4 0 0 1 5.7 5.7L16.7 12.2"/><path d="M13 17.5l-1.3 1.3a4 4 0 0 1-5.7-5.7L7.3 11.8"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20"/><polyline points="5 13 12 20 19 13"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="13 5 20 12 13 19"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.5 4 5.5v6c0 5.2 3.4 8.6 8 10 4.6-1.4 8-4.8 8-10v-6L12 2.5z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2.5 2.5 7.5 12 12.5 21.5 7.5" stroke-linejoin="round"/><polyline points="2.5 12.5 12 17.5 21.5 12.5"/><polyline points="2.5 17.5 12 22.5 21.5 17.5"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="5" rx="1.5"/><rect x="3" y="10" width="18" height="5" rx="1.5"/><rect x="3" y="17" width="18" height="4" rx="1.5"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M1.5 8.5a14 14 0 0 1 21 0"/><path d="M5 12.5a9 9 0 0 1 14 0"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-hook" viewBox="0 0 24 24"><path d="M12 3c-4.4 0-8 3.6-8 8v1h2v-1c0-3.3 2.7-6 6-6s6 2.7 6 6v6c0 1.1-.9 2-2 2H9"/><polyline points="5 20 9 16 5 12"/></symbol>
+</defs></svg>
+
+
+<!-- ====================================================
+     COVER PAGE
+     ==================================================== -->
+<div class="page cover">
+  <svg class="icon icon-hero" style="width:64px;height:64px;color:var(--coral);margin-bottom:10px;"><use href="#i-wifi"/></svg>
+  <h1>React API Integration</h1>
+  <p class="sub1">Fetch se WebSocket tak — Complete Hinglish Guide</p>
+  <span class="tag">THEORY &middot; CODE &middot; PATTERNS &middot; INTERVIEW-READY</span>
+  <div class="cover-grid">
+    <div class="cover-item"><b>Topic 01</b>API kya hai — HTTP Methods, Status Codes, REST</div>
+    <div class="cover-item"><b>Topic 02</b>fetch() API — native browser, async/await</div>
+    <div class="cover-item"><b>Topic 03</b>Axios — interceptors, instance, defaults</div>
+    <div class="cover-item"><b>Topic 04</b>useEffect + API — lifecycle aur cleanup</div>
+    <div class="cover-item"><b>Topic 05</b>Custom Hooks — reusable API logic</div>
+    <div class="cover-item"><b>Topic 06</b>Full CRUD — GET POST PUT PATCH DELETE</div>
+    <div class="cover-item"><b>Topic 07</b>Auth — Bearer token, cookies, refresh</div>
+    <div class="cover-item"><b>Topic 08</b>File Upload — multipart/form-data, progress</div>
+    <div class="cover-item"><b>Topic 09</b>Advanced — AbortController, parallel, polling</div>
+    <div class="cover-item"><b>Topic 10</b>WebSocket — real-time connection</div>
+    <div class="cover-item"><b>Topic 11</b>GraphQL — query, mutation, variables</div>
+    <div class="cover-item"><b>Topic 12</b>Interview Q&amp;A + Cheat Sheet</div>
+  </div>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 01 — API KYA HAI
+     ==================================================== -->
+<div class="page m0">
+  <div class="page-num">1</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 01</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-wifi"/></svg>API Kya Hai?</h1>
+  <div class="title-underline"></div>
+  <p class="lede">API (Application Programming Interface) ek waiter ki tarah hai — tum restaurant mein order dete ho (request), waiter kitchen tak le jaata hai, aur khana lekar aata hai (response).</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>1.1 Client–Server Model</h2></div>
+    <div class="flow">
+      <div class="fbox"><span class="lbl">React App (Client)</span><span class="sub">Browser mein chalta hai</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">HTTP Request</span><span class="sub">GET /users — "mujhe sab users chahiye"</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">Server / Backend</span><span class="sub">Node.js, Django, Laravel, etc.</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">HTTP Response</span><span class="sub">200 OK + JSON data</span></div>
+      <div class="farrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+      <div class="fbox"><span class="lbl">React renders data</span><span class="sub">setState se UI update</span></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>1.2 HTTP Methods — Kya Matlab Hai</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Method</th><th>Kaam</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>GET</strong></td><td>Data padhna / fetch karna</td><td>GET /posts — sab posts lo</td></tr>
+        <tr><td><strong>POST</strong></td><td>Naya data create karna</td><td>POST /posts — naya post banao</td></tr>
+        <tr><td><strong>PUT</strong></td><td>Poora data replace karna</td><td>PUT /posts/1 — post replace karo</td></tr>
+        <tr><td><strong>PATCH</strong></td><td>Partial update karna</td><td>PATCH /posts/1 — sirf title update karo</td></tr>
+        <tr><td><strong>DELETE</strong></td><td>Data delete karna</td><td>DELETE /posts/1 — post hatao</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-server"/></svg></span><h2>1.3 HTTP Status Codes</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Code</th><th>Matlab</th><th>Kab aata hai</th></tr></thead>
+      <tbody>
+        <tr><td>200 OK</td><td>Success</td><td>GET request succeed hua</td></tr>
+        <tr><td>201 Created</td><td>Naya resource bana</td><td>POST success</td></tr>
+        <tr><td>204 No Content</td><td>Success, koi data nahi</td><td>DELETE success</td></tr>
+        <tr><td>400 Bad Request</td><td>Client ne galat data bheja</td><td>Validation fail</td></tr>
+        <tr><td>401 Unauthorized</td><td>Login karo pehle</td><td>Token missing/expired</td></tr>
+        <tr><td>403 Forbidden</td><td>Permission nahi</td><td>Access denied</td></tr>
+        <tr><td>404 Not Found</td><td>Resource nahi mila</td><td>Wrong URL</td></tr>
+        <tr><td>422 Unprocessable</td><td>Data format galat</td><td>Validation errors</td></tr>
+        <tr><td>500 Server Error</td><td>Server crash</td><td>Backend bug</td></tr>
+      </tbody>
+    </table></div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Interview Fact:</strong> 2xx = Success, 3xx = Redirect, 4xx = Client Error (aapki galti), 5xx = Server Error (unki galti). Yeh range yaad rakhna zaroori hai.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 02 — FETCH API
+     ==================================================== -->
+<div class="page m1">
+  <div class="page-num">2</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 02</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-wifi"/></svg>fetch() API — Native Browser</h1>
+  <div class="title-underline"></div>
+  <p class="lede">fetch() browser ka built-in function hai — koi library install nahi karna. Promise return karta hai. Lekin kuch limitations bhi hain jo Axios solve karta hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>2.1 Basic GET Request</h2></div>
+    <div class="code-box"><span class="cmt">// ---- Method 1: Promise chain ----</span>
+<span class="fn">fetch</span>(<span class="str">'https://jsonplaceholder.typicode.com/posts'</span>)
+  .<span class="fn">then</span>(response => {
+    <span class="cmt">// fetch kisi bhi status pe resolve hota hai (200 ya 404 dono!)</span>
+    <span class="cmt">// Isliye manually check karo:</span>
+    <span class="kw">if</span> (!response.ok) {
+      <span class="kw">throw new</span> Error(<span class="str">`HTTP Error: ${response.status}`</span>);
+    }
+    <span class="kw">return</span> response.<span class="fn">json</span>(); <span class="cmt">// Response body ko JSON mein parse karo</span>
+  })
+  .<span class="fn">then</span>(data => console.<span class="fn">log</span>(data))
+  .<span class="fn">catch</span>(err => console.<span class="fn">error</span>(<span class="str">'Error:'</span>, err));
+
+<span class="cmt">// ---- Method 2: async/await (cleaner!) ----</span>
+<span class="kw">async function</span> <span class="fn">getPosts</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://jsonplaceholder.typicode.com/posts'</span>);
+
+    <span class="kw">if</span> (!response.ok) {
+      <span class="kw">throw new</span> Error(<span class="str">`Server Error: ${response.status}`</span>);
+    }
+
+    <span class="kw">const</span> posts = <span class="kw">await</span> response.<span class="fn">json</span>();
+    console.<span class="fn">log</span>(posts); <span class="cmt">// Array of posts</span>
+    <span class="kw">return</span> posts;
+  } <span class="kw">catch</span> (error) {
+    console.<span class="fn">error</span>(<span class="str">'Fetch failed:'</span>, error.message);
+    <span class="kw">throw</span> error; <span class="cmt">// Caller ko error propagate karo</span>
+  }
+}</div>
+    <div class="warn-box"><svg class="icon"><use href="#i-warn"/></svg><p><strong>Important:</strong> fetch() 404 ya 500 pe bhi resolve hota hai — reject nahi hota! Network failure pe hi reject hota hai. Isliye <code>response.ok</code> ya <code>response.status</code> hamesha check karo.</p></div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>2.2 POST Request — Data Bhejna</h2></div>
+    <div class="code-box"><span class="kw">async function</span> <span class="fn">createPost</span>(postData) {
+  <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://jsonplaceholder.typicode.com/posts'</span>, {
+    method: <span class="str">'POST'</span>,            <span class="cmt">// HTTP method</span>
+    headers: {
+      <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>, <span class="cmt">// Bata rahe ho body JSON hai</span>
+      <span class="str">'Authorization'</span>: <span class="str">`Bearer ${localStorage.getItem('token')}`</span>
+    },
+    body: JSON.<span class="fn">stringify</span>(postData) <span class="cmt">// Object ko string mein convert karo</span>
+  });
+
+  <span class="kw">if</span> (!response.ok) {
+    <span class="kw">const</span> errorData = <span class="kw">await</span> response.<span class="fn">json</span>(); <span class="cmt">// Error details server se</span>
+    <span class="kw">throw new</span> Error(errorData.message || <span class="str">'Create fail hua'</span>);
+  }
+
+  <span class="kw">return</span> response.<span class="fn">json</span>(); <span class="cmt">// Naya created resource</span>
+}
+
+<span class="cmt">// Use karna:</span>
+<span class="fn">createPost</span>({ title: <span class="str">'My Post'</span>, body: <span class="str">'Content here'</span>, userId: <span class="num">1</span> })
+  .<span class="fn">then</span>(newPost => console.<span class="fn">log</span>(<span class="str">'Created:'</span>, newPost));</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-grid"/></svg></span><h2>2.3 fetch() Limitations</h2></div>
+    <ul class="cross-list">
+      <li><svg class="icon"><use href="#i-cross"/></svg>Har request mein headers manually likhne padte hain</li>
+      <li><svg class="icon"><use href="#i-cross"/></svg>Response.ok manually check karna padta hai</li>
+      <li><svg class="icon"><use href="#i-cross"/></svg>Request/Response interceptors nahi hain</li>
+      <li><svg class="icon"><use href="#i-cross"/></svg>Upload progress track nahi hoti</li>
+      <li><svg class="icon"><use href="#i-cross"/></svg>Automatic JSON parse nahi hota</li>
+      <li><svg class="icon"><use href="#i-cross"/></svg>Request timeout built-in nahi hai</li>
+    </ul>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Kab use karein:</strong> Simple projects mein fetch() theek hai. Production apps mein Axios prefer karo — less boilerplate, more features.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 03 — AXIOS
+     ==================================================== -->
+<div class="page m2">
+  <div class="page-num">3</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 03</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-zap"/></svg>Axios — Production-Ready HTTP Client</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Axios fetch() ke saare problems solve karta hai — auto JSON, interceptors, instances, error handling, timeout, upload progress — sab built-in.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>3.1 Axios Instance — Best Practice Setup</h2></div>
+    <div class="code-box"><span class="cmt">// src/api/axiosInstance.js — Ek baar setup, har jagah use</span>
+<span class="kw">import</span> axios <span class="kw">from</span> <span class="str">'axios'</span>;
+
+<span class="kw">const</span> api = axios.<span class="fn">create</span>({
+  baseURL: import.meta.env.VITE_API_URL || <span class="str">'http://localhost:8000/api'</span>,
+  timeout: <span class="num">10000</span>,  <span class="cmt">// 10 seconds — iske baad request fail</span>
+  headers: {
+    <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>,
+    <span class="str">'Accept'</span>: <span class="str">'application/json'</span>
+  }
+});
+
+<span class="cmt">// ---- REQUEST INTERCEPTOR ----</span>
+<span class="cmt">// Har request se pehle run hota hai</span>
+api.interceptors.request.<span class="fn">use</span>(
+  (config) => {
+    <span class="kw">const</span> token = localStorage.<span class="fn">getItem</span>(<span class="str">'token'</span>);
+    <span class="kw">if</span> (token) {
+      config.headers.Authorization = <span class="str">`Bearer ${token}`</span>; <span class="cmt">// Auto token!</span>
+    }
+    <span class="kw">return</span> config;
+  },
+  (error) => Promise.<span class="fn">reject</span>(error)
+);
+
+<span class="cmt">// ---- RESPONSE INTERCEPTOR ----</span>
+<span class="cmt">// Har response ke baad run hota hai</span>
+api.interceptors.response.<span class="fn">use</span>(
+  (response) => response,     <span class="cmt">// Success — as is return karo</span>
+  (error) => {
+    <span class="kw">if</span> (error.response?.status === <span class="num">401</span>) {
+      <span class="cmt">// Token expire ho gaya — logout karo</span>
+      localStorage.<span class="fn">removeItem</span>(<span class="str">'token'</span>);
+      window.location.href = <span class="str">'/login'</span>;
+    }
+    <span class="kw">if</span> (error.response?.status === <span class="num">403</span>) {
+      console.<span class="fn">error</span>(<span class="str">'Access denied!'</span>);
+    }
+    <span class="kw">return</span> Promise.<span class="fn">reject</span>(error); <span class="cmt">// Error propagate karo</span>
+  }
+);
+
+<span class="kw">export default</span> api;</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>3.2 Axios vs fetch() Comparison</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>fetch()</th><th>Axios</th></tr></thead>
+      <tbody>
+        <tr><td>JSON auto-parse</td><td>❌ .json() manually</td><td>✅ Automatic</td></tr>
+        <tr><td>Error on 4xx/5xx</td><td>❌ Manual check</td><td>✅ Automatic throw</td></tr>
+        <tr><td>Interceptors</td><td>❌ Nahi</td><td>✅ Request + Response</td></tr>
+        <tr><td>Timeout</td><td>❌ AbortController manually</td><td>✅ timeout option</td></tr>
+        <tr><td>Upload progress</td><td>❌ Nahi</td><td>✅ onUploadProgress</td></tr>
+        <tr><td>Base URL</td><td>❌ Manual</td><td>✅ baseURL in instance</td></tr>
+        <tr><td>Bundle size</td><td>0 KB (built-in)</td><td>~13 KB</td></tr>
+        <tr><td>Browser support</td><td>Modern browsers</td><td>IE11+ (polyfill)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>3.3 Axios Error Object Structure</h2></div>
+    <div class="code-box"><span class="kw">try</span> {
+  <span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">get</span>(<span class="str">'/users'</span>);
+} <span class="kw">catch</span> (error) {
+  <span class="cmt">// Axios error object structure:</span>
+  <span class="kw">if</span> (error.response) {
+    <span class="cmt">// Server ne response diya (4xx, 5xx)</span>
+    console.<span class="fn">log</span>(error.response.status);   <span class="cmt">// 404, 500, etc.</span>
+    console.<span class="fn">log</span>(error.response.data);     <span class="cmt">// { message: "Not found" }</span>
+    console.<span class="fn">log</span>(error.response.headers);  <span class="cmt">// Response headers</span>
+  } <span class="kw">else if</span> (error.request) {
+    <span class="cmt">// Request bheja gaya lekin response nahi aaya (network issue)</span>
+    console.<span class="fn">log</span>(<span class="str">'Network Error - Server reachable nahi'</span>);
+  } <span class="kw">else</span> {
+    <span class="cmt">// Request setup mein kuch galat hua</span>
+    console.<span class="fn">log</span>(error.message);
+  }
+}</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 04 — USEEFFECT + API
+     ==================================================== -->
+<div class="page m3">
+  <div class="page-num">4</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 04</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-hook"/></svg>useEffect + API Calls</h1>
+  <div class="title-underline"></div>
+  <p class="lede">React mein API call karne ka standard pattern — useEffect mein fetch, useState mein loading/error/data states. Cleanup bhi zaroori hai memory leak rokne ke liye.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>4.1 useEffect API Pattern — Complete</h2></div>
+    <div class="code-box"><span class="kw">import</span> React, { useState, useEffect } <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">import</span> api <span class="kw">from</span> <span class="str">'../api/axiosInstance'</span>;
+
+<span class="kw">function</span> <span class="fn">UsersList</span>() {
+  <span class="cmt">// 3 states — har API call ke liye ye zaroori hain</span>
+  <span class="kw">const</span> [users, <span class="fn">setUsers</span>] = <span class="fn">useState</span>([]);        <span class="cmt">// Data</span>
+  <span class="kw">const</span> [loading, <span class="fn">setLoading</span>] = <span class="fn">useState</span>(<span class="kw">true</span>);    <span class="cmt">// Loading state</span>
+  <span class="kw">const</span> [error, <span class="fn">setError</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);        <span class="cmt">// Error message</span>
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="cmt">// ⚠️ useEffect mein direct async nahi likh sakte</span>
+    <span class="cmt">// Isliye inner async function banao</span>
+    <span class="kw">let</span> isMounted = <span class="kw">true</span>; <span class="cmt">// Cleanup ke liye flag</span>
+
+    <span class="kw">async function</span> <span class="fn">fetchUsers</span>() {
+      <span class="kw">try</span> {
+        <span class="fn">setLoading</span>(<span class="kw">true</span>);
+        <span class="fn">setError</span>(<span class="kw">null</span>); <span class="cmt">// Previous error clear karo</span>
+
+        <span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">get</span>(<span class="str">'/users'</span>);
+
+        <span class="cmt">// Component abhi mounted hai toh hi setState karo</span>
+        <span class="kw">if</span> (isMounted) {
+          <span class="fn">setUsers</span>(data);
+        }
+      } <span class="kw">catch</span> (err) {
+        <span class="kw">if</span> (isMounted) {
+          <span class="fn">setError</span>(err.response?.data?.message || <span class="str">'Users load nahi hue'</span>);
+        }
+      } <span class="kw">finally</span> {
+        <span class="kw">if</span> (isMounted) <span class="fn">setLoading</span>(<span class="kw">false</span>);
+      }
+    }
+
+    <span class="fn">fetchUsers</span>();
+
+    <span class="cmt">// Cleanup function — component unmount pe run hogi</span>
+    <span class="kw">return</span> () => { isMounted = <span class="kw">false</span>; };
+  }, []); <span class="cmt">// [] = sirf mount pe run karo</span>
+
+  <span class="cmt">// ---- Conditional Rendering ----</span>
+  <span class="kw">if</span> (loading) <span class="kw">return</span> &lt;div className="spinner"&gt;Loading...&lt;/div&gt;;
+  <span class="kw">if</span> (error)   <span class="kw">return</span> &lt;div className="error"&gt;{error}&lt;/div&gt;;
+  <span class="kw">if</span> (!users.length) <span class="kw">return</span> &lt;p&gt;Koi user nahi mila&lt;/p&gt;;
+
+  <span class="kw">return</span> (
+    &lt;ul&gt;
+      {users.<span class="fn">map</span>(user =&gt; (
+        &lt;li key={user.id}&gt;{user.name} — {user.email}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}</div>
+    <div class="warn-box"><svg class="icon"><use href="#i-warn"/></svg><p><strong>Memory Leak:</strong> Component unmount hone ke baad setState call karne se React warning deta hai. <code>isMounted</code> flag ya AbortController se isko prevent karo.</p></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-refresh"/></svg></span><h2>4.2 Dependency Array — Kab Kya Likhein</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>useEffect(() => {}, ...)</th><th>Kab run hoga</th></tr></thead>
+      <tbody>
+        <tr><td><code>[]</code> — empty array</td><td>Sirf mount pe (once) — initial data fetch</td></tr>
+        <tr><td><code>[userId]</code> — value</td><td>Mount pe + userId change hone pe</td></tr>
+        <tr><td><code>[searchTerm, page]</code></td><td>Mount pe + koi bhi change hone pe</td></tr>
+        <tr><td>koi array nahi</td><td>Har render pe — ❌ Usually wrong</td></tr>
+      </tbody>
+    </table></div>
+    <div class="code-box"><span class="cmt">// ---- userId change hone pe naya data fetch ----</span>
+<span class="fn">useEffect</span>(() => {
+  <span class="kw">if</span> (!userId) <span class="kw">return</span>; <span class="cmt">// Guard clause</span>
+  <span class="fn">fetchUserById</span>(userId);
+}, [userId]); <span class="cmt">// userId dependency</span>
+
+<span class="cmt">// ---- Search ke saath fetch ----</span>
+<span class="fn">useEffect</span>(() => {
+  <span class="kw">const</span> timer = <span class="fn">setTimeout</span>(() => {
+    <span class="fn">searchUsers</span>(searchTerm); <span class="cmt">// 500ms debounce</span>
+  }, <span class="num">500</span>);
+  <span class="kw">return</span> () => <span class="fn">clearTimeout</span>(timer); <span class="cmt">// Cleanup — har naya type pe clear</span>
+}, [searchTerm]);</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 05 — CUSTOM HOOKS
+     ==================================================== -->
+<div class="page m4">
+  <div class="page-num">5</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 05</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-hook"/></svg>Custom Hooks — Reusable API Logic</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Har component mein loading/error/data repeat likhna bad practice hai. Custom hooks mein yeh logic ek baar likho, har jagah reuse karo.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>5.1 useFetch — Generic Data Fetching Hook</h2></div>
+    <div class="code-box"><span class="cmt">// src/hooks/useFetch.js</span>
+<span class="kw">import</span> { useState, useEffect, useCallback } <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">import</span> api <span class="kw">from</span> <span class="str">'../api/axiosInstance'</span>;
+
+<span class="kw">export function</span> <span class="fn">useFetch</span>(url, options = {}) {
+  <span class="kw">const</span> [data, <span class="fn">setData</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> [loading, <span class="fn">setLoading</span>] = <span class="fn">useState</span>(<span class="kw">true</span>);
+  <span class="kw">const</span> [error, <span class="fn">setError</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);
+
+  <span class="cmt">// useCallback — function reference stable rakho</span>
+  <span class="kw">const</span> fetchData = <span class="fn">useCallback</span>(<span class="kw">async</span> () => {
+    <span class="kw">if</span> (!url) <span class="kw">return</span>;
+    <span class="kw">try</span> {
+      <span class="fn">setLoading</span>(<span class="kw">true</span>);
+      <span class="fn">setError</span>(<span class="kw">null</span>);
+      <span class="kw">const</span> { data: responseData } = <span class="kw">await</span> api.<span class="fn">get</span>(url, options);
+      <span class="fn">setData</span>(responseData);
+    } <span class="kw">catch</span> (err) {
+      <span class="fn">setError</span>(err.response?.data?.message || err.message);
+    } <span class="kw">finally</span> {
+      <span class="fn">setLoading</span>(<span class="kw">false</span>);
+    }
+  }, [url]); <span class="cmt">// url change hone pe refetch</span>
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="fn">fetchData</span>();
+  }, [fetchData]);
+
+  <span class="cmt">// refetch manually call karo</span>
+  <span class="kw">return</span> { data, loading, error, refetch: fetchData };
+}
+
+<span class="cmt">// ---- Component mein use karna — kitna clean! ----</span>
+<span class="kw">function</span> <span class="fn">PostsList</span>() {
+  <span class="kw">const</span> { data: posts, loading, error, refetch } = <span class="fn">useFetch</span>(<span class="str">'/posts'</span>);
+
+  <span class="kw">if</span> (loading) <span class="kw">return</span> &lt;Spinner /&gt;;
+  <span class="kw">if</span> (error)   <span class="kw">return</span> &lt;p&gt;Error: {error} &lt;button onClick={refetch}&gt;Retry&lt;/button&gt;&lt;/p&gt;;
+
+  <span class="kw">return</span> &lt;ul&gt;{posts?.map(p =&gt; &lt;li key={p.id}&gt;{p.title}&lt;/li&gt;)}&lt;/ul&gt;;
+}</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>5.2 useMutation — POST/PUT/DELETE Hook</h2></div>
+    <div class="code-box"><span class="cmt">// src/hooks/useMutation.js</span>
+<span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">import</span> api <span class="kw">from</span> <span class="str">'../api/axiosInstance'</span>;
+
+<span class="kw">export function</span> <span class="fn">useMutation</span>(url, method = <span class="str">'post'</span>) {
+  <span class="kw">const</span> [loading, <span class="fn">setLoading</span>] = <span class="fn">useState</span>(<span class="kw">false</span>);
+  <span class="kw">const</span> [error, <span class="fn">setError</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> [data, <span class="fn">setData</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);
+
+  <span class="kw">const</span> mutate = <span class="kw">async</span> (payload, dynamicUrl) => {
+    <span class="kw">try</span> {
+      <span class="fn">setLoading</span>(<span class="kw">true</span>);
+      <span class="fn">setError</span>(<span class="kw">null</span>);
+      <span class="kw">const</span> endpoint = dynamicUrl || url;
+      <span class="kw">const</span> { data: response } = <span class="kw">await</span> api[method](endpoint, payload);
+      <span class="fn">setData</span>(response);
+      <span class="kw">return</span> { success: <span class="kw">true</span>, data: response };
+    } <span class="kw">catch</span> (err) {
+      <span class="kw">const</span> msg = err.response?.data?.message || err.message;
+      <span class="fn">setError</span>(msg);
+      <span class="kw">return</span> { success: <span class="kw">false</span>, error: msg };
+    } <span class="kw">finally</span> {
+      <span class="fn">setLoading</span>(<span class="kw">false</span>);
+    }
+  };
+
+  <span class="kw">return</span> { mutate, loading, error, data };
+}
+
+<span class="cmt">// ---- Use karna ----</span>
+<span class="kw">function</span> <span class="fn">CreateForm</span>() {
+  <span class="kw">const</span> { mutate, loading, error } = <span class="fn">useMutation</span>(<span class="str">'/posts'</span>, <span class="str">'post'</span>);
+
+  <span class="kw">const</span> <span class="fn">handleSubmit</span> = <span class="kw">async</span> (formData) => {
+    <span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">mutate</span>(formData);
+    <span class="kw">if</span> (result.success) <span class="fn">alert</span>(<span class="str">'Created!'</span>);
+  };
+}</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 06 — FULL CRUD
+     ==================================================== -->
+<div class="page m5">
+  <div class="page-num">6</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 06</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-grid"/></svg>Full CRUD — GET POST PUT PATCH DELETE</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Ek complete Products Management app mein sab HTTP methods ka use — real-world pattern ke saath.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>6.1 API Service File — Products</h2></div>
+    <div class="code-box"><span class="cmt">// src/api/productsApi.js — Sab API calls ek jagah</span>
+<span class="kw">import</span> api <span class="kw">from</span> <span class="str">'./axiosInstance'</span>;
+
+<span class="kw">export const</span> productsApi = {
+
+  <span class="cmt">// GET /products — sab products</span>
+  <span class="fn">getAll</span>: (params = {}) =>
+    api.<span class="fn">get</span>(<span class="str">'/products'</span>, { params }), <span class="cmt">// ?page=1&limit=10 auto build hoga</span>
+
+  <span class="cmt">// GET /products/:id — single product</span>
+  <span class="fn">getById</span>: (id) =>
+    api.<span class="fn">get</span>(<span class="str">`/products/${id}`</span>),
+
+  <span class="cmt">// POST /products — naya product create</span>
+  <span class="fn">create</span>: (productData) =>
+    api.<span class="fn">post</span>(<span class="str">'/products'</span>, productData),
+
+  <span class="cmt">// PUT /products/:id — poora product replace</span>
+  <span class="fn">replace</span>: (id, productData) =>
+    api.<span class="fn">put</span>(<span class="str">`/products/${id}`</span>, productData),
+
+  <span class="cmt">// PATCH /products/:id — sirf kuch fields update</span>
+  <span class="fn">update</span>: (id, changes) =>
+    api.<span class="fn">patch</span>(<span class="str">`/products/${id}`</span>, changes),
+
+  <span class="cmt">// DELETE /products/:id</span>
+  <span class="fn">remove</span>: (id) =>
+    api.<span class="fn">delete</span>(<span class="str">`/products/${id}`</span>),
+
+  <span class="cmt">// GET with query params — search + filters</span>
+  <span class="fn">search</span>: (query, filters = {}) =>
+    api.<span class="fn">get</span>(<span class="str">'/products/search'</span>, {
+      params: { q: query, ...filters }
+      <span class="cmt">// Builds: /products/search?q=laptop&category=electronics</span>
+    }),
+};</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>6.2 Products Manager Component — Complete</h2></div>
+    <div class="code-box"><span class="kw">import</span> React, { useState, useEffect } <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">import</span> { productsApi } <span class="kw">from</span> <span class="str">'../api/productsApi'</span>;
+
+<span class="kw">function</span> <span class="fn">ProductsManager</span>() {
+  <span class="kw">const</span> [products, <span class="fn">setProducts</span>] = <span class="fn">useState</span>([]);
+  <span class="kw">const</span> [loading, <span class="fn">setLoading</span>] = <span class="fn">useState</span>(<span class="kw">true</span>);
+  <span class="kw">const</span> [submitting, <span class="fn">setSubmitting</span>] = <span class="fn">useState</span>(<span class="kw">false</span>); <span class="cmt">// Form submit ke liye alag</span>
+  <span class="kw">const</span> [error, <span class="fn">setError</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);
+
+  <span class="cmt">// ---- 1. GET — List fetch ----</span>
+  <span class="fn">useEffect</span>(() => {
+    <span class="fn">fetchProducts</span>();
+  }, []);
+
+  <span class="kw">async function</span> <span class="fn">fetchProducts</span>() {
+    <span class="kw">try</span> {
+      <span class="fn">setLoading</span>(<span class="kw">true</span>);
+      <span class="kw">const</span> { data } = <span class="kw">await</span> productsApi.<span class="fn">getAll</span>({ page: <span class="num">1</span>, limit: <span class="num">10</span> });
+      <span class="fn">setProducts</span>(data.results || data);
+    } <span class="kw">catch</span> (err) {
+      <span class="fn">setError</span>(err.response?.data?.message || <span class="str">'Load fail hua'</span>);
+    } <span class="kw">finally</span> {
+      <span class="fn">setLoading</span>(<span class="kw">false</span>);
+    }
+  }
+
+  <span class="cmt">// ---- 2. POST — Create ----</span>
+  <span class="kw">async function</span> <span class="fn">createProduct</span>(formData) {
+    <span class="fn">setSubmitting</span>(<span class="kw">true</span>);
+    <span class="kw">try</span> {
+      <span class="kw">const</span> { data: newProduct } = <span class="kw">await</span> productsApi.<span class="fn">create</span>(formData);
+      <span class="fn">setProducts</span>(prev => [newProduct, ...prev]); <span class="cmt">// List mein add karo</span>
+    } <span class="kw">catch</span> (err) {
+      <span class="fn">alert</span>(err.response?.data?.message || <span class="str">'Create fail hua'</span>);
+    } <span class="kw">finally</span> {
+      <span class="fn">setSubmitting</span>(<span class="kw">false</span>);
+    }
+  }
+
+  <span class="cmt">// ---- 3. PATCH — Partial Update ----</span>
+  <span class="kw">async function</span> <span class="fn">updateProductField</span>(id, field, value) {
+    <span class="kw">try</span> {
+      <span class="kw">const</span> { data: updated } = <span class="kw">await</span> productsApi.<span class="fn">update</span>(id, { [field]: value });
+      <span class="cmt">// State mein sirf woh product update karo</span>
+      <span class="fn">setProducts</span>(prev =>
+        prev.<span class="fn">map</span>(p => p.id === id ? { ...p, ...updated } : p)
+      );
+    } <span class="kw">catch</span> (err) {
+      <span class="fn">alert</span>(<span class="str">'Update fail hua'</span>);
+    }
+  }
+
+  <span class="cmt">// ---- 4. DELETE ----</span>
+  <span class="kw">async function</span> <span class="fn">deleteProduct</span>(id) {
+    <span class="kw">if</span> (!window.<span class="fn">confirm</span>(<span class="str">'Delete karna chahte ho?'</span>)) <span class="kw">return</span>;
+    <span class="kw">try</span> {
+      <span class="kw">await</span> productsApi.<span class="fn">remove</span>(id);
+      <span class="fn">setProducts</span>(prev => prev.<span class="fn">filter</span>(p => p.id !== id)); <span class="cmt">// List se hatao</span>
+    } <span class="kw">catch</span> (err) {
+      <span class="fn">alert</span>(<span class="str">'Delete fail hua'</span>);
+    }
+  }
+
+  <span class="kw">if</span> (loading) <span class="kw">return</span> &lt;div&gt;Loading...&lt;/div&gt;;
+  <span class="kw">if</span> (error)   <span class="kw">return</span> &lt;div&gt;{error} &lt;button onClick={fetchProducts}&gt;Retry&lt;/button&gt;&lt;/div&gt;;
+
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      {products.<span class="fn">map</span>(product =&gt; (
+        &lt;div key={product.id}&gt;
+          &lt;span&gt;{product.name}&lt;/span&gt;
+          &lt;button onClick={() =&gt; <span class="fn">updateProductField</span>(product.id, <span class="str">'active'</span>, <span class="kw">true</span>)}&gt;Activate&lt;/button&gt;
+          &lt;button onClick={() =&gt; <span class="fn">deleteProduct</span>(product.id)}&gt;Delete&lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 07 — AUTHENTICATION
+     ==================================================== -->
+<div class="page m0">
+  <div class="page-num">7</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 07</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-shield"/></svg>Authentication — Token, Cookies, Refresh</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Real apps mein authentication zaroori hai — Bearer token, cookies, aur token refresh ka poora flow samjhna padta hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>7.1 Login Flow — Token Store karna</h2></div>
+    <div class="code-box"><span class="cmt">// src/api/authApi.js</span>
+<span class="kw">import</span> api <span class="kw">from</span> <span class="str">'./axiosInstance'</span>;
+
+<span class="kw">export const</span> authApi = {
+  <span class="fn">login</span>: (credentials) => api.<span class="fn">post</span>(<span class="str">'/auth/login'</span>, credentials),
+  <span class="fn">register</span>: (data) => api.<span class="fn">post</span>(<span class="str">'/auth/register'</span>, data),
+  <span class="fn">logout</span>: () => api.<span class="fn">post</span>(<span class="str">'/auth/logout'</span>),
+  <span class="fn">refreshToken</span>: () => api.<span class="fn">post</span>(<span class="str">'/auth/refresh'</span>),
+  <span class="fn">getProfile</span>: () => api.<span class="fn">get</span>(<span class="str">'/auth/me'</span>),
+};
+
+<span class="cmt">// src/components/LoginForm.jsx</span>
+<span class="kw">function</span> <span class="fn">LoginForm</span>() {
+  <span class="kw">const</span> [credentials, <span class="fn">setCredentials</span>] = <span class="fn">useState</span>({ email: <span class="str">''</span>, password: <span class="str">''</span> });
+  <span class="kw">const</span> [loading, <span class="fn">setLoading</span>] = <span class="fn">useState</span>(<span class="kw">false</span>);
+  <span class="kw">const</span> [error, <span class="fn">setError</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);
+
+  <span class="kw">const</span> <span class="fn">handleLogin</span> = <span class="kw">async</span> (e) => {
+    e.<span class="fn">preventDefault</span>();
+    <span class="fn">setLoading</span>(<span class="kw">true</span>);
+    <span class="fn">setError</span>(<span class="kw">null</span>);
+
+    <span class="kw">try</span> {
+      <span class="kw">const</span> { data } = <span class="kw">await</span> authApi.<span class="fn">login</span>(credentials);
+
+      <span class="cmt">// Token store karna — Options:</span>
+      localStorage.<span class="fn">setItem</span>(<span class="str">'token'</span>, data.access_token);       <span class="cmt">// Option 1: localStorage</span>
+      sessionStorage.<span class="fn">setItem</span>(<span class="str">'token'</span>, data.access_token);     <span class="cmt">// Option 2: sessionStorage</span>
+      <span class="cmt">// Option 3: HttpOnly Cookie (server side — most secure)</span>
+      <span class="cmt">// Option 4: Redux state (in-memory, clears on refresh)</span>
+
+      <span class="cmt">// Refresh token bhi store karo (agar hai)</span>
+      localStorage.<span class="fn">setItem</span>(<span class="str">'refresh_token'</span>, data.refresh_token);
+
+      window.location.href = <span class="str">'/dashboard'</span>; <span class="cmt">// Redirect</span>
+    } <span class="kw">catch</span> (err) {
+      <span class="fn">setError</span>(err.response?.data?.message || <span class="str">'Login fail hua'</span>);
+    } <span class="kw">finally</span> {
+      <span class="fn">setLoading</span>(<span class="kw">false</span>);
+    }
+  };
+
+  <span class="kw">return</span> (
+    &lt;form onSubmit={handleLogin}&gt;
+      {error &amp;&amp; &lt;p style={{color:'red'}}&gt;{error}&lt;/p&gt;}
+      &lt;input type="email" value={credentials.email}
+        onChange={e =&gt; <span class="fn">setCredentials</span>(prev =&gt; ({...prev, email: e.target.value}))} /&gt;
+      &lt;input type="password" value={credentials.password}
+        onChange={e =&gt; <span class="fn">setCredentials</span>(prev =&gt; ({...prev, password: e.target.value}))} /&gt;
+      &lt;button type="submit" disabled={loading}&gt;
+        {loading ? <span class="str">'Logging in...'</span> : <span class="str">'Login'</span>}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-refresh"/></svg></span><h2>7.2 Auto Token Refresh — Interceptor Pattern</h2></div>
+    <div class="code-box"><span class="cmt">// Jab 401 aaye toh refresh karo, phir original request retry karo</span>
+<span class="kw">let</span> isRefreshing = <span class="kw">false</span>;
+<span class="kw">let</span> failedQueue = [];
+
+<span class="kw">const</span> <span class="fn">processQueue</span> = (error, token = <span class="kw">null</span>) => {
+  failedQueue.<span class="fn">forEach</span>(prom => {
+    error ? prom.<span class="fn">reject</span>(error) : prom.<span class="fn">resolve</span>(token);
+  });
+  failedQueue = [];
+};
+
+api.interceptors.response.<span class="fn">use</span>(
+  response => response,
+  <span class="kw">async</span> (error) => {
+    <span class="kw">const</span> originalRequest = error.config;
+
+    <span class="kw">if</span> (error.response?.status === <span class="num">401</span> && !originalRequest._retry) {
+      <span class="kw">if</span> (isRefreshing) {
+        <span class="cmt">// Refresh chal raha hai — queue mein add karo</span>
+        <span class="kw">return new</span> <span class="fn">Promise</span>((resolve, reject) => {
+          failedQueue.<span class="fn">push</span>({ resolve, reject });
+        }).<span class="fn">then</span>(token => {
+          originalRequest.headers.Authorization = <span class="str">`Bearer ${token}`</span>;
+          <span class="kw">return</span> api(originalRequest);
+        });
+      }
+
+      originalRequest._retry = <span class="kw">true</span>;
+      isRefreshing = <span class="kw">true</span>;
+
+      <span class="kw">try</span> {
+        <span class="kw">const</span> { data } = <span class="kw">await</span> authApi.<span class="fn">refreshToken</span>();
+        <span class="kw">const</span> newToken = data.access_token;
+        localStorage.<span class="fn">setItem</span>(<span class="str">'token'</span>, newToken);
+        api.defaults.headers.Authorization = <span class="str">`Bearer ${newToken}`</span>;
+        <span class="fn">processQueue</span>(<span class="kw">null</span>, newToken);
+        <span class="kw">return</span> api(originalRequest); <span class="cmt">// Original request retry karo</span>
+      } <span class="kw">catch</span> (refreshError) {
+        <span class="fn">processQueue</span>(refreshError, <span class="kw">null</span>);
+        localStorage.<span class="fn">removeItem</span>(<span class="str">'token'</span>);
+        window.location.href = <span class="str">'/login'</span>;
+        <span class="kw">return</span> Promise.<span class="fn">reject</span>(refreshError);
+      } <span class="kw">finally</span> {
+        isRefreshing = <span class="kw">false</span>;
+      }
+    }
+    <span class="kw">return</span> Promise.<span class="fn">reject</span>(error);
+  }
+);</div>
+    <div class="tip-box"><svg class="icon"><use href="#i-pin"/></svg><p><strong>Security Tip:</strong> Token localStorage mein store karna XSS attacks ke liye vulnerable hai. Production mein HttpOnly cookies prefer karo — JavaScript se access nahi hoti.</p></div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 08 — FILE UPLOAD
+     ==================================================== -->
+<div class="page m1">
+  <div class="page-num">8</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 08</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-upload"/></svg>File Upload — FormData &amp; Progress</h1>
+  <div class="title-underline"></div>
+  <p class="lede">Image/file upload ke liye JSON ki jagah multipart/form-data use karna padta hai. Axios mein progress tracking built-in hai.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>8.1 Single File Upload with Progress</h2></div>
+    <div class="code-box"><span class="kw">import</span> React, { useState } <span class="kw">from</span> <span class="str">'react'</span>;
+<span class="kw">import</span> api <span class="kw">from</span> <span class="str">'../api/axiosInstance'</span>;
+
+<span class="kw">function</span> <span class="fn">FileUploader</span>() {
+  <span class="kw">const</span> [file, <span class="fn">setFile</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> [progress, <span class="fn">setProgress</span>] = <span class="fn">useState</span>(<span class="num">0</span>);    <span class="cmt">// 0-100</span>
+  <span class="kw">const</span> [uploading, <span class="fn">setUploading</span>] = <span class="fn">useState</span>(<span class="kw">false</span>);
+  <span class="kw">const</span> [error, <span class="fn">setError</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> [uploadedUrl, <span class="fn">setUploadedUrl</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);
+
+  <span class="kw">const</span> <span class="fn">handleUpload</span> = <span class="kw">async</span> () => {
+    <span class="kw">if</span> (!file) <span class="kw">return</span>;
+
+    <span class="cmt">// FormData — multipart/form-data format</span>
+    <span class="kw">const</span> formData = <span class="kw">new</span> <span class="fn">FormData</span>();
+    formData.<span class="fn">append</span>(<span class="str">'file'</span>, file);            <span class="cmt">// File attach karo</span>
+    formData.<span class="fn">append</span>(<span class="str">'folder'</span>, <span class="str">'avatars'</span>);    <span class="cmt">// Extra data</span>
+    formData.<span class="fn">append</span>(<span class="str">'userId'</span>, <span class="str">'123'</span>);        <span class="cmt">// More fields</span>
+
+    <span class="kw">try</span> {
+      <span class="fn">setUploading</span>(<span class="kw">true</span>);
+      <span class="fn">setProgress</span>(<span class="num">0</span>);
+      <span class="fn">setError</span>(<span class="kw">null</span>);
+
+      <span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">post</span>(<span class="str">'/upload'</span>, formData, {
+        <span class="cmt">// Content-Type mat set karo — browser automatically set karta hai</span>
+        <span class="cmt">// boundary ke saath jo FormData ke liye zaroori hai</span>
+        headers: { <span class="str">'Content-Type'</span>: <span class="str">'multipart/form-data'</span> },
+
+        <span class="cmt">// Progress tracking</span>
+        <span class="fn">onUploadProgress</span>: (progressEvent) => {
+          <span class="kw">const</span> percent = Math.<span class="fn">round</span>(
+            (progressEvent.loaded * <span class="num">100</span>) / progressEvent.total
+          );
+          <span class="fn">setProgress</span>(percent);
+        }
+      });
+
+      <span class="fn">setUploadedUrl</span>(data.url); <span class="cmt">// Server se uploaded file URL</span>
+    } <span class="kw">catch</span> (err) {
+      <span class="fn">setError</span>(err.response?.data?.message || <span class="str">'Upload fail hua'</span>);
+    } <span class="kw">finally</span> {
+      <span class="fn">setUploading</span>(<span class="kw">false</span>);
+    }
+  };
+
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      &lt;input type="file" accept="image/*"
+        onChange={e =&gt; <span class="fn">setFile</span>(e.target.files[<span class="num">0</span>])} /&gt;
+
+      {file &amp;&amp; &lt;p&gt;Selected: {file.name} ({(file.size/<span class="num">1024</span>).<span class="fn">toFixed</span>(<span class="num">1</span>)} KB)&lt;/p&gt;}
+
+      &lt;button onClick={handleUpload} disabled={!file || uploading}&gt;
+        {uploading ? <span class="str">`Uploading ${progress}%...`</span> : <span class="str">'Upload'</span>}
+      &lt;/button&gt;
+
+      {uploading &amp;&amp;
+        &lt;div style={{background:<span class="str">'#eee'</span>, borderRadius:<span class="str">'4px'</span>, height:<span class="str">'8px'</span>}}&gt;
+          &lt;div style={{width:<span class="str">`${progress}%`</span>, background:<span class="str">'green'</span>, height:<span class="str">'100%'</span>}} /&gt;
+        &lt;/div&gt;
+      }
+
+      {error &amp;&amp; &lt;p style={{color:<span class="str">'red'</span>}}&gt;{error}&lt;/p&gt;}
+      {uploadedUrl &amp;&amp; &lt;img src={uploadedUrl} alt="Uploaded" width="200" /&gt;}
+    &lt;/div&gt;
+  );
+}</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-upload"/></svg></span><h2>8.2 Multiple Files + Drag and Drop</h2></div>
+    <div class="code-box"><span class="cmt">// Multiple files ek saath upload</span>
+<span class="kw">const</span> <span class="fn">uploadMultiple</span> = <span class="kw">async</span> (files) => {
+  <span class="kw">const</span> formData = <span class="kw">new</span> <span class="fn">FormData</span>();
+  <span class="cmt">// Har file ke liye 'files' key use karo</span>
+  Array.<span class="fn">from</span>(files).<span class="fn">forEach</span>(file => formData.<span class="fn">append</span>(<span class="str">'files'</span>, file));
+
+  <span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">post</span>(<span class="str">'/upload/multiple'</span>, formData);
+  <span class="kw">return</span> data.urls; <span class="cmt">// Array of uploaded URLs</span>
+};
+
+<span class="cmt">// File validation before upload</span>
+<span class="kw">const</span> <span class="fn">validateFile</span> = (file) => {
+  <span class="kw">const</span> MAX_SIZE = <span class="num">5</span> * <span class="num">1024</span> * <span class="num">1024</span>; <span class="cmt">// 5MB</span>
+  <span class="kw">const</span> ALLOWED_TYPES = [<span class="str">'image/jpeg'</span>, <span class="str">'image/png'</span>, <span class="str">'image/webp'</span>, <span class="str">'application/pdf'</span>];
+
+  <span class="kw">if</span> (file.size > MAX_SIZE) <span class="kw">throw new</span> Error(<span class="str">'File 5MB se bada hai'</span>);
+  <span class="kw">if</span> (!ALLOWED_TYPES.<span class="fn">includes</span>(file.type)) <span class="kw">throw new</span> Error(<span class="str">'File type allowed nahi'</span>);
+  <span class="kw">return true</span>;
+};</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 09 — ADVANCED PATTERNS
+     ==================================================== -->
+<div class="page m2">
+  <div class="page-num">9</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 09</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-zap"/></svg>Advanced Patterns</h1>
+  <div class="title-underline"></div>
+  <p class="lede">AbortController se request cancel karna, Promise.all se parallel requests, polling se live data — yeh patterns production mein bahut kaam aate hain.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>9.1 AbortController — Request Cancel Karna</h2></div>
+    <div class="code-box"><span class="cmt">// Component unmount ya new search pe purani request cancel karo</span>
+<span class="kw">function</span> <span class="fn">SearchComponent</span>() {
+  <span class="kw">const</span> [results, <span class="fn">setResults</span>] = <span class="fn">useState</span>([]);
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="cmt">// AbortController banao har search ke liye</span>
+    <span class="kw">const</span> controller = <span class="kw">new</span> <span class="fn">AbortController</span>();
+
+    <span class="kw">async function</span> <span class="fn">search</span>() {
+      <span class="kw">try</span> {
+        <span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">get</span>(<span class="str">`/search?q=${searchTerm}`</span>, {
+          signal: controller.signal <span class="cmt">// Signal pass karo</span>
+        });
+        <span class="fn">setResults</span>(data);
+      } <span class="kw">catch</span> (err) {
+        <span class="kw">if</span> (err.name === <span class="str">'CanceledError'</span> || err.code === <span class="str">'ERR_CANCELED'</span>) {
+          console.<span class="fn">log</span>(<span class="str">'Request cancelled — theek hai'</span>); <span class="cmt">// Ignore karo</span>
+        } <span class="kw">else</span> {
+          console.<span class="fn">error</span>(<span class="str">'Search failed:'</span>, err);
+        }
+      }
+    }
+
+    <span class="fn">search</span>();
+
+    <span class="cmt">// Cleanup — effect dobara run hone pe ya unmount pe CANCEL karo</span>
+    <span class="kw">return</span> () => controller.<span class="fn">abort</span>();
+  }, [searchTerm]); <span class="cmt">// searchTerm change pe naya request, purana cancel</span>
+}</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>9.2 Parallel Requests — Promise.all</h2></div>
+    <div class="code-box"><span class="cmt">// Dashboard — ek saath multiple API calls</span>
+<span class="kw">async function</span> <span class="fn">loadDashboard</span>() {
+  <span class="kw">try</span> {
+    <span class="cmt">// Promise.all — sab ek saath start, sab aane ke baad resolve</span>
+    <span class="kw">const</span> [usersRes, productsRes, ordersRes, statsRes] = <span class="kw">await</span> Promise.<span class="fn">all</span>([
+      api.<span class="fn">get</span>(<span class="str">'/users'</span>),
+      api.<span class="fn">get</span>(<span class="str">'/products'</span>),
+      api.<span class="fn">get</span>(<span class="str">'/orders'</span>),
+      api.<span class="fn">get</span>(<span class="str">'/stats'</span>)
+      <span class="cmt">// Koi ek fail hoga toh sab fail! Isliye allSettled use karo agar independent hain</span>
+    ]);
+
+    <span class="fn">setDashboardData</span>({
+      users: usersRes.data,
+      products: productsRes.data,
+      orders: ordersRes.data,
+      stats: statsRes.data
+    });
+
+  } <span class="kw">catch</span> (err) {
+    <span class="fn">setError</span>(<span class="str">'Dashboard load fail hua'</span>);
+  }
+}
+
+<span class="cmt">// Promise.allSettled — partial failure handle karna</span>
+<span class="kw">const</span> results = <span class="kw">await</span> Promise.<span class="fn">allSettled</span>([
+  api.<span class="fn">get</span>(<span class="str">'/users'</span>),
+  api.<span class="fn">get</span>(<span class="str">'/optional-data'</span>) <span class="cmt">// Yeh fail bhi ho toh chalega</span>
+]);
+
+results.<span class="fn">forEach</span>(result => {
+  <span class="kw">if</span> (result.status === <span class="str">'fulfilled'</span>) console.<span class="fn">log</span>(result.value.data);
+  <span class="kw">if</span> (result.status === <span class="str">'rejected'</span>)  console.<span class="fn">warn</span>(result.reason.message);
+});</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-refresh"/></svg></span><h2>9.3 Polling — Auto Refresh</h2></div>
+    <div class="code-box"><span class="cmt">// Har 30 seconds mein data automatically refresh karo</span>
+<span class="kw">function</span> <span class="fn">LiveOrders</span>() {
+  <span class="kw">const</span> [orders, <span class="fn">setOrders</span>] = <span class="fn">useState</span>([]);
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="kw">const</span> <span class="fn">fetchOrders</span> = <span class="kw">async</span> () => {
+      <span class="kw">try</span> {
+        <span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">get</span>(<span class="str">'/orders/live'</span>);
+        <span class="fn">setOrders</span>(data);
+      } <span class="kw">catch</span> (err) {
+        console.<span class="fn">error</span>(<span class="str">'Poll failed'</span>);
+      }
+    };
+
+    <span class="fn">fetchOrders</span>(); <span class="cmt">// Pehle baar turant</span>
+
+    <span class="cmt">// setInterval — har 30 seconds pe repeat</span>
+    <span class="kw">const</span> interval = <span class="fn">setInterval</span>(fetchOrders, <span class="num">30000</span>);
+
+    <span class="cmt">// Cleanup — component unmount pe interval clear karo</span>
+    <span class="kw">return</span> () => <span class="fn">clearInterval</span>(interval);
+  }, []);
+
+  <span class="kw">return</span> &lt;div&gt;{orders.<span class="fn">length</span>} orders&lt;/div&gt;;
+}
+
+<span class="cmt">// Custom usePolling hook</span>
+<span class="kw">function</span> <span class="fn">usePolling</span>(fetchFn, interval = <span class="num">30000</span>) {
+  <span class="fn">useEffect</span>(() => {
+    <span class="fn">fetchFn</span>();
+    <span class="kw">const</span> id = <span class="fn">setInterval</span>(fetchFn, interval);
+    <span class="kw">return</span> () => <span class="fn">clearInterval</span>(id);
+  }, []);
+}</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 10 — WEBSOCKET
+     ==================================================== -->
+<div class="page m3">
+  <div class="page-num">10</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 10</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-wifi"/></svg>WebSocket — Real-Time Connection</h1>
+  <div class="title-underline"></div>
+  <p class="lede">HTTP request-response ke liye hai. WebSocket = continuous, bidirectional connection — chat apps, live notifications, real-time dashboards ke liye.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>10.1 HTTP vs WebSocket</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>HTTP</th><th>WebSocket</th></tr></thead>
+      <tbody>
+        <tr><td>Connection</td><td>Request per connect/disconnect</td><td>Ek baar connect, hamesha open</td></tr>
+        <tr><td>Direction</td><td>Client → Server (one-way request)</td><td>Both ways (bidirectional)</td></tr>
+        <tr><td>Use case</td><td>CRUD API, file upload</td><td>Chat, live notifications, games</td></tr>
+        <tr><td>Protocol</td><td>HTTP/HTTPS</td><td>ws:// ya wss:// (secure)</td></tr>
+        <tr><td>Overhead</td><td>Har request pe headers</td><td>Connect ke baad minimal overhead</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>10.2 WebSocket — Custom Hook</h2></div>
+    <div class="code-box"><span class="cmt">// src/hooks/useWebSocket.js</span>
+<span class="kw">import</span> { useState, useEffect, useRef, useCallback } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="kw">export function</span> <span class="fn">useWebSocket</span>(url) {
+  <span class="kw">const</span> [messages, <span class="fn">setMessages</span>] = <span class="fn">useState</span>([]);
+  <span class="kw">const</span> [status, <span class="fn">setStatus</span>] = <span class="fn">useState</span>(<span class="str">'disconnected'</span>); <span class="cmt">// connecting|open|closed</span>
+  <span class="kw">const</span> wsRef = <span class="fn">useRef</span>(<span class="kw">null</span>);     <span class="cmt">// WebSocket object store karo</span>
+  <span class="kw">const</span> reconnectRef = <span class="fn">useRef</span>(<span class="kw">null</span>);
+
+  <span class="kw">const</span> <span class="fn">connect</span> = <span class="fn">useCallback</span>(() => {
+    <span class="fn">setStatus</span>(<span class="str">'connecting'</span>);
+    <span class="kw">const</span> ws = <span class="kw">new</span> <span class="fn">WebSocket</span>(url);
+    wsRef.current = ws;
+
+    ws.<span class="fn">onopen</span> = () => {
+      <span class="fn">setStatus</span>(<span class="str">'open'</span>);
+      console.<span class="fn">log</span>(<span class="str">'WebSocket connected!'</span>);
+    };
+
+    ws.<span class="fn">onmessage</span> = (event) => {
+      <span class="kw">try</span> {
+        <span class="kw">const</span> parsed = JSON.<span class="fn">parse</span>(event.data); <span class="cmt">// JSON parse karo</span>
+        <span class="fn">setMessages</span>(prev => [...prev, parsed]);
+      } <span class="kw">catch</span> {
+        <span class="fn">setMessages</span>(prev => [...prev, event.data]); <span class="cmt">// Plain text</span>
+      }
+    };
+
+    ws.<span class="fn">onerror</span> = (error) => {
+      console.<span class="fn">error</span>(<span class="str">'WebSocket error:'</span>, error);
+      <span class="fn">setStatus</span>(<span class="str">'error'</span>);
+    };
+
+    ws.<span class="fn">onclose</span> = () => {
+      <span class="fn">setStatus</span>(<span class="str">'disconnected'</span>);
+      <span class="cmt">// Auto-reconnect 3 seconds baad</span>
+      reconnectRef.current = <span class="fn">setTimeout</span>(connect, <span class="num">3000</span>);
+    };
+  }, [url]);
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="fn">connect</span>();
+    <span class="kw">return</span> () => {
+      <span class="fn">clearTimeout</span>(reconnectRef.current);
+      wsRef.current?.<span class="fn">close</span>(); <span class="cmt">// Cleanup — connection close karo</span>
+    };
+  }, [connect]);
+
+  <span class="cmt">// Message send karne ka function</span>
+  <span class="kw">const</span> sendMessage = <span class="fn">useCallback</span>((message) => {
+    <span class="kw">if</span> (wsRef.current?.readyState === WebSocket.OPEN) {
+      wsRef.current.<span class="fn">send</span>(JSON.<span class="fn">stringify</span>(message));
+    } <span class="kw">else</span> {
+      console.<span class="fn">warn</span>(<span class="str">'WebSocket not open yet!'</span>);
+    }
+  }, []);
+
+  <span class="kw">return</span> { messages, status, sendMessage };
+}
+
+<span class="cmt">// ---- Chat Component ----</span>
+<span class="kw">function</span> <span class="fn">ChatRoom</span>({ roomId }) {
+  <span class="kw">const</span> [input, <span class="fn">setInput</span>] = <span class="fn">useState</span>(<span class="str">''</span>);
+  <span class="kw">const</span> { messages, status, sendMessage } = <span class="fn">useWebSocket</span>(
+    <span class="str">`wss://api.example.com/chat/${roomId}`</span>
+  );
+
+  <span class="kw">const</span> <span class="fn">handleSend</span> = () => {
+    <span class="kw">if</span> (!input.trim()) <span class="kw">return</span>;
+    <span class="fn">sendMessage</span>({ type: <span class="str">'message'</span>, text: input, user: <span class="str">'Kayum'</span> });
+    <span class="fn">setInput</span>(<span class="str">''</span>);
+  };
+
+  <span class="kw">return</span> (
+    &lt;div&gt;
+      &lt;p&gt;Status: {status}&lt;/p&gt;
+      &lt;div&gt;{messages.<span class="fn">map</span>((m, i) =&gt; &lt;p key={i}&gt;{m.user}: {m.text}&lt;/p&gt;)}&lt;/div&gt;
+      &lt;input value={input} onChange={e =&gt; <span class="fn">setInput</span>(e.target.value)} /&gt;
+      &lt;button onClick={handleSend}&gt;Send&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 11 — GRAPHQL
+     ==================================================== -->
+<div class="page m4">
+  <div class="page-num">11</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-book"/></svg> TOPIC 11</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-layers"/></svg>GraphQL — Query Language for APIs</h1>
+  <div class="title-underline"></div>
+  <p class="lede">REST mein multiple endpoints hoti hain. GraphQL mein ek single endpoint hoti hai — aur tum exactly woh data maango jo chahiye — no over-fetching!</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>11.1 REST vs GraphQL</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Feature</th><th>REST</th><th>GraphQL</th></tr></thead>
+      <tbody>
+        <tr><td>Endpoints</td><td>Multiple (/users, /posts...)</td><td>Single (/graphql)</td></tr>
+        <tr><td>Data control</td><td>Server decide karta hai</td><td>Client decide karta hai</td></tr>
+        <tr><td>Over-fetching</td><td>Extra data aata hai</td><td>Sirf maanga data aata hai</td></tr>
+        <tr><td>Under-fetching</td><td>Multiple requests chahiye</td><td>Ek request mein related data</td></tr>
+        <tr><td>Type system</td><td>Ad-hoc</td><td>Strongly typed schema</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>11.2 GraphQL with fetch() — Basic</h2></div>
+    <div class="code-box"><span class="cmt">// GraphQL = sirf POST request, JSON body mein query</span>
+<span class="kw">async function</span> <span class="fn">graphqlQuery</span>(query, variables = {}) {
+  <span class="kw">const</span> response = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/graphql'</span>, {
+    method: <span class="str">'POST'</span>,
+    headers: {
+      <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>,
+      <span class="str">'Authorization'</span>: <span class="str">`Bearer ${localStorage.getItem('token')}`</span>
+    },
+    body: JSON.<span class="fn">stringify</span>({ query, variables })
+  });
+
+  <span class="kw">const</span> { data, errors } = <span class="kw">await</span> response.<span class="fn">json</span>();
+
+  <span class="kw">if</span> (errors) <span class="kw">throw new</span> Error(errors[<span class="num">0</span>].message);
+  <span class="kw">return</span> data;
+}
+
+<span class="cmt">// ---- Query — Data padhna ----</span>
+<span class="kw">const</span> GET_USERS = <span class="str">`
+  query GetUsers($limit: Int) {
+    users(limit: $limit) {
+      id
+      name
+      email
+      posts {
+        title
+      }
+    }
+  }
+`</span>;
+
+<span class="cmt">// ---- Component mein use ----</span>
+<span class="kw">function</span> <span class="fn">UsersList</span>() {
+  <span class="kw">const</span> [users, <span class="fn">setUsers</span>] = <span class="fn">useState</span>([]);
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="fn">graphqlQuery</span>(GET_USERS, { limit: <span class="num">10</span> })
+      .<span class="fn">then</span>(data => <span class="fn">setUsers</span>(data.users))
+      .<span class="fn">catch</span>(err => console.<span class="fn">error</span>(err));
+  }, []);
+}
+
+<span class="cmt">// ---- Mutation — Data create/update ----</span>
+<span class="kw">const</span> CREATE_USER = <span class="str">`
+  mutation CreateUser($name: String!, $email: String!) {
+    createUser(name: $name, email: $email) {
+      id
+      name
+      email
+    }
+  }
+`</span>;
+
+<span class="kw">const</span> newUser = <span class="kw">await</span> <span class="fn">graphqlQuery</span>(CREATE_USER, {
+  name: <span class="str">'Kayum'</span>,
+  email: <span class="str">'kayum@example.com'</span>
+});</div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-zap"/></svg></span><h2>11.3 Apollo Client — React mein GraphQL</h2></div>
+    <div class="code-box"><span class="cmt">// npm install @apollo/client graphql</span>
+<span class="kw">import</span> { ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery, useMutation }
+  <span class="kw">from</span> <span class="str">'@apollo/client'</span>;
+
+<span class="cmt">// Client setup</span>
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">ApolloClient</span>({
+  uri: <span class="str">'https://api.example.com/graphql'</span>,
+  cache: <span class="kw">new</span> <span class="fn">InMemoryCache</span>(), <span class="cmt">// Automatic caching!</span>
+  headers: { Authorization: <span class="str">`Bearer ${token}`</span> }
+});
+
+<span class="cmt">// main.jsx mein wrap karo</span>
+<span class="kw">const</span> root = <span class="fn">createRoot</span>(document.<span class="fn">getElementById</span>(<span class="str">'root'</span>));
+root.<span class="fn">render</span>(&lt;ApolloProvider client={client}&gt;&lt;App /&gt;&lt;/ApolloProvider&gt;);
+
+<span class="cmt">// ---- useQuery hook ----</span>
+<span class="kw">const</span> GET_POSTS = gql<span class="str">`
+  query {
+    posts { id title author { name } }
+  }
+`</span>;
+
+<span class="kw">function</span> <span class="fn">Posts</span>() {
+  <span class="kw">const</span> { loading, error, data } = <span class="fn">useQuery</span>(GET_POSTS);
+
+  <span class="kw">if</span> (loading) <span class="kw">return</span> &lt;Spinner /&gt;;
+  <span class="kw">if</span> (error) <span class="kw">return</span> &lt;p&gt;Error!&lt;/p&gt;;
+  <span class="kw">return</span> data.posts.<span class="fn">map</span>(p =&gt; &lt;p key={p.id}&gt;{p.title}&lt;/p&gt;);
+}</div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     TOPIC 12 — INTERVIEW Q&A + CHEAT SHEET
+     ==================================================== -->
+<div class="page m5">
+  <div class="page-num">12</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-target"/></svg> TOPIC 12</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-target"/></svg>Interview Questions</h1>
+  <div class="title-underline"></div>
+  <p class="lede">React API integration ke most asked interview questions — concept + code dono taraf se.</p>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-bulb"/></svg></span><h2>12.1 Common Questions</h2></div>
+
+    <div class="qa-block">
+      <p class="q">Q1: useEffect mein async function directly kyun nahi likh sakte?</p>
+      <p class="a">useEffect callback ko cleanup function (ya nothing) return karna hota hai. Async function hamesha Promise return karta hai — jo cleanup nahi hai. Isliye inner async function banao aur call karo.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q2: Memory leak kab hota hai aur kaise rokein?</p>
+      <p class="a">Component unmount ke baad setState call karne pe. Solution: <code>isMounted</code> flag ya AbortController use karo. Cleanup function return karo useEffect se jo mounted flag false kare.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q3: fetch() aur Axios mein main difference kya hai?</p>
+      <p class="a">fetch() 4xx/5xx pe reject nahi karta — manual response.ok check chahiye. Axios automatically throw karta hai. Axios ke paas interceptors, timeout, upload progress, base URL — sab built-in hain.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q4: Axios interceptors kab aur kyun use karte hain?</p>
+      <p class="a">Request interceptor: har request mein auto auth token lagao. Response interceptor: 401 pe auto logout ya token refresh karo. DRY principle — ek jagah logic, har request pe apply.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q5: AbortController kab use karein?</p>
+      <p class="a">Search input pe — har keystroke pe nayi request, pehli cancel. Component unmount pe pending requests cancel karo. useEffect cleanup mein controller.abort() call karo.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q6: PUT vs PATCH mein kya fark hai?</p>
+      <p class="a">PUT = poora resource replace karo (sab fields bhejo). PATCH = sirf specific fields update karo. Partial update ke liye PATCH zyada efficient hai.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q7: Custom hook kyun banate hain API calls ke liye?</p>
+      <p class="a">DRY (Don't Repeat Yourself). loading/error/data pattern har component mein repeat hota hai. Custom hook mein ek baar likho, reuse karo. Testing bhi easier hoti hai.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q8: Promise.all aur Promise.allSettled mein kya fark hai?</p>
+      <p class="a">Promise.all: koi ek fail → sab fail. Promise.allSettled: sab complete hone tak wait karo, success aur failure dono handle karo. Independent requests ke liye allSettled better hai.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q9: File upload mein Content-Type header manually set karna chahiye kya?</p>
+      <p class="a">Nahi! FormData ke liye browser automatically multipart/form-data + boundary set karta hai. Manually set karoge toh boundary missing hogi aur upload fail hoga.</p>
+    </div>
+
+    <div class="qa-block">
+      <p class="q">Q10: HTTP vs WebSocket — kab kya use karein?</p>
+      <p class="a">HTTP: CRUD operations, one-time data fetch. WebSocket: real-time bidirectional — chat, live notifications, collaborative editing, gaming. WebSocket overhead zyada hai toh sirf jab truly real-time chahiye.</p>
+    </div>
+  </section>
+</div>
+
+
+<!-- ====================================================
+     CHEAT SHEET
+     ==================================================== -->
+<div class="page m0">
+  <div class="page-num">13</div>
+  <span class="topic-badge"><svg class="icon"><use href="#i-star"/></svg> CHEAT SHEET</span>
+  <h1 class="main-title"><svg class="icon"><use href="#i-star"/></svg>API Integration Quick Reference</h1>
+  <div class="title-underline"></div>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-wifi"/></svg></span><h2>fetch() vs Axios — Quick Syntax</h2></div>
+    <div class="code-box"><span class="cmt">// ---- fetch() GET ----</span>
+<span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/users'</span>);
+<span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> Error(res.status);
+<span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+
+<span class="cmt">// ---- Axios GET ----</span>
+<span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">get</span>(<span class="str">'/users'</span>);                      <span class="cmt">// auto JSON</span>
+<span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">get</span>(<span class="str">'/users'</span>, { params: { page: <span class="num">1</span> } }); <span class="cmt">// query params</span>
+
+<span class="cmt">// ---- Axios POST ----</span>
+<span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">post</span>(<span class="str">'/users'</span>, { name, email });
+
+<span class="cmt">// ---- Axios PUT / PATCH ----</span>
+<span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">put</span>(<span class="str">`/users/${id}`</span>, fullObject);
+<span class="kw">const</span> { data } = <span class="kw">await</span> api.<span class="fn">patch</span>(<span class="str">`/users/${id}`</span>, { name });    <span class="cmt">// partial</span>
+
+<span class="cmt">// ---- Axios DELETE ----</span>
+<span class="kw">await</span> api.<span class="fn">delete</span>(<span class="str">`/users/${id}`</span>);
+
+<span class="cmt">// ---- File Upload ----</span>
+<span class="kw">const</span> fd = <span class="kw">new</span> <span class="fn">FormData</span>(); fd.<span class="fn">append</span>(<span class="str">'file'</span>, file);
+<span class="kw">await</span> api.<span class="fn">post</span>(<span class="str">'/upload'</span>, fd, { <span class="fn">onUploadProgress</span>: e => <span class="fn">setP</span>(e.loaded/e.total*<span class="num">100</span>) });
+
+<span class="cmt">// ---- AbortController ----</span>
+<span class="kw">const</span> ctrl = <span class="kw">new</span> <span class="fn">AbortController</span>();
+api.<span class="fn">get</span>(<span class="str">'/data'</span>, { signal: ctrl.signal });
+ctrl.<span class="fn">abort</span>(); <span class="cmt">// Cancel</span>
+
+<span class="cmt">// ---- Parallel ----</span>
+<span class="kw">const</span> [a, b] = <span class="kw">await</span> Promise.<span class="fn">all</span>([api.<span class="fn">get</span>(<span class="str">'/a'</span>), api.<span class="fn">get</span>(<span class="str">'/b'</span>)]);</div>
+  </section>
+
+  <section class="block">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-code"/></svg></span><h2>Standard API Patterns</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Pattern</th><th>Use kab</th></tr></thead>
+      <tbody>
+        <tr><td>useEffect + useState</td><td>Simple data fetch, single component</td></tr>
+        <tr><td>Custom Hook (useFetch)</td><td>Reusable fetch logic, multiple components</td></tr>
+        <tr><td>API Service file</td><td>All endpoints centralized, easy to update base URL</td></tr>
+        <tr><td>Axios Interceptors</td><td>Global auth, logging, error handling</td></tr>
+        <tr><td>AbortController</td><td>Search inputs, component unmount cleanup</td></tr>
+        <tr><td>Promise.all</td><td>Multiple independent requests — dashboard</td></tr>
+        <tr><td>Polling (setInterval)</td><td>Live data without WebSocket complexity</td></tr>
+        <tr><td>WebSocket</td><td>True real-time — chat, collab, gaming</td></tr>
+        <tr><td>RTK Query</td><td>Redux app mein — caching, tags, auto-refetch</td></tr>
+        <tr><td>React Query / SWR</td><td>Non-Redux app — caching, dedup, refetch</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="block" style="margin-bottom:0;">
+    <div class="sec-head"><span class="sec-circle"><svg class="icon"><use href="#i-shield"/></svg></span><h2>Environment Variables</h2></div>
+    <div class="code-box"><span class="cmt">// .env (project root)</span>
+VITE_API_URL=https://api.example.com    <span class="cmt">// Vite</span>
+REACT_APP_API_URL=https://api.example.com <span class="cmt">// CRA</span>
+
+<span class="cmt">// Use karna:</span>
+<span class="kw">const</span> BASE_URL = import.meta.env.VITE_API_URL;  <span class="cmt">// Vite</span>
+<span class="kw">const</span> BASE_URL = process.env.REACT_APP_API_URL; <span class="cmt">// CRA</span>
+
+<span class="cmt">// axiosInstance mein:</span>
+<span class="kw">const</span> api = axios.<span class="fn">create</span>({ baseURL: import.meta.env.VITE_API_URL });</div>
+    <div class="fact-box"><svg class="icon"><use href="#i-star"/></svg><p><strong>Summary — API Types:</strong> fetch() = simple, native. Axios = production standard. Custom Hooks = reusability. RTK Query = Redux apps. Apollo = GraphQL. WebSocket = real-time. Har situation ke liye alag tool!</p></div>
+  </section>
+</div>
+
+</body>
+</html>

@@ -18,6 +18,14 @@
       --m0L: #E4F2F0;
       --m1: #22395B;
       --m1L: #E7ECF3;
+      --m2: #5B3E96;
+      --m2L: #EEE8F8;
+      --m3: #A9740C;
+      --m3L: #FBF0DD;
+      --m4: #C44536;
+      --m4L: #F8E6E4;
+      --react: #087EA4;
+      --reactL: #E6F5F9;
     }
 
     * { box-sizing: border-box; }
@@ -61,10 +69,10 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 30px;
       width: 100%;
-      max-width: 850px;
+      max-width: 1000px;
     }
 
     .card {
@@ -88,7 +96,11 @@
     }
 
     .card.sql { --accent: var(--m0); --accentL: var(--m0L); }
-    .card.pg { --accent: var(--m1); --accentL: var(--m1L); }
+    .card.pg  { --accent: var(--m1); --accentL: var(--m1L); }
+    .card.rtk { --accent: var(--m2); --accentL: var(--m2L); }
+    .card.api { --accent: var(--m3); --accentL: var(--m3L); }
+    .card.router { --accent: var(--m4); --accentL: var(--m4L); }
+    .card.react { --accent: var(--react); --accentL: var(--reactL); }
 
     .card-icon {
       width: 54px;
@@ -236,8 +248,14 @@
     </div>
   </div>
 
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
+<!-- ===== SVG SPRITE ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      <symbol id="i-react" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="2.5" fill="currentColor" stroke="none"/>
+        <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(30 12 12)"/>
+        <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(90 12 12)"/>
+        <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(150 12 12)"/>
+      </symbol>
       <symbol id="i-database" viewBox="0 0 24 24">
         <ellipse cx="12" cy="5.5" rx="8" ry="3" />
         <path d="M4 5.5v13c0 1.6 3.6 3 8 3s8-1.4 8-3v-13" />
@@ -249,6 +267,22 @@
         <rect x="3" y="17" width="18" height="4" rx="1.5"/>
         <circle cx="7" cy="5.5" r="1" fill="currentColor" stroke="none"/>
         <circle cx="7" cy="12.5" r="1" fill="currentColor" stroke="none"/>
+      </symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24">
+        <polygon points="12 2.5 2.5 7.5 12 12.5 21.5 7.5" stroke-linejoin="round"/>
+        <polyline points="2.5 12.5 12 17.5 21.5 12.5"/>
+        <polyline points="2.5 17.5 12 22.5 21.5 17.5"/>
+      </symbol>
+      <symbol id="i-wifi" viewBox="0 0 24 24">
+        <path d="M1.5 8.5a14 14 0 0 1 21 0"/>
+        <path d="M5 12.5a9 9 0 0 1 14 0"/>
+        <path d="M8.5 16.5a5 5 0 0 1 7 0"/>
+        <circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/>
+      </symbol>
+      <symbol id="i-route" viewBox="0 0 24 24">
+        <circle cx="6" cy="19" r="3"/>
+        <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/>
+        <circle cx="18" cy="5" r="3"/>
       </symbol>
       <symbol id="i-arrow" viewBox="0 0 24 24">
         <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -263,6 +297,19 @@
   </div>
 
   <div class="grid">
+    <!-- React Complete Guide Card (MEGA) -->
+    <a href="React-Complete-Guide-Hinglish.html" class="card react">
+      <div class="card-icon"><svg class="icon"><use href="#i-react"/></svg></div>
+      <h2>React JS: Zero to Mastery</h2>
+      <p>Phase 1 se Phase 14 tak poora curriculum ek hi jagah! Foundations, Routing, Query, Performance, aur Testing (Vitest/RTL/MSW) ka complete in-depth guide.</p>
+      <div class="tags">
+        <span class="tag">14 Phases</span>
+        <span class="tag">Mega Book</span>
+        <span class="tag">Production Ready</span>
+      </div>
+      <div class="action">Padhna Shuru Karo <svg class="icon"><use href="#i-arrow"/></svg></div>
+    </a>
+
     <!-- SQL Card -->
     <a href="SQL-Complete-Notes-Hinglish.html" class="card sql">
       <div class="card-icon"><svg class="icon"><use href="#i-database"/></svg></div>
@@ -285,6 +332,45 @@
         <span class="tag">Postgres</span>
         <span class="tag">Architecture</span>
         <span class="tag">CRUD</span>
+      </div>
+      <div class="action">Padhna Shuru Karo <svg class="icon"><use href="#i-arrow"/></svg></div>
+    </a>
+
+    <!-- RTK Card -->
+    <a href="RTK-Redux-Toolkit-Hinglish.html" class="card rtk">
+      <div class="card-icon"><svg class="icon"><use href="#i-layers"/></svg></div>
+      <h2>Redux Toolkit &amp; RTK Query</h2>
+      <p>Redux fundamentals se RTK Query tak — caching, mutations, tags, optimistic updates. Interview-ready complete guide in Hinglish.</p>
+      <div class="tags">
+        <span class="tag">Redux</span>
+        <span class="tag">RTK Query</span>
+        <span class="tag">Interview Q&amp;A</span>
+      </div>
+      <div class="action">Padhna Shuru Karo <svg class="icon"><use href="#i-arrow"/></svg></div>
+    </a>
+
+    <!-- React API Integration Card -->
+    <a href="React-API-Integration-Hinglish.html" class="card api">
+      <div class="card-icon"><svg class="icon"><use href="#i-wifi"/></svg></div>
+      <h2>React API Integration</h2>
+      <p>fetch, Axios, custom hooks, CRUD, auth tokens, file upload, WebSocket, GraphQL — sab types ki API integration depth ke saath.</p>
+      <div class="tags">
+        <span class="tag">Axios</span>
+        <span class="tag">WebSocket</span>
+        <span class="tag">GraphQL</span>
+      </div>
+      <div class="action">Padhna Shuru Karo <svg class="icon"><use href="#i-arrow"/></svg></div>
+    </a>
+
+    <!-- React Router Card -->
+    <a href="React-Router-Complete-Hinglish.html" class="card router">
+      <div class="card-icon"><svg class="icon"><use href="#i-route"/></svg></div>
+      <h2>React Router v6</h2>
+      <p>Modern routing architecture. SPA concepts, createBrowserRouter, Nested Layouts, Protected Auth Routes, Loaders &amp; Error Handling.</p>
+      <div class="tags">
+        <span class="tag">v6.4+ APIs</span>
+        <span class="tag">Nested Layouts</span>
+        <span class="tag">Auth Guards</span>
       </div>
       <div class="action">Padhna Shuru Karo <svg class="icon"><use href="#i-arrow"/></svg></div>
     </a>
