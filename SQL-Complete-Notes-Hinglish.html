@@ -29,7 +29,7 @@
     background:var(--outer-bg);
     font-family:'Patrick Hand', sans-serif;
     color:var(--ink);
-    /* padding:32px 12px 70px; */
+    padding: 16px;
   }
 
   /* ---------- icon sprite (real inline SVG icons, no emoji anywhere) ---------- */
@@ -171,6 +171,66 @@
   @media (max-width:600px){.cover-grid{grid-template-columns:1fr 1fr;}}
   .cover-item{border:1.5px solid #E6DFC9; border-radius:10px; padding:10px 12px; font-size:13px; line-height:1.4;}
   .cover-item b{display:block; font-family:'Kalam',cursive; font-size:14.5px; margin-bottom:2px;}
+  /* --- Mobile Responsiveness --- */
+  @media (max-width: 600px) {
+    body {
+      padding: 12px 8px;
+    }
+    .page {
+      padding: 24px 20px;
+      border-left-width: 6px;
+      margin-bottom: 20px;
+    }
+    .page-num {
+      top: 14px;
+      right: 16px;
+      width: 24px;
+      height: 24px;
+      font-size: 14px;
+    }
+    .main-title {
+      font-size: 24px;
+    }
+    .lede {
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+    .sec-head h2 {
+      font-size: 18px;
+    }
+    section.block p {
+      font-size: 15px;
+    }
+    .check-list li, .cross-list li {
+      font-size: 15px;
+    }
+    .code-box {
+      font-size: 11.5px;
+      padding: 12px 10px;
+    }
+    .callout, .tip-box p, .fact-box p, .warn-box p {
+      font-size: 14px !important;
+    }
+    .tip-box strong, .fact-box strong, .warn-box strong {
+      font-size: 14.5px;
+    }
+    .cover {
+      padding: 40px 20px 30px;
+      border-top-width: 6px;
+    }
+    .cover h1 {
+      font-size: 32px;
+    }
+    .cover .sub1 {
+      font-size: 16px;
+    }
+    .cover-grid {
+      grid-template-columns: 1fr;
+    }
+    .venn-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 </head>
 <body>
